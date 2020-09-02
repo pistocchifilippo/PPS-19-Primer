@@ -27,9 +27,23 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Application" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Application" />
+      <module name="PPS-19-Primer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Application" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SbtLocalSettings">
     <option name="availableProjects">
@@ -84,6 +98,15 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="225" y="203" key="#Project_Structure" timestamp="1599042298649">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="225" y="203" key="#Project_Structure/-131.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1599042298649" />
+    <state x="225" y="203" key="#Project_Structure/0.23.1680.1027@0.23.1680.1027" timestamp="1599041888133" />
+    <state x="361" y="461" key="#com.intellij.framework.addSupport.AddSupportForSingleFrameworkDialog" timestamp="1599042286791">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="361" y="461" key="#com.intellij.framework.addSupport.AddSupportForSingleFrameworkDialog/-131.-1057.1920.1057/0.23.1680.1027@0.23.1680.1027" timestamp="1599042286791" />
     <state x="494" y="371" key="com.intellij.ide.util.TipDialog" timestamp="1599040601873">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
