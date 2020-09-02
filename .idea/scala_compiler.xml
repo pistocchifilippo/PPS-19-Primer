@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="sbt 1" modules="pps-19-primer" />
+    <profile name="sbt 1" modules="PPS-19-Primer,pps-19-primer" />
   </component>
 </project>

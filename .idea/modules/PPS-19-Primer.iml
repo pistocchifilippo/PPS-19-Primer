@@ -11,6 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="scala-sdk-2.13.1" level="application" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scalaz:scalaz-ioeffect_2.12:2.9.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scalaz:scalaz-core_2.12:7.2.25:jar" level="project" />
   </component>
 </module>
