@@ -29,7 +29,7 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A ReproducingCreature should reproduce") {
-    val reproducingCreature = StarvingCreature(
+    val reproducingCreature = ReproducingCreature(
       center = Position(10, 10),
       speed = 10,
       energy = 10,
@@ -43,7 +43,7 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("The new creature should be a StarvingCreature") {
-    val reproducingCreature = StarvingCreature(
+    val reproducingCreature = ReproducingCreature(
       center = Position(10, 10),
       speed = 10,
       energy = 10,
@@ -56,7 +56,7 @@ class CreatureTest extends AnyFunSuite {
       c <- child
     } yield
       assert (c match {
-      case ReproducingCreature(_, _, _, _) => true
+      case StarvingCreature(_, _, _, _) => true
       case _ => false
     })
 
