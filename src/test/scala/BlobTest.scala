@@ -1,3 +1,4 @@
+import model.{Blob, Boundaries, Creature, Food, Position}
 import org.scalatest.funsuite.AnyFunSuite
 
 class BlobTest extends AnyFunSuite{

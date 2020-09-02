@@ -1,3 +1,5 @@
+package model
+
 trait Blob {
   def center : Position
   def radius : Double
@@ -13,7 +15,7 @@ case class Food(override val center : Position, override val radius : Double ) e
 
 object Blob{
 
-  //def collide(b1: Blob)(b2: Blob)(sense: (Blob, Blob) => Boolean) : Boolean = {
+  //def collide(b1: model.Blob)(b2: model.Blob)(sense: (model.Blob, model.Blob) => Boolean) : Boolean = {
   def collide(blob1: Blob)(blob2: Blob) : Boolean = {
     def distance(pos1: Position, pos2: Position): Double = {
       val dx = pos1.x - pos2.x
