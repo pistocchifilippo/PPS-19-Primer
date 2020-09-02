@@ -5,13 +5,11 @@ trait Blob {
   def radius : Double
 }
 
-trait BlobImplementation extends Blob{
-  override def center: Position = center
-  override def radius: Double = radius
+case class BlobImplementation(
+                             override val center: Position,
+                             override val radius: Double
+                             ) extends Blob{
 }
-
-case class Creature(override val center : Position, override val radius : Double ) extends BlobImplementation {}
-case class Food(override val center : Position, override val radius : Double ) extends BlobImplementation {}
 
 object Blob{
 

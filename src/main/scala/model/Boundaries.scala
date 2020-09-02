@@ -1,3 +1,3 @@
 package model
 
-case class Boundaries(val topLeft: Position, val bottomRight: Position){}
+case class Boundaries(topLeft: Position, bottomRight: Position)

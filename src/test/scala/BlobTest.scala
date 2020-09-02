@@ -1,19 +1,26 @@
-import model.{Blob, Boundaries, Creature, Food, Position}
+import model.{Blob, BlobImplementation, Boundaries, Position}
 import org.scalatest.funsuite.AnyFunSuite
 
 class BlobTest extends AnyFunSuite{
 
-  test("Test collisioni tra blob"){
-    assert(Blob.collide(Creature(new Position(3, 3), 2))(Creature(new Position(4, 4), 2)))
-    assert(!Blob.collide(Creature(new Position(30, 30), 2))(Food(new Position(4, 4), 2)))
+  test("Test blob collisions"){
+    val b1 = BlobImplementation(Position(3, 3), 2)
+    val b2 = BlobImplementation(Position(4, 4), 2)
+
+    val b3 =  BlobImplementation(Position(30, 30), 2)
+    val b4 =  BlobImplementation(Position(4, 4), 2)
+
+    assert(Blob.collide(b1)(b2))
+
+    assert(!Blob.collide(b3)(b4))
   }
 
-  test("Test collisioni tra blob e bounds"){
-    val bounds = new Boundaries(topLeft = new Position(0,0), bottomRight =  new Position(100, 100))
-    val blob1 = Creature(new Position(5, 5), 10)
-    val blob2 = Creature(new Position(50, 50), 1)
-    assert(Blob.collideBoundary(blob1)(bounds))
-    assert(!Blob.collideBoundary(blob2)(bounds))
+  test("Test blob bounds collisions"){
+    val bounds = Boundaries(topLeft = Position(0,0), bottomRight =  Position(100, 100))
+    val b1 = BlobImplementation(Position(5, 5),10)
+    val b2 = BlobImplementation(Position(50, 50),1)
+    assert(Blob.collideBoundary(b1)(bounds))
+    assert(!Blob.collideBoundary(b2)(bounds))
   }
 
 
