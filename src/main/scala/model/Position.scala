@@ -1,3 +1,3 @@
 package model
 
-class Position (val x: Double, val y : Double){}
+case class Position (val x: Double, val y : Double){}

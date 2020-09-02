@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab8ea843-5a37-4020-988f-5ab4354d2318" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Blob.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/model/Blob.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Boundaries.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/model/Boundaries.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Position.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/model/Position.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/BlobTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/BlobTest.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/model/Boundaries.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/model/Boundaries.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/model/Position.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/model/Position.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
