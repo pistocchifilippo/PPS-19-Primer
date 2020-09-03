@@ -1,7 +1,7 @@
 package model.entity
 
 import model.Position
-import Creature.Creature
+import model.entity.Creature.Creature
 
 case class StarvingCreature(
                               override val center: Position,
