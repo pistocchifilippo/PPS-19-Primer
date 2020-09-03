@@ -13,8 +13,14 @@ object Creature {
   }
 
   def reproduce(creature: Creature)(implicit newPosition: () => Position): Option[Creature] = creature match {
-    case ReproducingCreature(pos, speed, energy, radius) => Some(StarvingCreature(newPosition(), speed, energy, radius))
+    case ReproducingCreature(_, speed, energy, radius) => Some(StarvingCreature(newPosition(), speed, energy, radius))
     case _ => None
+  }
+
+  def survive(creature: Creature): Boolean = creature match {
+    case ReproducingCreature(_, _, _, _) => true
+    case AteCreature(_, _, _, _) => true
+    case _ => false
   }
 
 }

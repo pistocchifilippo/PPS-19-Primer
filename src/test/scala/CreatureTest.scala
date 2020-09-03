@@ -10,12 +10,15 @@ class CreatureTest extends AnyFunSuite {
   implicit val randomPos: () => Position = () => Position(10, 10)
 
   test("A non ReproducingCreature should not reproduce") {
+    println("avsfdvasfdva")
+
     for {
       starvingCreature <- IOCreature.makeIOStarvingCreature(Position(10, 10))(10)(10)(10)
       ateCreature <- IOCreature.makeIOAteCreature(Position(10, 10))(10)(10)(10)
       child1 = reproduce(starvingCreature)
       child2 = reproduce(ateCreature)
     } yield {
+      println("OINOI")
       assert(child1.isEmpty)
       assert(child2.isEmpty)
     }
@@ -24,14 +27,13 @@ class CreatureTest extends AnyFunSuite {
   test("A ReproducingCreature should reproduce") {
     for {
       reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
-      child <- IO.now(reproduce(reproducingCreature))
+      child <- IO.sync(reproduce(reproducingCreature))
     } yield {
       assert(child.nonEmpty)
     }
   }
 
   test("The new creature should be a StarvingCreature") {
-
     for {
       reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
       child <- IO.now(reproduce(reproducingCreature))
@@ -47,7 +49,27 @@ class CreatureTest extends AnyFunSuite {
       )
     }
 
+  }
 
+  test("A StarvingCreature should not survive") {
+    for {
+      starvingCreature <- IOCreature.makeIOStarvingCreature(Position(10, 10))(10)(10)(10)
+      survive <- IO.now(survive(starvingCreature))
+    } yield {
+      assert(!survive)
+    }
+  }
+
+  test("A AteCreature and a ReproducingCreature should survive") {
+    for {
+      ateCreature <- IOCreature.makeIOAteCreature(Position(10, 10))(10)(10)(10)
+      reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
+      survive1 <- IO.now(survive(ateCreature))
+      survive2 <- IO.now(survive(reproducingCreature))
+    } yield {
+      assert(survive1)
+      assert(survive2)
+    }
   }
 
 }

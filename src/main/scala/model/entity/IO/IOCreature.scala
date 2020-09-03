@@ -8,7 +8,7 @@ import model.entity.{AteCreature, ReproducingCreature, StarvingCreature}
 import scalaz.ioeffect.IO
 
 object IOCreature {
-  def makeIOStarvingCreature(center: Position)(r: Double)(energy: Double)(speed: Double): IO[IOException, Creature] = IO.now(
+  def makeIOStarvingCreature(center: Position)(r: Double)(energy: Double)(speed: Double): IO[IOException, Creature] = IO.sync(
     StarvingCreature(
       center = center,
       radius = r,
@@ -17,7 +17,7 @@ object IOCreature {
     )
   )
 
-  def makeIOAteCreature(center: Position)(r: Double)(energy: Double)(speed: Double): IO[IOException, Creature] = IO.now(
+  def makeIOAteCreature(center: Position)(r: Double)(energy: Double)(speed: Double): IO[IOException, Creature] = IO.sync(
     AteCreature(
       center = center,
       radius = r,
@@ -26,7 +26,7 @@ object IOCreature {
     )
   )
 
-  def makeIOReproducingCreature(center: Position)(r: Double)(energy: Double)(speed: Double): IO[IOException, Creature] = IO.now(
+  def makeIOReproducingCreature(center: Position)(r: Double)(energy: Double)(speed: Double): IO[IOException, Creature] = IO.sync(
     ReproducingCreature(
       center = center,
       radius = r,
