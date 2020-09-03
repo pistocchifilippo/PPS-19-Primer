@@ -10,37 +10,31 @@ class CreatureTest extends AnyFunSuite {
   implicit val randomPos: () => Position = () => Position(10, 10)
 
   test("A non ReproducingCreature should not reproduce") {
-    println("avsfdvasfdva")
 
-    for {
-      starvingCreature <- IOCreature.makeIOStarvingCreature(Position(10, 10))(10)(10)(10)
-      ateCreature <- IOCreature.makeIOAteCreature(Position(10, 10))(10)(10)(10)
-      child1 = reproduce(starvingCreature)
-      child2 = reproduce(ateCreature)
-    } yield {
-      println("OINOI")
-      assert(child1.isEmpty)
-      assert(child2.isEmpty)
-    }
+    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
+    val ateCreature = AteCreature(Position(10, 10),10,10,10)
+
+    val child1 = reproduce(starvingCreature)
+    val child2 = reproduce(ateCreature)
+
+    assert(child1.isEmpty)
+    assert(child2.isEmpty)
+
   }
 
   test("A ReproducingCreature should reproduce") {
-    for {
-      reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
-      child <- IO.sync(reproduce(reproducingCreature))
-    } yield {
-      assert(child.nonEmpty)
-    }
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val child = reproduce(reproducingCreature)
+    assert(child.nonEmpty)
   }
 
   test("The new creature should be a StarvingCreature") {
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val child = reproduce(reproducingCreature)
+
     for {
-      reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
-      child <- IO.now(reproduce(reproducingCreature))
-    } yield for {
       c <- child
-    } yield
-      {
+    } yield {
       assert(
         c match {
           case StarvingCreature(_, _, _, _) => true
@@ -52,24 +46,22 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A StarvingCreature should not survive") {
-    for {
-      starvingCreature <- IOCreature.makeIOStarvingCreature(Position(10, 10))(10)(10)(10)
-      survive <- IO.now(survive(starvingCreature))
-    } yield {
-      assert(!survive)
-    }
+    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
+    val cSurvive = survive(starvingCreature)
+
+    assert(!cSurvive)
+
   }
 
   test("A AteCreature and a ReproducingCreature should survive") {
-    for {
-      ateCreature <- IOCreature.makeIOAteCreature(Position(10, 10))(10)(10)(10)
-      reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
-      survive1 <- IO.now(survive(ateCreature))
-      survive2 <- IO.now(survive(reproducingCreature))
-    } yield {
-      assert(survive1)
-      assert(survive2)
-    }
+    val ateCreature = AteCreature(Position(10, 10),10,10,10)
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val survive1 = survive(ateCreature)
+    val survive2 = survive(reproducingCreature)
+
+    assert(survive1)
+    assert(survive2)
+
   }
 
 }
