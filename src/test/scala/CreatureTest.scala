@@ -58,11 +58,15 @@ class CreatureTest extends AnyFunSuite {
 
     for {
       c <- child
-    } yield
-      assert (c match {
-      case StarvingCreature(_, _, _, _) => true
-      case _ => false
-    })
+    } yield {
+      assert(
+        c match {
+          case StarvingCreature(_, _, _, _) => true
+          case _ => false
+        }
+      )
+    }
+
 
   }
 
