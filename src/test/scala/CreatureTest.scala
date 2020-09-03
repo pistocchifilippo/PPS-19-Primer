@@ -1,4 +1,5 @@
 import model.Position
+import model.entity.IO.IOCreature
 import model.entity.{AteCreature, ReproducingCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
 import scalaz.ioeffect.IO
@@ -8,58 +9,35 @@ class CreatureTest extends AnyFunSuite {
   import model.entity.Creature._
 
   test("A non ReproducingCreature should not reproduce") {
-    val starvingCreature = StarvingCreature(
-      center = Position(10, 10),
-      speed = 10,
-      energy = 10,
-      radius = 10
-    )
-    val ateCreature = AteCreature(
-      center = Position(10, 10),
-      speed = 10,
-      energy = 10,
-      radius = 10
-    )
-
-    val child1 = reproduce(starvingCreature)
-    val child2 = reproduce(ateCreature)
-
-    assert(child1.isEmpty)
-    assert(child2.isEmpty)
-
+    for {
+      starvingCreature <- IOCreature.makeIOStarvingCreature(Position(10, 10))(10)(10)(10)
+      ateCreature <- IOCreature.makeIOAteCreature(Position(10, 10))(10)(10)(10)
+      child1 = reproduce(starvingCreature)
+      child2 = reproduce(ateCreature)
+    } yield {
+      assert(child1.isEmpty)
+      assert(child2.isEmpty)
+    }
   }
 
   test("A ReproducingCreature should reproduce") {
-    val cr = IO.now(
-      ReproducingCreature(
-        center = Position(10, 10),
-        speed = 10,
-        energy = 10,
-        radius = 10
-      )
-    )
     for {
-      c <- cr
-
-      child <- IO.now(reproduce(c))
+      reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
+      child <- IO.now(reproduce(reproducingCreature))
     } yield {
       assert(child.nonEmpty)
     }
   }
 
   test("The new creature should be a StarvingCreature") {
-    val reproducingCreature = ReproducingCreature(
-      center = Position(10, 10),
-      speed = 10,
-      energy = 10,
-      radius = 10
-    )
-
-    val child = reproduce(reproducingCreature)
 
     for {
+      reproducingCreature <- IOCreature.makeIOReproducingCreature(Position(10, 10))(10)(10)(10)
+      child <- IO.now(reproduce(reproducingCreature))
+    } yield for {
       c <- child
-    } yield {
+    } yield
+      {
       assert(
         c match {
           case StarvingCreature(_, _, _, _) => true

@@ -1,6 +1,9 @@
 package model.entity
 
-import model.Blob
+import java.io.IOException
+
+import model.{Blob, Position}
+import scalaz.ioeffect.IO
 
 object Creature {
 
