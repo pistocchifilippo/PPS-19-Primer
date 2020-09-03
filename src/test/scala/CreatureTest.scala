@@ -98,5 +98,14 @@ class CreatureTest extends AnyFunSuite {
 
   }
 
+  test("Energy should be lower") {
+    val energyConsumption: Double => Double = e => e * 0.1
+    val energy = 10
+    val creature = StarvingCreature(Position(10, 10),10, energy,10)
+    val movedCreature = move(creature)(Position(30,5))(energyConsumption)
+
+    assert(movedCreature.energy < energy)
+  }
+
 
 }

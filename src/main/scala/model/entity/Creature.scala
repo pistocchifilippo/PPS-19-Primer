@@ -21,10 +21,10 @@ object Creature {
     case _ => false
   }
 
-  def move(creature: Creature)(position: Position): Creature = creature match {
-    case AteCreature(_, speed, energy, radius) => AteCreature(position, speed, energy, radius)
-    case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energy, radius)
-    case StarvingCreature(_, speed, energy, radius) =>StarvingCreature(position, speed, energy, radius)
+  def move(creature: Creature)(position: Position)(implicit energyConsumption: Double => Double): Creature = creature match {
+    case AteCreature(_, speed, energy, radius) => AteCreature(position, speed, energyConsumption(energy), radius)
+    case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energyConsumption(energy), radius)
+    case StarvingCreature(_, speed, energy, radius) =>StarvingCreature(position, speed, energyConsumption(energy), radius)
   }
 
 }
