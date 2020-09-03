@@ -64,4 +64,39 @@ class CreatureTest extends AnyFunSuite {
 
   }
 
+  test("Position should change") {
+    val creature = StarvingCreature(Position(10, 10),10,10,10)
+    val movedCreature = move(creature)(Position(30,5))
+    assert(movedCreature.center equals Position(30,5))
+  }
+
+  test("Creature class should not change") {
+    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
+    val ateCreature = AteCreature(Position(10, 10),10,10,10)
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+
+    assert(
+      move(starvingCreature)(Position(30,5)) match {
+        case StarvingCreature(_, _, _, _) => true
+        case _ =>false
+      }
+    )
+
+    assert(
+      move(ateCreature)(Position(30,5)) match {
+        case AteCreature(_, _, _, _) => true
+        case _ =>false
+      }
+    )
+
+    assert(
+      move(reproducingCreature)(Position(30,5)) match {
+        case ReproducingCreature(_, _, _, _) => true
+        case _ =>false
+      }
+    )
+
+  }
+
+
 }
