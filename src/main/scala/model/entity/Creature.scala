@@ -12,8 +12,8 @@ object Creature {
     def energy: Double
   }
 
-  def reproduce(creature: Creature): Option[Creature] = creature match {
-    case ReproducingCreature(pos, speed, energy, radius) => Some(StarvingCreature(pos, speed, energy, radius))
+  def reproduce(creature: Creature)(implicit newPosition: () => Position): Option[Creature] = creature match {
+    case ReproducingCreature(pos, speed, energy, radius) => Some(StarvingCreature(newPosition(), speed, energy, radius))
     case _ => None
   }
 

@@ -7,6 +7,7 @@ import scalaz.ioeffect.IO
 class CreatureTest extends AnyFunSuite {
 
   import model.entity.Creature._
+  implicit val randomPos: () => Position = () => Position(10, 10)
 
   test("A non ReproducingCreature should not reproduce") {
     for {
