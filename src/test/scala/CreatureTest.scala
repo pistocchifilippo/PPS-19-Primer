@@ -1,6 +1,7 @@
 import model.Position
 import model.entity.{AteCreature, ReproducingCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
+import scalaz.ioeffect.IO
 
 class CreatureTest extends AnyFunSuite {
 
@@ -29,17 +30,20 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A ReproducingCreature should reproduce") {
-    val reproducingCreature = ReproducingCreature(
-      center = Position(10, 10),
-      speed = 10,
-      energy = 10,
-      radius = 10
-    )
-
-    val child1 = reproduce(reproducingCreature)
-
-    assert(child1.nonEmpty)
-
+    for {
+      c <-
+        IO.now(
+          ReproducingCreature(
+            center = Position(10, 10),
+            speed = 10,
+            energy = 10,
+            radius = 10
+          )
+        )
+      child <- IO.now(reproduce(c))
+    } yield {
+      assert(child.nonEmpty)
+    }
   }
 
   test("The new creature should be a StarvingCreature") {
