@@ -30,16 +30,17 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A ReproducingCreature should reproduce") {
+    val cr = IO.now(
+      ReproducingCreature(
+        center = Position(10, 10),
+        speed = 10,
+        energy = 10,
+        radius = 10
+      )
+    )
     for {
-      c <-
-        IO.now(
-          ReproducingCreature(
-            center = Position(10, 10),
-            speed = 10,
-            energy = 10,
-            radius = 10
-          )
-        )
+      c <- cr
+
       child <- IO.now(reproduce(c))
     } yield {
       assert(child.nonEmpty)
