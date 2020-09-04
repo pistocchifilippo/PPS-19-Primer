@@ -9,6 +9,11 @@ object Creature {
     def energy: Double
   }
 
+  def makeSet(units: Int, radius: Double, energy: Double, speed: Double)(strategy: () => Position): Set[Creature] = {
+    if (units > 0) makeSet(units - 1, radius, energy, speed)(strategy) + StarvingCreature(strategy(), speed, energy, radius)
+    else Set.empty
+  }
+
   //(sizeMutation: Double => Double)(speedMutation: Double => Double)(defaultEnergy: () => Double)
   def reproduce(creature: Creature)(implicit newPosition: () => Position): Option[Creature] = creature match {
     case ReproducingCreature(_, speed, energy, radius) => Some(StarvingCreature(newPosition(), speed, energy, radius))
