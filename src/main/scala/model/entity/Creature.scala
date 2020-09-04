@@ -15,7 +15,7 @@ object Creature {
     @tailrec
     def _apply(u: Int, creatures: Set[Creature], position: Position): Set[Creature] = u match {
       case _ if creatures.contains(StarvingCreature(position, speed, energy, radius)) => _apply(u, creatures, strategy())
-      case _ if !creatures.contains(StarvingCreature(position, speed, energy, radius)) && units > 0 => _apply(u - 1, creatures ++ Set(StarvingCreature(position, speed, energy, radius)) , strategy())
+      case _ if !creatures.contains(StarvingCreature(position, speed, energy, radius)) && u > 0 => _apply(u - 1, creatures ++ Set(StarvingCreature(position, speed, energy, radius)) , strategy())
       case _ => creatures
     }
     _apply(units, Set.empty, strategy())
