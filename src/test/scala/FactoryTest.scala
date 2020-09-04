@@ -15,6 +15,8 @@ class FactoryTest extends AnyFunSuite{
   val creatureSet: Set[Creature] = Creature.makeSet(100, 10, 10, 10)(strategy)
 
   test("The factory should return a Set of given size"){
+    println(foodSet.size)
+    println(creatureSet.size)
     assert(foodSet.size == 100)
     assert(creatureSet.size equals 100)
   }

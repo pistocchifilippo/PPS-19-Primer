@@ -10,7 +10,7 @@ object Creature {
   }
 
   def makeSet(units: Int, radius: Double, energy: Double, speed: Double)(strategy: () => Position): Set[Creature] = {
-    if (units >= 0) makeSet(units - 1, radius, energy, speed)(strategy) + StarvingCreature(strategy(), speed, energy, radius)
+    if (units > 0) makeSet(units - 1, radius, energy, speed)(strategy) + StarvingCreature(strategy(), speed, energy, radius)
     else Set.empty
   }
 
