@@ -11,6 +11,16 @@ object Creature {
     def energy: Double
   }
 
+  def makeEvolutionSet(creatures: Set[Creature])(baseEnergy: Double)(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): Set[Creature] =
+    creatures.flatMap(c =>
+      c match {
+        case AteCreature(_, speed, _, radius) => List(StarvingCreature(pos(), speedMutation(speed), baseEnergy, sizeMutation(radius)))
+        case ReproducingCreature(_, speed, _, radius) => List(StarvingCreature(pos(), speedMutation(speed), baseEnergy, sizeMutation(radius)), reproduce(c)(pos).get)
+        case _ => Nil
+      }
+    )
+
+
   def makeSet(units: Int, radius: Double, energy: Double, speed: Double)(strategy: () => Position): Set[Creature] = {
     @tailrec
     def _apply(u: Int, creatures: Set[Creature], position: Position): Set[Creature] = u match {

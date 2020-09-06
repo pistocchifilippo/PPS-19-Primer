@@ -8,6 +8,8 @@ class CreatureTest extends AnyFunSuite {
 
   import model.entity.Creature._
   implicit val randomPos: () => Position = () => Position(10, 10)
+  val featureMutation: Double => Double = e => e * 0.1
+
 
   test("A non ReproducingCreature should not reproduce") {
 
@@ -99,12 +101,64 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("Energy should be lower") {
-    val energyConsumption: Double => Double = e => e * 0.1
     val energy = 10
     val creature = StarvingCreature(Position(10, 10),10, energy,10)
-    val movedCreature = move(creature)(Position(30,5))(energyConsumption)
+    val movedCreature = move(creature)(Position(30,5))(featureMutation)
 
     assert(movedCreature.energy < energy)
+  }
+
+  // EVOLUTION SET TESTS
+  test("Evolution Set size should be the same") {
+
+    val setSize = 10
+    val evolutionSet =
+      {
+        for {
+          x <- 0 until setSize
+        } yield AteCreature(Position(10, 10),10,10,x)
+      }.toSet
+
+    val evolve = makeEvolutionSet(evolutionSet.toSet)(10)(randomPos)(featureMutation)(featureMutation)
+
+    assert(evolve.size equals setSize)
+  }
+
+  test("Evolution Set size should be the double") {
+
+    val setSize = 10
+    val evolutionSet =
+      {
+        for {
+          x <- 0 until setSize
+        } yield ReproducingCreature(Position(10, 10),10,10,x)
+      }.toSet
+
+    val evolve = makeEvolutionSet(evolutionSet.toSet)(10)(randomPos)(featureMutation)(featureMutation)
+
+    assert(evolve.size equals setSize*2)
+  }
+
+  test("Evolution Set creatures should be Starving creatures"){
+    val setSize = 10
+    val evolutionSet =
+      {
+        for {
+          x <- 0 until setSize
+        } yield ReproducingCreature(Position(10, 10),10,10,x)
+      }.toSet
+
+    val evolve = makeEvolutionSet(evolutionSet.toSet)(10)(randomPos)(featureMutation)(featureMutation)
+
+    for {
+      c <- evolve
+    } yield
+      assert(c match {
+          case StarvingCreature(_,_,_,_) => true
+          case _ => false
+        }
+      )
+
   }
 
 
