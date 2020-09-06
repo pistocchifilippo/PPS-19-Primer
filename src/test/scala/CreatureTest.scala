@@ -10,7 +10,6 @@ class CreatureTest extends AnyFunSuite {
   implicit val randomPos: () => Position = () => Position(10, 10)
   val featureMutation: Double => Double = e => e * 0.1
 
-
   test("A non ReproducingCreature should not reproduce") {
 
     val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
@@ -94,16 +93,16 @@ class CreatureTest extends AnyFunSuite {
     assert(
       move(reproducingCreature)(Position(30,5)) match {
         case ReproducingCreature(_, _, _, _) => true
-        case _ =>false
+        case _ => false
       }
     )
 
   }
 
   test("Energy should be lower") {
-    val energy = 10
-    val creature = StarvingCreature(Position(10, 10),10, energy,10)
-    val movedCreature = move(creature)(Position(30,5))(featureMutation)
+    val energy = 100000
+    val creature = StarvingCreature(Position(10, 10),10, energy,20)
+    val movedCreature = move(creature)(Position(30,5))(kineticConsumption)
 
     assert(movedCreature.energy < energy)
   }

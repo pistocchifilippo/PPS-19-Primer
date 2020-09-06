@@ -11,6 +11,8 @@ object Creature {
     def energy: Double
   }
 
+  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * Math.pow(v, 2)
+
   def makeEvolutionSet(creatures: Set[Creature])(baseEnergy: Double)(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): Set[Creature] =
     creatures.flatMap(c =>
       c match {
@@ -43,10 +45,10 @@ object Creature {
     case _ => false
   }
 
-  def move(creature: Creature)(position: Position)(implicit energyConsumption: Double => Double): Creature = creature match {
-    case AteCreature(_, speed, energy, radius) => AteCreature(position, speed, energyConsumption(energy), radius)
-    case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energyConsumption(energy), radius)
-    case StarvingCreature(_, speed, energy, radius) =>StarvingCreature(position, speed, energyConsumption(energy), radius)
+  def move(creature: Creature)(position: Position)(implicit energyConsumption: (Double, Double) => Double): Creature = creature match {
+    case AteCreature(_, speed, energy, radius) => AteCreature(position, speed, energy - energyConsumption(radius, speed), radius)
+    case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energy - energyConsumption(radius, speed), radius)
+    case StarvingCreature(_, speed, energy, radius) => StarvingCreature(position, speed, energy - energyConsumption(radius, speed), radius)
   }
 
 }
