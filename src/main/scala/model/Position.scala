@@ -6,6 +6,13 @@ case class Position (x: Double, y : Double)
 
 object Position {
 
+  implicit val randomPosition: Boundaries => Position = bounds => {
+    Position(
+      x = bounds.topLeft.x + ((bounds.bottomRight.x - bounds.topLeft.x) * Random.nextDouble()),
+      y = bounds.topLeft.y + ((bounds.bottomRight.y - bounds.topLeft.y) * Random.nextDouble())
+    )
+  }
+
   implicit val randomEdgePosition: Boundaries => Position = bounds => {
     Random.nextInt(4) match {
       case 0 =>
