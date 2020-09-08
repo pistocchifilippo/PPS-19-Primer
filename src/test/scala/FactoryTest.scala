@@ -15,8 +15,8 @@ class FactoryTest extends AnyFunSuite {
   val foodstrategy : () => Position = () => randomPosition(bounds)
   val creaturestrategy : () => Position = () => randomEdgePosition(bounds)
 
-  val foodSet: Set[Food] = Food(units = 100, radius = 10)(foodstrategy)
-  val creatureSet: Set[Creature] = Creature.makeSet(100, 10, 10, 10)(creaturestrategy)
+  val foodSet: Traversable[Food] = Food(units = 100, radius = 10)(foodstrategy)
+  val creatureSet: Traversable[Creature] = Creature.makeSet(100, 10, 10, 10)(creaturestrategy)
 
   test("Food coordinates should all be between boundaries"){
     assert(foodSet.forall(f => isInside(bounds, f.center)))
@@ -30,6 +30,5 @@ class FactoryTest extends AnyFunSuite {
     assert(Food(100, 10)(foodstrategy).size == 100)
     assert(Creature.makeSet(100, 10, 10, 10)(creaturestrategy).size == 100)
   }
-
 
 }
