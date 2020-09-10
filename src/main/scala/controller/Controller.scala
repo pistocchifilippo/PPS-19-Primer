@@ -15,23 +15,21 @@ sealed trait Controller {
 
 object Controller {
 
-  def buildWithIO: Controller = for {
-    _ <- putStrLn("Welcome to natural selection simulator!!!")
-    _ <- putStrLn("Scegli la modalità di esecuzione")
-    _ <- putStrLn("1. Simulation mode")
-    _ <- putStrLn("2. Test mode")
-    mode <- getStrLn
-    _ <- putStrLn("Stampare le statistiche su file? y/n")
-    outputMode <- getStrLn
-    _ <- putStrLn("Durata simulazione (in giorni)")
-    days <- getStrLn
-    _ <- putStrLn("Numero corpi")
-    bodies <- getStrLn
-    _ <- putStrLn("Numero unità cibo")
-    food <- getStrLn
-  } yield mode match {
-
-  }
+//  def buildWithIO: Controller = for {
+//    _ <- putStrLn("Welcome to natural selection simulator!!!")
+//    _ <- putStrLn("Scegli la modalità di esecuzione")
+//    _ <- putStrLn("1. Simulation mode")
+//    _ <- putStrLn("2. Test mode")
+//    mode <- getStrLn
+//    _ <- putStrLn("Stampare le statistiche su file? y/n")
+//    outputMode <- getStrLn
+//    _ <- putStrLn("Durata simulazione (in giorni)")
+//    days <- getStrLn
+//    _ <- putStrLn("Numero corpi")
+//    bodies <- getStrLn
+//    _ <- putStrLn("Numero unità cibo")
+//    food <- getStrLn
+//  } yield ()
 
 }
 
