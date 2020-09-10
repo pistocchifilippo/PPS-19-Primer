@@ -1,5 +1,6 @@
-import model.Position
+import model.{Environment, Position}
 import model.entity.IO.{IOCreature, IOFood}
+import view.View
 
 import scala.util.Random
 
@@ -7,8 +8,9 @@ object Application extends App {
   println("Welcome to natural selection simulator!!!")
 
   for {
-    c <- IOCreature.makeIOStarvingCreature(Position(10,10))(10)(10)(10)
-    //f <- IOFood.makeIOFood(Position(10,10))(10)
-    //s <- IOFood.makeIOFoodSet(100)(10)(() => Position(new Random().nextInt(100), new Random().nextInt(100)))
-  } yield println(c)
+    p <- View.collectParameters
+    //c <- Controller(p)
+    //stats <- c.execute
+    //_ <- view.print(stats)
+  } yield ()
 }
