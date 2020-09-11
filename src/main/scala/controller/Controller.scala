@@ -2,16 +2,33 @@ package controller
 
 import java.io.IOException
 
+import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations._
 import helpers.Strategies._
 import model._
 import model.entity._
+import model.output.Output
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console._
+import view.GUI
 
 sealed trait Controller {
-  def execute: IO[IOException, Unit]
+  def execute(sim: DaySimulator): Output
 }
+
+case class TMController(gui: GUI) extends Controller {
+  override def execute(sim: DaySimulator): Output = ???
+}
+
+case class SMController(gui: GUI) extends Controller {
+  override def execute(sim: DaySimulator): Output = ???
+}
+
+
+
+
+
+
 
 object Controller {
 

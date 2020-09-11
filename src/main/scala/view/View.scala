@@ -16,8 +16,8 @@ case class CLIView() extends View {
 case class FileView() extends View {
   override def print(): Unit = ??? // --> print on file
 }
-
 trait GUI extends View {
+
   def update: Unit
 }
 

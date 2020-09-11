@@ -2,33 +2,34 @@ package controller.simulator
 
 import helpers.Configurations._
 import model.entity.{Creature, Food}
-import model.{Boundaries, Environment, Position}
+import model.{Environment, Position}
 
 
-trait Simulator extends Iterator[Option[Simulator]] // TOGLIERE OPTION
+trait Simulator extends Iterator [Simulator]
 
 case class DayStepSimulator(
                            environment: Environment
                            ) extends Simulator {
 
-  override def hasNext: Boolean = true
+  implicit val kineticConsumption =  Creature.kineticConsumption
 
-  override def next(): Option[DayStepSimulator] =  {
+  override def hasNext: Boolean = environment.creatures.count(_.energy > 0) > 0
+
+  // Here I need to update graphic component
+  override def next(): DayStepSimulator =  {
 
     // movimento => nuovo set di creature
     // collisioni => rimozione cibo mangiato => nuovo set di cibo
 
-    environment.creatures.count(c => c.energy > 0) match {
-      case 0 => None
-      case _ => Option(DayStepSimulator(
-        Environment(
-          environment.boundaries,
-          environment.food, // con cibo rimosso
-          environment.creatures.map(c => Creature.move(c)(Position.randomPosition(BOUNDARIES))(Creature.kineticConsumption))
-        )
-      ))
-    }
+    DayStepSimulator(
+      Environment(
+        BOUNDARIES,
+        environment.food, // con cibo rimosso
+        environment.creatures.map(c => Creature.move(c)(Position.randomPosition(BOUNDARIES)))
+      )
+    )
   }
+
 }
 
 case class DaySimulator(
@@ -37,61 +38,23 @@ case class DaySimulator(
                        dayStepSimulator: DayStepSimulator
                        ) extends Simulator {
 
-  override def hasNext: Boolean = true
+  override def hasNext: Boolean = nDays > 0
 
-  override def next(): Option[Simulator] = {
-    dayStepSimulator.next() match {
-      case Some(s) if s.hasNext => s.next()
-      case Some(s) if !s.hasNext =>
-        Option(DaySimulator(
-          nFood,
-          nDays - 1,
-          DayStepSimulator(
-            Environment(
-              BOUNDARIES,
-              Food(nFood, FOOD_RADIUS)(() => Position.randomPosition(s.environment.boundaries)),
-              Creature.makeEvolutionSet(s.environment.creatures)(CREATURES_ENERGY)(() => Position.randomEdgePosition(BOUNDARIES))(p => p)(s => s)
-            )
-          )
-        ))
-    }
-  }
+  override def next(): DaySimulator =
+    DaySimulator(
+      nFood,
+      nDays - 1,
+      DayStepSimulator(
+        Environment(
+          BOUNDARIES,
+          Food(nFood, FOOD_RADIUS)(() => Position.randomPosition(BOUNDARIES)),
+          Creature.makeEvolutionSet(consumeDay(dayStepSimulator).environment.creatures)(CREATURES_ENERGY)(() => Position.randomEdgePosition(BOUNDARIES))(p => p)(s => s)
+        )
+      )
+    )
+
+  @scala.annotation.tailrec
+  private def consumeDay(dayStepSimulator: DayStepSimulator): DayStepSimulator =
+    if (dayStepSimulator.hasNext) consumeDay(dayStepSimulator.next()) else dayStepSimulator
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  val boundaries: Boundaries =
-//    Boundaries(
-//      topLeft = TOP_LEFT,
-//      bottomRight = BOTTOM_RIGHT
-//    )
-//
-//  val environment: Environment =
-//    Environment(
-//      boundaries = boundaries,
-//      food = Food(nFood, FOOD_RADIUS)(() => Position.randomPosition(boundaries)),
-//      creatures = Creature.makeSet(
-//        nCreature,
-//        CREATURES_RADIUS,
-//        CREATURES_ENERGY,
-//        CREATURES_SPEED
-//      )(() => Position.randomPosition(boundaries))
-//  )
-

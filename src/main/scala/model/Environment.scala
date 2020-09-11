@@ -16,3 +16,9 @@ trait BlobEnvironment {
 case class Environment( override val boundaries: Boundaries,
                         override val food: Traversable[Food],
                         override val creatures : Traversable[Creature]) extends BlobEnvironment
+
+object Environment {
+
+  //def makeStep(): Environment = ???
+
+}
