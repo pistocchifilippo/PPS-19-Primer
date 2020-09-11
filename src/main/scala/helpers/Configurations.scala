@@ -16,4 +16,10 @@ object Configurations {
   def CREATURES_SPEED = 200
 
   def FOOD_RADIUS = 3
+
+  def OUTPUT_PATH = "output.json"
+
+  def SIMULATOR_HEIGHT = 500
+  def SIMULATOR_WIDTH = 500
+  def SIMULATOR_TITLE = "NATURAL SELECTION SIMULATOR"
 }

@@ -32,6 +32,22 @@ case class DayStepSimulator(
 
 }
 
+trait GUISimulator extends Simulator {
+
+  private[this] var gui = "GUI"
+
+  abstract override def next(): Simulator = {
+    val newSim = super.next()
+    //gui.update(newSim.environment)
+    newSim
+  }
+
+}
+
+//class GUIDayStepSimulator(environment: Environment) extends DayStepSimulator(environment) with GUISimulator
+
+
+
 case class DaySimulator(
                        nFood: Int,
                        nDays: Int,

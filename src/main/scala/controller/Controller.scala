@@ -13,10 +13,11 @@ import scalaz.ioeffect.console._
 import view.{CLIView, FileView, GUI, GUICliView, GUIFileView, View}
 
 sealed trait Controller {
+  def view: View
   def execute(sim: DaySimulator): Output
 }
 
-case class TMController(gui: GUI) extends Controller {
+case class TMController(view: GUI) extends Controller {
   override def execute(sim: DaySimulator): Output = ???
 }
 
@@ -25,32 +26,10 @@ case class SMController(view: View) extends Controller {
 }
 
 
-trait GUIController extends Simulator {
-
-  private[this] var gui = "GUI"
-
-  abstract override def next(): Simulator = {
-    val newSim = super.next()
-    // gui.update(newSim.environment)
-    newSim
-  }
-
-}
-
-class SimulationView(environment: Environment) extends DayStepSimulator(environment) with GUIController
-
-
-
-
 object Controller {
-
-  //def makeIOController(view: View, nDays: Int, nFood: Int, nCreatures: Int): IO[IOException, Controller] = view match {
-    //case (FileView() || CLIView) => SMController(view)
-    //case (GUIFileView() || GUICliView) => SMController(view)
-  //}
+  def apply(gui: GUI): Controller = TMController(gui)
+  def apply(view: View): Controller = SMController(view)
 }
-
-
 
 //case class SimulationModeController(override val nDays: Int, override val nBodies: Int, override val nFood: Int) extends Controller {
 //

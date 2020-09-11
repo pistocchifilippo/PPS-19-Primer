@@ -1,32 +1,45 @@
 package view
 
-import java.io.IOException
+import java.awt.Dimension
+import java.io.{File, FileWriter, IOException}
 
+import com.sun.xml.internal.ws.developer.Serialization
+import helpers.Configurations._
+import javax.swing.JFrame
+import model.Environment
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console.{getStrLn, putStrLn}
 
 abstract class View {
-  def print(): Unit
+  def print(stats: String): IO[IOException, Unit]
 }
 
-case class CLIView() extends View {
-  override def print(): Unit = ??? // --> print on console
+ class CLIView() extends View {
+  override def print(stats: String): IO[IOException, Unit] = putStrLn(stats) //print on console
 }
 
-case class FileView() extends View {
-  override def print(): Unit = ??? // --> print on file
+ class FileView() extends View {
+
+  override def print(stats: String): IO[IOException, Unit] = for {
+    out <- IO.now(new File(OUTPUT_PATH))
+    fw <- IO.now(new FileWriter(out))
+    _ <- IO.now(fw.write(stats))
+    _ <- IO.now(fw.close())
+  } yield ()
+  // --> print on file
 }
+
 trait GUI extends View {
-
-  def update: Unit
+  def update(environment: Environment): Unit = for {
+    panel <- IO.now(new Visualizer(environment))
+  } yield()
+  //--> same for both GUICli and GUIFile
 }
 
-case class GUICliView() extends CLIView with GUI{
-  override def update: Unit = ???
-}
-case class GUIFileView() extends FileView with GUI{
-  override def update: Unit = ???
-}
+ class GUICliView() extends CLIView() with GUI
+
+ class GUIFileView() extends FileView() with GUI
+
 
 object View {
 
@@ -39,19 +52,24 @@ object View {
     food <- getStrLn
   } yield (days.toInt, bodies.toInt, food.toInt)
 
-  def buildWithIO : IO[IOException, View] = for {
-    _ <- putStrLn("Welcome to natural selection simulator!!!")
-    _ <- putStrLn("Scegli la modalità di esecuzione")
-    _ <- putStrLn("1. Simulation mode")
-    _ <- putStrLn("2. Test mode")
-    t <- getStrLn
-    _ <- putStrLn("Stampare le statistiche su file? y/n")
-    file <- getStrLn
-
-  } yield (t, file) match {
-    case ("1", "y") => FileView
-    case ("1", "n") => CLIView
-    case ("2", "y") => GUIFileView
-    case ("2", "n") => GUICliView
+  def buildWithIO : IO[IOException, View] = {
+    for {
+      _ <- putStrLn("Welcome to natural selection simulator!!!")
+      _ <- putStrLn("Scegli la modalità di esecuzione")
+      _ <- putStrLn("1. Simulation mode")
+      _ <- putStrLn("2. Test mode")
+      t <- getStrLn
+      _ <- putStrLn("Stampare le statistiche su file? y/n")
+      file <- getStrLn
+    } yield (t, file) match {
+      case ("1", "y") => new FileView()
+      case ("1", "n") => new CLIView()
+      case ("2", "y") => new GUIFileView()
+      case ("2", "n") => new GUICliView()
+    }
   }
+
+
+
+
 }
