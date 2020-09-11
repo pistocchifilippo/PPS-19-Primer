@@ -18,6 +18,7 @@ object Output {
 
   object CliParser extends Parser {
     override def apply(out: Output): String = ???
+
   }
 
 }

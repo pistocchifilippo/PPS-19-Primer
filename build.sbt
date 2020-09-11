@@ -10,3 +10,7 @@ libraryDependencies += "org.scalaz" %% "scalaz-ioeffect" % "2.9.0"
 // Scalatest
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.0" % "test"
 
+// Org Json
+libraryDependencies += "org.json" % "json" % "20200518"
+
+
