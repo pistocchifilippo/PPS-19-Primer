@@ -21,9 +21,25 @@ trait GUI extends View {
   def update: Unit
 }
 
+case class GUICliView() extends CLIView with GUI{
+  override def update: Unit = ???
+}
+case class GUIFileView() extends FileView with GUI{
+  override def update: Unit = ???
+}
+
 object View {
 
-  def collectParameters : IO[IOException, Tuple2[String, String]] = for {
+  def collectSimulationParameters : IO[IOException, (Int, Int, Int)] = for {
+    _ <- putStrLn("Durata simulazione (in giorni)")
+    days <- getStrLn
+    _ <- putStrLn("Numero corpi")
+    bodies <- getStrLn
+    _ <- putStrLn("Numero unità cibo")
+    food <- getStrLn
+  } yield (days.toInt, bodies.toInt, food.toInt)
+
+  def buildWithIO : IO[IOException, View] = for {
     _ <- putStrLn("Welcome to natural selection simulator!!!")
     _ <- putStrLn("Scegli la modalità di esecuzione")
     _ <- putStrLn("1. Simulation mode")
@@ -31,14 +47,11 @@ object View {
     t <- getStrLn
     _ <- putStrLn("Stampare le statistiche su file? y/n")
     file <- getStrLn
-/*
-    _ <- putStrLn("Durata simulazione (in giorni)")
-    days <- getStrLn
-    _ <- putStrLn("Numero corpi")
-    bodies <- getStrLn
-    _ <- putStrLn("Numero unità cibo")
-    food <- getStrLn
 
- */
-  } yield ((t, file))
+  } yield (t, file) match {
+    case ("1", "y") => FileView
+    case ("1", "n") => CLIView
+    case ("2", "y") => GUIFileView
+    case ("2", "n") => GUICliView
+  }
 }

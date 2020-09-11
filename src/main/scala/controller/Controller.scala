@@ -10,7 +10,7 @@ import model.entity._
 import model.output.Output
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console._
-import view.GUI
+import view.{CLIView, FileView, GUI, GUICliView, GUIFileView, View}
 
 sealed trait Controller {
   def execute(sim: DaySimulator): Output
@@ -20,34 +20,23 @@ case class TMController(gui: GUI) extends Controller {
   override def execute(sim: DaySimulator): Output = ???
 }
 
-case class SMController(gui: GUI) extends Controller {
+case class SMController(view: View) extends Controller {
   override def execute(sim: DaySimulator): Output = ???
 }
 
-
-
-
-
+//trait GuiController extends Simulator {
+  //abstract override def next(): GuiController = {
+    //super.next()
+  //}
+//}
 
 
 object Controller {
 
-//  def buildWithIO: Controller = for {
-//    _ <- putStrLn("Welcome to natural selection simulator!!!")
-//    _ <- putStrLn("Scegli la modalità di esecuzione")
-//    _ <- putStrLn("1. Simulation mode")
-//    _ <- putStrLn("2. Test mode")
-//    mode <- getStrLn
-//    _ <- putStrLn("Stampare le statistiche su file? y/n")
-//    outputMode <- getStrLn
-//    _ <- putStrLn("Durata simulazione (in giorni)")
-//    days <- getStrLn
-//    _ <- putStrLn("Numero corpi")
-//    bodies <- getStrLn
-//    _ <- putStrLn("Numero unità cibo")
-//    food <- getStrLn
-//  } yield ()
-
+  //def makeIOController(view: View, nDays: Int, nFood: Int, nCreatures: Int): IO[IOException, Controller] = view match {
+    //case (FileView() || CLIView) => SMController(view)
+    //case (GUIFileView() || GUICliView) => SMController(view)
+  //}
 }
 
 
