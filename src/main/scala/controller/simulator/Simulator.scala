@@ -32,20 +32,21 @@ case class DayStepSimulator(
 
 }
 
+
+
 trait GUISimulator extends Simulator {
-
   private[this] var gui = "GUI"
-
-  abstract override def next(): Simulator = {
+  abstract override def next(): DayStepSimulator = {
     val newSim = super.next()
     //gui.update(newSim.environment)
-    newSim
+    println("gui updated")
+
+    //println(newSim.asInstanceOf[DayStepSimulator].environment.creatures)
+    println(newSim.asInstanceOf[DayStepSimulator].environment.creatures.map(c => c.energy))
+    newSim.asInstanceOf[DayStepSimulator]
   }
-
 }
-
-//class GUIDayStepSimulator(environment: Environment) extends DayStepSimulator(environment) with GUISimulator
-
+class GUIDayStepSimulator(environment: Environment) extends DayStepSimulator(environment) with GUISimulator
 
 
 case class DaySimulator(
@@ -60,7 +61,7 @@ case class DaySimulator(
     DaySimulator(
       nFood,
       nDays - 1,
-      DayStepSimulator(
+      new GUIDayStepSimulator(
         Environment(
           BOUNDARIES,
           Food(nFood, FOOD_RADIUS)(() => Position.randomPosition(BOUNDARIES)),
@@ -71,6 +72,16 @@ case class DaySimulator(
 
   @scala.annotation.tailrec
   private def consumeDay(dayStepSimulator: DayStepSimulator): DayStepSimulator =
-    if (dayStepSimulator.hasNext) consumeDay(dayStepSimulator.next()) else dayStepSimulator
+    if (dayStepSimulator.hasNext) {
+      consumeDay(dayStepSimulator.next())
+    }else dayStepSimulator
+
+}
+
+object prova extends App {
+  val env = Environment(BOUNDARIES, Food(1000, FOOD_RADIUS)(helpers.Strategies.randomPosition(BOUNDARIES)), Creature.makeSet(2000, CREATURES_RADIUS, CREATURES_ENERGY, CREATURES_SPEED)(helpers.Strategies.randomPosition(BOUNDARIES)))
+  val s = new GUIDayStepSimulator(env)
+  val sim = DaySimulator(100, 20, s)
+  sim.next()
 
 }

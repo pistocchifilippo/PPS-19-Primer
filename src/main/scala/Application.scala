@@ -16,7 +16,7 @@ object Application extends SafeApp {
 
   for {
     view <- View.buildWithIO
-    params <- View.collectSimulationParameters
+    //params <- View.collectSimulationParameters
 
     //environment <- Environment
     //c <- IO.now(Controller(view)) //auto build per env

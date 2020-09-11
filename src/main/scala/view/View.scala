@@ -1,11 +1,7 @@
 package view
 
-import java.awt.Dimension
 import java.io.{File, FileWriter, IOException}
-
-import com.sun.xml.internal.ws.developer.Serialization
 import helpers.Configurations._
-import javax.swing.JFrame
 import model.Environment
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console.{getStrLn, putStrLn}
@@ -36,9 +32,9 @@ trait GUI extends View {
   //--> same for both GUICli and GUIFile
 }
 
- class GUICliView() extends CLIView() with GUI
+case class GUICliView() extends CLIView() with GUI
 
- class GUIFileView() extends FileView() with GUI
+case class GUIFileView() extends FileView() with GUI
 
 
 object View {
@@ -68,8 +64,5 @@ object View {
       case ("2", "n") => new GUICliView()
     }
   }
-
-
-
 
 }

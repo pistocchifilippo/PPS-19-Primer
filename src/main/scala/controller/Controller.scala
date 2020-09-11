@@ -27,8 +27,7 @@ case class SMController(view: View) extends Controller {
 
 
 object Controller {
-  def apply(gui: GUI): Controller = TMController(gui)
-  def apply(view: View): Controller = SMController(view)
+
 }
 
 //case class SimulationModeController(override val nDays: Int, override val nBodies: Int, override val nFood: Int) extends Controller {
