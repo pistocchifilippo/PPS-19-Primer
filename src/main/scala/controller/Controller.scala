@@ -2,7 +2,7 @@ package controller
 
 import java.io.IOException
 
-import controller.simulator.{DaySimulator, Simulator}
+import controller.simulator.{DaySimulator, DayStepSimulator, Simulator}
 import helpers.Configurations._
 import helpers.Strategies._
 import model._
@@ -24,11 +24,22 @@ case class SMController(view: View) extends Controller {
   override def execute(sim: DaySimulator): Output = ???
 }
 
-//trait GuiController extends Simulator {
-  //abstract override def next(): GuiController = {
-    //super.next()
-  //}
-//}
+
+trait GUIController extends Simulator {
+
+  private[this] var gui = "GUI"
+
+  abstract override def next(): Simulator = {
+    val newSim = super.next()
+    // gui.update(newSim.environment)
+    newSim
+  }
+
+}
+
+class SimulationView(environment: Environment) extends DayStepSimulator(environment) with GUIController
+
+
 
 
 object Controller {
