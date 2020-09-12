@@ -1,14 +1,29 @@
-import model.Position
-import model.entity.IO.{IOCreature, IOFood}
+import java.io.IOException
 
-import scala.util.Random
+import controller.Controller
+import helpers.Configurations._
+import model.Environment
+import scalaz.ioeffect
+import scalaz.ioeffect.{IO, SafeApp}
+import view.View
 
-object Application extends App {
-  println("Welcome to natural selection simulator!!!")
+import scala.concurrent.duration.{Duration, SECONDS}
+
+object Application extends SafeApp {
+
+  def runApplication: IO[IOException, Unit] =
 
   for {
-    c <- IOCreature.makeIOStarvingCreature(Position(10,10))(10)(10)(10)
-    //f <- IOFood.makeIOFood(Position(10,10))(10)
-    //s <- IOFood.makeIOFoodSet(100)(10)(() => Position(new Random().nextInt(100), new Random().nextInt(100)))
-  } yield println(c)
+    view <- View.buildWithIO
+    params <- View.collectSimulationParameters
+    c <- IO.now(Controller(view.get)(params._1, params._2, params._3)) //auto build per env
+    _ <- IO.now(c.execute())
+    //stats <- c.execute
+    //_ <- IO.sync(view.print("stats"))
+    _ <- IO.sleep(Duration(15, SECONDS))
+  } yield ()
+
+  override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =
+    runApplication.attempt.map(_.fold(_ => 1, _ => 0)).map(ExitStatus.ExitNow(_))
+
 }

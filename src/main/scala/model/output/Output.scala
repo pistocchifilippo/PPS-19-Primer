@@ -1,5 +1,6 @@
 package model.output
 
+<<<<<<< HEAD
 import model.Environment
 
 trait Output {
@@ -20,5 +21,8 @@ object Output {
     override def apply(out: Output): String = ???
 
   }
+=======
+trait Output {
+>>>>>>> dev-guimixin
 
 }
