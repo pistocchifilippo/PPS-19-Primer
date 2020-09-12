@@ -1,41 +1,25 @@
 package view
 
-import java.io.{File, FileWriter, IOException}
-import helpers.Configurations._
+import java.awt.Dimension
+import java.io.IOException
+
+import helpers.Configurations.{BOUNDARIES, SIMULATOR_TITLE}
 import model.Environment
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console.{getStrLn, putStrLn}
+import helpers.Strategies._
+import javax.swing.JFrame
 
-abstract class View {
-  def print(stats: String): IO[IOException, Unit]
+trait SimulationView{
+  def print: String => Unit
+  def update: Environment => Unit
+  def frame: Option[JFrame]
 }
 
- class CLIView() extends View {
-  override def print(stats: String): IO[IOException, Unit] = putStrLn(stats) //print on console
+case class View(override val print: String => Unit)
+               (override val update: Environment => Unit)
+               (override val frame: Option[JFrame]) extends SimulationView {
 }
-
- class FileView() extends View {
-
-  override def print(stats: String): IO[IOException, Unit] = for {
-    out <- IO.now(new File(OUTPUT_PATH))
-    fw <- IO.now(new FileWriter(out))
-    _ <- IO.now(fw.write(stats))
-    _ <- IO.now(fw.close())
-  } yield ()
-  // --> print on file
-}
-
-trait GUI extends View {
-  def update(environment: Environment): Unit = for {
-    panel <- IO.now(new Visualizer(environment))
-  } yield()
-  //--> same for both GUICli and GUIFile
-}
-
-case class GUICliView() extends CLIView() with GUI
-
-case class GUIFileView() extends FileView() with GUI
-
 
 object View {
 
@@ -48,7 +32,7 @@ object View {
     food <- getStrLn
   } yield (days.toInt, bodies.toInt, food.toInt)
 
-  def buildWithIO : IO[IOException, View] = {
+  def buildWithIO : IO[IOException, Option[View]] = {
     for {
       _ <- putStrLn("Welcome to natural selection simulator!!!")
       _ <- putStrLn("Scegli la modalità di esecuzione")
@@ -58,11 +42,21 @@ object View {
       _ <- putStrLn("Stampare le statistiche su file? y/n")
       file <- getStrLn
     } yield (t, file) match {
-      case ("1", "y") => new FileView()
-      case ("1", "n") => new CLIView()
-      case ("2", "y") => new GUIFileView()
-      case ("2", "n") => new GUICliView()
+      case ("1", "y") => Option(View(printFile)(none)(getFrame(false)))
+      case ("1", "n") => Option(View(printCLI)(none)(getFrame(false)))
+      case ("2", "y") => Option(View(printFile)(update)(getFrame(true)))
+      case ("2", "n") => Option(View(printCLI)(update)(getFrame(true)))
+      case _ => Option.empty
     }
   }
+
+  def buildFrame() = new JFrame(SIMULATOR_TITLE){
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    setSize(new Dimension(600, 400))
+    setLocationRelativeTo(null)
+    //setVisible(true)
+    //getContentPane.add(Visualizer(environment))
+  }
+
 
 }

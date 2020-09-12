@@ -1,14 +1,13 @@
 import java.io.IOException
 
 import controller.Controller
-import model.{Environment, Position}
-import model.entity.IO.{IOCreature, IOFood}
+import helpers.Configurations._
+import model.Environment
+import scalaz.ioeffect
 import scalaz.ioeffect.{IO, SafeApp}
 import view.View
-import controller.Controller._
-import scalaz.ioeffect
 
-import scala.util.Random
+import scala.concurrent.duration.{Duration, SECONDS}
 
 object Application extends SafeApp {
 
@@ -16,12 +15,12 @@ object Application extends SafeApp {
 
   for {
     view <- View.buildWithIO
-    //params <- View.collectSimulationParameters
-
-    //environment <- Environment
-    //c <- IO.now(Controller(view)) //auto build per env
+    params <- View.collectSimulationParameters
+    c <- IO.now(Controller(view.get)(params._1, params._2, params._3)) //auto build per env
+    _ <- IO.now(c.execute())
     //stats <- c.execute
     //_ <- IO.sync(view.print("stats"))
+    _ <- IO.sleep(Duration(15, SECONDS))
   } yield ()
 
   override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =
