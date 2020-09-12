@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<module external.linked.project.id="pps-19-primer [file:/Users/filippo/PPS-19-Primer/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
-=======
 <module external.linked.project.id="pps-19-primer [file:/Users/leonardoperugini/Desktop/PPS-19-Primer/]" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
->>>>>>> dev-guimixin
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../target/scala-2.12/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-2.12/test-classes" />
@@ -15,7 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-<<<<<<< HEAD
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
     <orderEntry type="library" name="sbt: org.json:json:20200518:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.scalatest:scalatest_2.12:3.2.0:jar" level="project" />
@@ -34,8 +29,6 @@
     <orderEntry type="library" scope="TEST" name="sbt: org.scalatest:scalatest-core_2.12:3.2.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.scalatest:scalatest-compatible:3.2.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.scalactic:scalactic_2.12:3.2.0:jar" level="project" />
-=======
->>>>>>> dev-guimixin
     <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang.modules:scala-xml_2.12:1.2.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.12.10:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang:scala-reflect:2.12.10:jar" level="project" />
