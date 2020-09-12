@@ -51,7 +51,7 @@ object View {
   }
 
   def buildFrame() = new JFrame(SIMULATOR_TITLE){
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    setDefaultCloseOperation(3)
     setSize(new Dimension(600, 400))
     setLocationRelativeTo(null)
     //setVisible(true)
