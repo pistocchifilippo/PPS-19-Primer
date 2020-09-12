@@ -1,5 +1,6 @@
 package controller.simulator
 
+import controller.SimulationController
 import helpers.Configurations._
 import model.entity.{Creature, Food}
 import model.{Environment, Position}
@@ -36,20 +37,6 @@ case class DayStepSimulator(
 
 }
 
-trait GUISimulator extends Simulator {
-  private[this] var gui = "GUI"
-  abstract override def next(): Simulator = {
-    val newSim = super.next()
-    //gui.update(newSim.environment)
-    println("gui updated")
-
-    //println(newSim.asInstanceOf[DayStepSimulator].environment.creatures)
-    new GUIDayStepSimulator(newSim.environment)
-  }
-}
-class GUIDayStepSimulator(environment: Environment) extends DayStepSimulator(environment) with GUISimulator
-
-
 case class DaySimulator(
                        nFood: Int,
                        nDays: Int,
@@ -79,6 +66,9 @@ case class DaySimulator(
     }else dayStepSimulator
 
 }
+
+class GUIDayStepSimulator(environment: Environment) extends DayStepSimulator(environment) with SimulationController
+
 
 object prova extends App {
   val env = Environment(BOUNDARIES, Food(1000, FOOD_RADIUS)(helpers.Strategies.randomPosition(BOUNDARIES)), Creature.makeSet(2000, CREATURES_RADIUS, CREATURES_ENERGY, CREATURES_SPEED)(helpers.Strategies.randomPosition(BOUNDARIES)))
