@@ -1,6 +1,5 @@
 package helpers
 
-import helpers.Configurations.BOUNDARIES
 import javax.swing.JFrame
 import model.{Boundaries, Environment, Position}
 import view.{View, Visualizer}

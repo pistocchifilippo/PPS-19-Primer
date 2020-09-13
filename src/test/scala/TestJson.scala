@@ -33,8 +33,4 @@ class TestJson extends AnyFunSuite {
 
     assert(Json.parse(json) equals environment.environmentToJson)
   }
-
-
-
-
 }
