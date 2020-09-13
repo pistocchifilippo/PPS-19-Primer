@@ -8,6 +8,8 @@ import play.api.libs.json.{JsObject, Json, Writes}
 
 object PimpModelJson {
 
+  import helpers.json.JsonLabel._
+
 //  implicit class environmentToJson(environment: Environment) {
 //    def creaturesJson: JsObject = Json.obj("Creatures" -> environment.creatures.map(_.toJson))
 ////    def toJson: JsObject = ???
@@ -15,19 +17,19 @@ object PimpModelJson {
 
   implicit class CreatureToJson(c: Creature) {
     def condition: JsObject = {
-      val condition: String = c match {
-        case StarvingCreature(_,_,_,_) => "Starving"
-        case AteCreature(_,_,_,_) => "Ate"
-        case ReproducingCreature(_,_,_,_) => "Reproducing"
+      val cond: String = c match {
+        case StarvingCreature(_,_,_,_) => STARVING
+        case AteCreature(_,_,_,_) => ATE
+        case ReproducingCreature(_,_,_,_) => REPRODUCING
       }
-      Json.obj("Condition" -> condition)
+      Json.obj(CONDITION -> cond)
     }
-    def sizeJson: JsObject = Json.obj("Size" -> c.radius)
-    def speedJson: JsObject = Json.obj("Speed" -> c.speed)
-    def xJson: JsObject = Json.obj("X" -> c.center.x)
-    def yJson: JsObject = Json.obj("Y" -> c.center.y)
+    def sizeJson: JsObject = Json.obj(SIZE -> c.radius)
+    def speedJson: JsObject = Json.obj(SPEED -> c.speed)
+    def xJson: JsObject = Json.obj(X -> c.center.x)
+    def yJson: JsObject = Json.obj(Y -> c.center.y)
 
-    def toJson: JsObject = Json.obj("Creature" -> (condition ++ sizeJson ++ speedJson ++ xJson ++ yJson))
+    def toJson: JsObject = Json.obj(CREATURE -> (condition ++ sizeJson ++ speedJson ++ xJson ++ yJson))
   }
 
 }
