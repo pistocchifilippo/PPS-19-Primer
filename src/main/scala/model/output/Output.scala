@@ -1,8 +1,8 @@
 package model.output
 
-import model.{Boundaries, Environment, Position}
-import model.entity.{Food, StarvingCreature}
+import model.Environment
 import play.api.libs.json.{JsObject, Json}
+import play.api.libs.json.Json._
 
 object Output {
 
@@ -23,13 +23,12 @@ object Output {
         case day :: _ => makeJson(output - day) ++ Json.obj(day.toString -> out(day).environmentToJson)
         case Nil => Json.obj()
       }
-
-      makeJson(out).toString
+      makeJson(out).toString()
     }
   }
 
   object CliParser extends Parser {
-    override def apply(out: Output): String = ???
+    override def apply(out: Output): String = prettyPrint(Json.parse(JsonParser(out)))
   }
 
 }
