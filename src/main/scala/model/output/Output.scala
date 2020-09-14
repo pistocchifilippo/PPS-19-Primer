@@ -1,7 +1,6 @@
 package model.output
 
 import model.Environment
-import play.api.libs.json.{JsObject, Json}
 import play.api.libs.json.Json._
 
 object Output {
@@ -13,16 +12,14 @@ object Output {
 
   private type Parser = Output => String
 
+  import helpers.json.PimpModelJson._
+
   object JsonParser extends Parser {
-
-    import helpers.json.PimpModelJson._
-
     override def apply(out: Output): String = out.outputToJson.toString()
-
   }
 
   object CliParser extends Parser {
-    override def apply(out: Output): String = prettyPrint(Json.parse(JsonParser(out)))
+    override def apply(out: Output): String = prettyPrint(out.outputToJson)
   }
 
 }
