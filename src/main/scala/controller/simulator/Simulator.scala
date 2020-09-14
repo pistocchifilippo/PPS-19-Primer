@@ -29,7 +29,7 @@ case class DayStepSimulator(
     // collisioni => rimozione cibo mangiato => nuovo set di cibo
 
     println("New Step")
-    environment.creatures.map(c => Creature.move(c)(Position.randomPosition(BOUNDARIES)))
+//    environment.creatures.map(c => Creature.move(c)(Position.randomPosition(BOUNDARIES)))
 
     DayStepSimulator(
       Environment(

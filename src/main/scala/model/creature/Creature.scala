@@ -38,10 +38,4 @@ object Creature {
       }
     )
 
-  def move(creature: Creature)(position: Position)(implicit energyConsumption: (Double, Double) => Double): Creature = creature match {
-    case AteCreature(_, speed, energy, radius) => AteCreature(position, speed, energy - energyConsumption(radius, speed), radius)
-    case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energy - energyConsumption(radius, speed), radius)
-    case StarvingCreature(_, speed, energy, radius) => StarvingCreature(position, speed, energy - energyConsumption(radius, speed), radius)
-  }
-
 }
