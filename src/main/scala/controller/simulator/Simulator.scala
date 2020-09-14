@@ -2,10 +2,10 @@ package controller.simulator
 
 import controller.SimulationController
 import helpers.Configurations._
-import model.entity.{Creature, Food}
 import model.{Environment, Position}
 import view.View
 import helpers.Strategies._
+import model.creature.Creature
 
 
 trait Simulator extends Iterator [Simulator] {
@@ -18,7 +18,7 @@ case class DayStepSimulator(
                            view: View
                            ) extends Simulator {
 
-  implicit val kineticConsumption =  Creature.kineticConsumption
+  implicit val kineticConsumption: (Double, Double) => Double =  Creature.kineticConsumption
 
   override def hasNext: Boolean = environment.creatures.count(_.energy > 0) > 0
 

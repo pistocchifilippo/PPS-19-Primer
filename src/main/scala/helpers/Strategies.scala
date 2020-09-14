@@ -3,9 +3,8 @@ package helpers
 import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS}
 import javax.swing.JFrame
 import model.Blob.makeBlobCollection
-import model.entity.Creature.Creature
-import model.entity.{Food, StarvingCreature}
-import model.{Boundaries, Environment, Position}
+import model.creature.{Creature, StarvingCreature}
+import model.{Boundaries, Environment, Food, Position}
 import view.{View, Visualizer}
 
 import scala.util.Random

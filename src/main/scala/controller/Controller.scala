@@ -5,7 +5,6 @@ import model.{Environment, Position}
 import view.{View, Visualizer}
 import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS, SIMULATOR_HEIGHT, SIMULATOR_WIDTH}
 import helpers.Strategies._
-import model.entity.{Creature, Food, StarvingCreature}
 import model.Blob._
 import helpers.Configurations._
 

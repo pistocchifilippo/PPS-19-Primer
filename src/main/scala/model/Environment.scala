@@ -2,8 +2,7 @@ package model
 
 import java.io.IOException
 
-import model.entity._
-import model.entity.Creature._
+import model.creature.Creature
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console.{getStrLn, putStrLn}
 

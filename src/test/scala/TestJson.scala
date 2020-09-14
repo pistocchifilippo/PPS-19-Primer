@@ -1,5 +1,5 @@
-import model.{Boundaries, Environment, Position}
-import model.entity.{AteCreature, Food, StarvingCreature}
+import model.creature.{AteCreature, StarvingCreature}
+import model.{Boundaries, Environment, Food, Position}
 import org.scalatest.funsuite.AnyFunSuite
 import play.api.libs.json.Json
 

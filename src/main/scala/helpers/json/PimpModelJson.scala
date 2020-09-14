@@ -1,8 +1,7 @@
 package helpers.json
 
-import model.Environment
-import model.entity.Creature.Creature
-import model.entity.{AteCreature, Food, ReproducingCreature, StarvingCreature}
+import model.{Environment, Food}
+import model.creature.{AteCreature, Creature, ReproducingCreature, StarvingCreature}
 import model.output.Output.Output
 import play.api.libs.json.{JsObject, Json}
 

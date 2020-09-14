@@ -1,8 +1,4 @@
-package model.entity
-
-import model.{Blob, Position}
-
-import scala.annotation.tailrec
+package model
 
 case class Food(
                center: Position,

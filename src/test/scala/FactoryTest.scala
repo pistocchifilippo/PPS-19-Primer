@@ -1,9 +1,8 @@
-import model.entity.Creature.Creature
-import model.{Blob, Boundaries, Position}
+import model.{Blob, Boundaries, Food, Position}
 import model.Position._
 import model.Boundaries._
+import model.creature.Creature
 import org.scalatest.funsuite.AnyFunSuite
-import model.entity._
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.util.Random

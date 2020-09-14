@@ -1,22 +1,21 @@
 import model.Position
-import model.entity.IO.IOCreature
-import model.entity.{AteCreature, ReproducingCreature, StarvingCreature}
+import model.creature.{AteCreature, ReproducingCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
-import scalaz.ioeffect.IO
 
 class CreatureTest extends AnyFunSuite {
 
-  import model.entity.Creature._
+  import model.creature.Creature._
   implicit val randomPos: () => Position = () => Position(10, 10)
   val featureMutation: Double => Double = e => e * 0.1
+
 
   test("A non ReproducingCreature should not reproduce") {
 
     val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
     val ateCreature = AteCreature(Position(10, 10),10,10,10)
 
-    val child1 = reproduce(starvingCreature)
-    val child2 = reproduce(ateCreature)
+    val child1 = starvingCreature.reproduce(featureMutation)(featureMutation)
+    val child2 = ateCreature.reproduce(featureMutation)(featureMutation)
 
     assert(child1.isEmpty)
     assert(child2.isEmpty)
@@ -25,13 +24,13 @@ class CreatureTest extends AnyFunSuite {
 
   test("A ReproducingCreature should reproduce") {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
-    val child = reproduce(reproducingCreature)
+    val child = reproducingCreature.reproduce(featureMutation)(featureMutation)
     assert(child.nonEmpty)
   }
 
   test("The new creature should be a StarvingCreature") {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
-    val child = reproduce(reproducingCreature)
+    val child = reproducingCreature.reproduce(featureMutation)(featureMutation)
 
     for {
       c <- child
@@ -48,7 +47,7 @@ class CreatureTest extends AnyFunSuite {
 
   test("A StarvingCreature should not survive") {
     val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
-    val cSurvive = survive(starvingCreature)
+    val cSurvive = starvingCreature.survive
 
     assert(!cSurvive)
 
@@ -57,8 +56,8 @@ class CreatureTest extends AnyFunSuite {
   test("A AteCreature and a ReproducingCreature should survive") {
     val ateCreature = AteCreature(Position(10, 10),10,10,10)
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
-    val survive1 = survive(ateCreature)
-    val survive2 = survive(reproducingCreature)
+    val survive1 = ateCreature.survive
+    val survive2 = reproducingCreature.survive
 
     assert(survive1)
     assert(survive2)
@@ -118,7 +117,7 @@ class CreatureTest extends AnyFunSuite {
         } yield AteCreature(Position(10, 10),10,10,x)
       }.toSet
 
-    val evolve = makeEvolutionSet(evolutionSet.toSet)(10)(randomPos)(featureMutation)(featureMutation)
+    val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
 
     assert(evolve.size equals setSize)
   }
@@ -131,9 +130,9 @@ class CreatureTest extends AnyFunSuite {
         for {
           x <- 0 until setSize
         } yield ReproducingCreature(Position(10, 10),10,10,x)
-      }.toSet
+      }
 
-    val evolve = makeEvolutionSet(evolutionSet.toSet)(10)(randomPos)(featureMutation)(featureMutation)
+    val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
 
     assert(evolve.size equals setSize*2)
   }
@@ -147,7 +146,7 @@ class CreatureTest extends AnyFunSuite {
         } yield ReproducingCreature(Position(10, 10),10,10,x)
       }.toSet
 
-    val evolve = makeEvolutionSet(evolutionSet.toSet)(10)(randomPos)(featureMutation)(featureMutation)
+    val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
 
     for {
       c <- evolve
@@ -157,7 +156,6 @@ class CreatureTest extends AnyFunSuite {
           case _ => false
         }
       )
-
   }
 
 
