@@ -7,9 +7,11 @@ object Output {
 
   type Output = Map[Int, Environment]
 
+  def apply(): Output = Map.empty
+  def apply(output: Output): Output = output
   def log(output: Output)(day: Int, environment: Environment): Output = output + (day -> environment)
 
-
+  // Parsing strategy factories
   private type Parser = Output => String
 
   import helpers.json.PimpModelJson._
