@@ -1,11 +1,13 @@
 package controller
 
 import controller.simulator.DaySimulator
-import model.Environment
+import model.{Environment, Position}
 import view.{View, Visualizer}
 import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS, SIMULATOR_HEIGHT, SIMULATOR_WIDTH}
 import helpers.Strategies._
-import model.entity.{Creature, Food}
+import model.entity.{Creature, Food, StarvingCreature}
+import model.Blob._
+import helpers.Configurations._
 
 case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
 
@@ -14,8 +16,8 @@ case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
     println("executing")
     val environment = Environment(
       BOUNDARIES,
-      Food(nFood, FOOD_RADIUS)(randomPosition(BOUNDARIES)),
-      Creature.makeSet(nCreature, CREATURES_RADIUS, CREATURES_ENERGY, CREATURES_SPEED)(randomPosition(BOUNDARIES))
+      makeBoundedFoodCollection(nFood),
+      makeOnBoundsCreaturesCollection(nCreature)
     )
 
 

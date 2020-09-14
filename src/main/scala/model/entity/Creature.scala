@@ -22,17 +22,6 @@ object Creature {
       }
     )
 
-
-  def makeSet(units: Int, radius: Double, energy: Double, speed: Double)(strategy: () => Position): Traversable[Creature] = {
-    @tailrec
-    def _apply(u: Int, creatures: Traversable[Creature], position: Position): Traversable[Creature] = u match {
-      case _ if creatures.exists(c => c == StarvingCreature(position, speed, energy, radius)) => _apply(u, creatures, strategy())
-      case _ if !creatures.exists(c => c == StarvingCreature(position, speed, energy, radius)) && u > 0 => _apply(u - 1, creatures ++ Set(StarvingCreature(position, speed, energy, radius)) , strategy())
-      case _ => creatures
-    }
-    _apply(units, Traversable.empty, strategy())
-  }
-
   //(sizeMutation: Double => Double)(speedMutation: Double => Double)(defaultEnergy: () => Double)
   def reproduce(creature: Creature)(implicit newPosition: () => Position): Option[Creature] = creature match {
     case ReproducingCreature(_, speed, energy, radius) => Some(StarvingCreature(newPosition(), speed, energy, radius))
@@ -50,5 +39,15 @@ object Creature {
     case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energy - energyConsumption(radius, speed), radius)
     case StarvingCreature(_, speed, energy, radius) => StarvingCreature(position, speed, energy - energyConsumption(radius, speed), radius)
   }
+
+  //  def makeSet(units: Int, radius: Double, energy: Double, speed: Double)(strategy: () => Position): Traversable[Creature] = {
+  //    @tailrec
+  //    def _apply(u: Int, creatures: Traversable[Creature], position: Position): Traversable[Creature] = u match {
+  //      case _ if creatures.exists(c => c == StarvingCreature(position, speed, energy, radius)) => _apply(u, creatures, strategy())
+  //      case _ if !creatures.exists(c => c == StarvingCreature(position, speed, energy, radius)) && u > 0 => _apply(u - 1, creatures ++ Set(StarvingCreature(position, speed, energy, radius)) , strategy())
+  //      case _ => creatures
+  //    }
+  //    _apply(units, Traversable.empty, strategy())
+  //  }
 
 }

@@ -1,5 +1,5 @@
 import model.entity.Creature.Creature
-import model.{Boundaries, Position}
+import model.{Blob, Boundaries, Position}
 import model.Position._
 import model.Boundaries._
 import org.scalatest.funsuite.AnyFunSuite
@@ -10,13 +10,13 @@ import scala.util.Random
 
 class FactoryTest extends AnyFunSuite {
 
-  val bounds : Boundaries = Boundaries(Position(0,0), Position(100, 100))
+  import helpers.Strategies._
+  import helpers.Configurations._
 
-  val foodstrategy : () => Position = () => randomPosition(bounds)
-  val creaturestrategy : () => Position = () => randomEdgePosition(bounds)
+  val bounds: Boundaries = BOUNDARIES
 
-  val foodSet: Traversable[Food] = Food(units = 100, radius = 10)(foodstrategy)
-  val creatureSet: Traversable[Creature] = Creature.makeSet(100, 10, 10, 10)(creaturestrategy)
+  val foodSet: Traversable[Food] = makeBoundedFoodCollection(100)
+  val creatureSet: Traversable[Creature] = makeOnBoundsCreaturesCollection(100)
 
   test("Food coordinates should all be between boundaries"){
     assert(foodSet.forall(f => isInside(bounds, f.center)))
@@ -27,8 +27,8 @@ class FactoryTest extends AnyFunSuite {
   }
 
   test("The factory should return a Set of given size"){
-    assert(Food(100, 10)(foodstrategy).size == 100)
-    assert(Creature.makeSet(100, 10, 10, 10)(creaturestrategy).size == 100)
+    assert(foodSet.size == 100)
+    assert(creatureSet.size == 100)
   }
 
 }

@@ -5,6 +5,7 @@ import helpers.Configurations._
 import model.entity.{Creature, Food}
 import model.{Environment, Position}
 import view.View
+import helpers.Strategies._
 
 
 trait Simulator extends Iterator [Simulator] {
@@ -57,7 +58,7 @@ case class DaySimulator(
       nDays - 1,
       Environment(
         BOUNDARIES,
-        Food(nFood, FOOD_RADIUS)(() => Position.randomPosition(BOUNDARIES)),
+        makeBoundedFoodCollection(nFood),
         Creature.makeEvolutionSet(consumeDay(
           DayStepSimulator(environment, view)
         ).environment.creatures)(CREATURES_ENERGY)(() => Position.randomEdgePosition(BOUNDARIES))(p => p)(s => s)

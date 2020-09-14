@@ -8,7 +8,7 @@ object IOFood {
 
   def makeIOFood(center: Position)(radius: Double): IO[Void, Food] = IO.now(Food(center, radius))
 
-  def makeIOFoodSet(units: Int)(radius: Double)(strategy: () => Position): IO[Void, Traversable[Food]] = IO.now(
-    Food(units, radius)(strategy)
-  )
+//  def makeIOFoodSet(units: Int)(radius: Double)(strategy: () => Position): IO[Void, Traversable[Food]] = IO.now(
+//    Food(units, radius)(strategy)
+//  )
 }
