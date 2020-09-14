@@ -16,12 +16,15 @@ object Strategies {
   def printCLI(s: String): Unit = println(s)
   def printFile(s: String): Unit = println(s)
 
-  def none(environment: Environment) {}
+  def none(environment: Environment, frame: JFrame) {}
 
-  def update(environment: Environment): Option[Visualizer] = {
+  def update(environment: Environment, frame: JFrame): Option[Visualizer] = {
     println("Update")
+    frame.getContentPane.removeAll()
+    frame.getContentPane.add(Visualizer(environment))
     Option(Visualizer(environment))
   }
+
   /*
   def update(bool: Boolean, environment: Environment) = {
     println("Update")

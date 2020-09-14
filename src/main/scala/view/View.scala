@@ -3,7 +3,7 @@ package view
 import java.awt.Dimension
 import java.io.IOException
 
-import helpers.Configurations.{BOUNDARIES, SIMULATOR_TITLE}
+import helpers.Configurations.{BOUNDARIES, SIMULATOR_HEIGHT, SIMULATOR_TITLE, SIMULATOR_WIDTH}
 import model.Environment
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console.{getStrLn, putStrLn}
@@ -12,12 +12,12 @@ import javax.swing.JFrame
 
 trait SimulationView{
   def print: String => Unit
-  def update: Environment => Unit
+  def update: (Environment, JFrame) => Unit
   def frame: Option[JFrame]
 }
 
 case class View(override val print: String => Unit)
-               (override val update: Environment => Unit)
+               (override val update: (Environment, JFrame) => Unit)
                (override val frame: Option[JFrame]) extends SimulationView {
 }
 
@@ -52,7 +52,7 @@ object View {
 
   def buildFrame() = new JFrame(SIMULATOR_TITLE){
     setDefaultCloseOperation(3)
-    setSize(new Dimension(600, 400))
+    setSize(new Dimension(SIMULATOR_WIDTH, SIMULATOR_HEIGHT))
     setLocationRelativeTo(null)
     //setVisible(true)
     //getContentPane.add(Visualizer(environment))

@@ -4,14 +4,17 @@ import controller.SimulationController
 import helpers.Configurations._
 import model.entity.{Creature, Food}
 import model.{Environment, Position}
+import view.View
 
 
 trait Simulator extends Iterator [Simulator] {
   def environment: Environment
+  def view: View
 }
 
 case class DayStepSimulator(
-                           environment: Environment
+                           environment: Environment,
+                           view: View
                            ) extends Simulator {
 
   implicit val kineticConsumption =  Creature.kineticConsumption
@@ -25,13 +28,14 @@ case class DayStepSimulator(
     // collisioni => rimozione cibo mangiato => nuovo set di cibo
 
     println("New Step")
+    environment.creatures.map(c => Creature.move(c)(Position.randomPosition(BOUNDARIES)))
 
     DayStepSimulator(
       Environment(
         BOUNDARIES,
         environment.food, // con cibo rimosso
-        environment.creatures.map(c => Creature.move(c)(Position.randomPosition(BOUNDARIES)))
-      )
+        environment.creatures
+      ), view
     )
   }
 
@@ -41,6 +45,7 @@ case class DaySimulator(
                        nFood: Int,
                        nDays: Int,
                        environment: Environment,
+                       view: View
                        ) extends Simulator {
 
   override def hasNext: Boolean = nDays > 0
@@ -54,9 +59,10 @@ case class DaySimulator(
         BOUNDARIES,
         Food(nFood, FOOD_RADIUS)(() => Position.randomPosition(BOUNDARIES)),
         Creature.makeEvolutionSet(consumeDay(
-          DayStepSimulator(environment)
+          DayStepSimulator(environment, view)
         ).environment.creatures)(CREATURES_ENERGY)(() => Position.randomEdgePosition(BOUNDARIES))(p => p)(s => s)
-      )
+      ),
+      view
     )}
 
   @scala.annotation.tailrec
@@ -67,13 +73,13 @@ case class DaySimulator(
 
 }
 
-class GUIDayStepSimulator(environment: Environment) extends DayStepSimulator(environment) with SimulationController
+class GUIDayStepSimulator(environment: Environment, view: View) extends DayStepSimulator(environment, view) with SimulationController
 
 
 object prova extends App {
-  val env = Environment(BOUNDARIES, Food(1000, FOOD_RADIUS)(helpers.Strategies.randomPosition(BOUNDARIES)), Creature.makeSet(2000, CREATURES_RADIUS, CREATURES_ENERGY, CREATURES_SPEED)(helpers.Strategies.randomPosition(BOUNDARIES)))
-//  val s = new GUIDayStepSimulator(env)
-  val sim = DaySimulator(100, 20, env)
-  sim.next()
+  //val env = Environment(BOUNDARIES, Food(1000, FOOD_RADIUS)(helpers.Strategies.randomPosition(BOUNDARIES)), Creature.makeSet(2000, CREATURES_RADIUS, CREATURES_ENERGY, CREATURES_SPEED)(helpers.Strategies.randomPosition(BOUNDARIES)))
+  //val s = new GUIDayStepSimulator(env)
+  //val sim = DaySimulator(100, 20, env)
+  //sim.next()
 
 }

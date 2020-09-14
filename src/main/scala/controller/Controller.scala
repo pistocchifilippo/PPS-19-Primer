@@ -3,7 +3,7 @@ package controller
 import controller.simulator.DaySimulator
 import model.Environment
 import view.{View, Visualizer}
-import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS}
+import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS, SIMULATOR_HEIGHT, SIMULATOR_WIDTH}
 import helpers.Strategies._
 import model.entity.{Creature, Food}
 
@@ -11,7 +11,7 @@ case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
 
   def execute(): Unit = { //BOZZA
     //creo environment
-
+    println("executing")
     val environment = Environment(
       BOUNDARIES,
       Food(nFood, FOOD_RADIUS)(randomPosition(BOUNDARIES)),
@@ -25,15 +25,22 @@ case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
     val simulator = DaySimulator(
       nFood,
       nDays,
-      environment)
+      environment,
+      view)
      // --> aggiungere view come parametro?
      // --> rimuovere nFood come parametro? recuperabile da environment.food.size anche all'interno
 
     view.frame match {
-      case Some(jFrame) => {
-        jFrame.setVisible(true)
-        jFrame.getContentPane.removeAll()
-        jFrame.getContentPane.add(Visualizer(environment))
+      case Some(jf) => {
+        print("something")
+        jf.setVisible(true)
+        jf.getContentPane.removeAll()
+        val visualizer: Visualizer = Visualizer(environment)
+        jf.getContentPane.add(visualizer)
+        visualizer.repaint()
+        visualizer.validate()
+        visualizer.display()
+        jf.setSize(SIMULATOR_WIDTH+1, SIMULATOR_HEIGHT+1)
       }
       case None => {}
     }
