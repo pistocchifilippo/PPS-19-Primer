@@ -17,14 +17,8 @@ object Output {
 
     import helpers.json.PimpModelJson._
 
-    override def apply(out: Output): String = {
+    override def apply(out: Output): String = out.outputToJson.toString()
 
-      def makeJson(output: Output): JsObject = output.keySet.toList match {
-        case day :: _ => makeJson(output - day) ++ Json.obj(day.toString -> out(day).environmentToJson)
-        case Nil => Json.obj()
-      }
-      makeJson(out).toString()
-    }
   }
 
   object CliParser extends Parser {
