@@ -26,7 +26,7 @@ object PimpModelJson {
     def environmentToJson: JsObject = Json.obj(ENVIRONMENT -> (creaturesToJson ++ foodsToJson))
   }
 
-  implicit class foodToJson(f: Food) {
+  implicit class FoodToJson(f: Food) {
     def xJson: JsObject = Json.obj(X -> f.center.x)
     def yJson: JsObject = Json.obj(Y -> f.center.y)
     def positionJson: JsObject = Json.obj(POSITION -> (xJson ++ yJson))
