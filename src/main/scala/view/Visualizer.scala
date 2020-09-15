@@ -19,11 +19,6 @@ case class Visualizer(environment: Environment) extends JPanel {
     g2.clearRect(0, 0, SIMULATOR_WIDTH, SIMULATOR_HEIGHT)
     environment.creatures.foreach(c => g2.drawOval(c.center.x.toInt, c.center.y.toInt, c.radius.toInt, c.radius.toInt))
     environment.food.foreach(f => g2.drawOval(f.center.x.toInt, f.center.y.toInt, f.radius.toInt, f.radius.toInt))
-    println("repaint")
   }
 
-  def display(/*environment: Environment*/): Unit = {
-    println("display")
-    this.repaint()
-  }
 }

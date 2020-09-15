@@ -24,25 +24,18 @@ object Strategies {
   def printCLI(s: String): Unit = println(s)
   def printFile(s: String): Unit = println(s)
 
-  def none(environment: Environment, frame: JFrame) {}
-
-  def update(environment: Environment, frame: JFrame): Option[Visualizer] = {
-    println("Update")
-    frame.getContentPane.removeAll()
-    frame.getContentPane.add(Visualizer(environment))
-    Option(Visualizer(environment))
+  def update(environment: Environment, jframe: Option[JFrame]): Option[Visualizer] = jframe match {
+    case Some(frame) => {
+      frame.getContentPane.removeAll()
+      val visualizer = Visualizer(environment)
+      frame.getContentPane.add(visualizer)
+      Option(visualizer)
+    }
+    case _ => Option.empty
   }
-
-  /*
-  def update(bool: Boolean, environment: Environment) = {
-    println("Update")
-    Option(Visualizer(environment))
-  }
-   */
 
   def getFrame(bool: Boolean): Option[JFrame] = bool match {
     case _ if bool => Option(View.buildFrame())
-    //case _ if bool => Option(View.buildFrame(Environment(BOUNDARIES, Traversable(), Traversable())))
     case _ => Option.empty
   }
 }
