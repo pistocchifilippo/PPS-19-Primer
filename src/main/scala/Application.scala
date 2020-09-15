@@ -14,10 +14,18 @@ object Application extends SafeApp {
   def runApplication: IO[IOException, Unit] =
 
   for {
-    view <- View.buildWithIO
-    params <- View.collectSimulationParameters
-    c <- IO.now(Controller(view.get)(params._1, params._2, params._3)) //auto build per env
-    _ <- IO.now(c.execute())
+    parameters <- View.buildWithIO
+    controller <- IO.now(
+      parameters match {
+        case Some(params) => Option(Controller(params.view)(params.nDays, params.nCreatures, params.nFood))
+        case _ => Option.empty
+    })
+    _ <- IO.now(
+      controller match {
+        case Some(contr) => Option(contr.execute())
+        case _ => Option.empty
+      }
+    )
     //stats <- c.execute
     //_ <- IO.sync(view.print("stats"))
     _ <- IO.sleep(Duration(15, SECONDS))
