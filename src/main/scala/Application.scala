@@ -26,6 +26,7 @@ object Application extends SafeApp {
         case _ => Option.empty
       }
     )
+    //_ <- parameters.get.view.print("ciao")
     //stats <- c.execute
     //_ <- IO.sync(view.print("stats"))
     _ <- IO.sleep(Duration(15, SECONDS))

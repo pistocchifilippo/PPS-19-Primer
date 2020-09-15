@@ -34,6 +34,7 @@ case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
         visualizer.repaint()
         view.frame.get.setSize(SIMULATOR_WIDTH+1, SIMULATOR_HEIGHT+1)
       }
+      case _ =>
     }
 
     // display view

@@ -1,14 +1,13 @@
 package helpers
 
-import java.io.{File, FileWriter}
-
-import com.sun.xml.internal.ws.developer.Serialization
-import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS}
+import java.io._
+import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS, OUTPUT_PATH}
 import javax.swing.JFrame
 import model.Blob.makeBlobCollection
 import model.creature.{Creature, StarvingCreature}
 import model.{Boundaries, Environment, Food, Position}
 import scalaz.ioeffect.IO
+import scalaz.ioeffect.console._
 import view.{View, Visualizer}
 
 import scala.util.Random
@@ -25,17 +24,15 @@ object Strategies {
   def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomBoundedPosition, FOOD_RADIUS))(nFood)
   def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomBoundedEdgePosition, CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
 
-  def printCLI(s: String): Unit = println(s)
-  def printFile(s: String): Unit = {
-    for {
-      f <- IO.now(new File("hello.json"))
-      w <- IO.now(new FileWriter(f))
-      _ <- IO.now({
-        w.write(s)
-        w.close()
-      })
+  def printCLI(s: String): IO[IOException, Unit] = putStrLn(s)
+
+  def printFile(s: String): IO[IOException, Unit] = for {
+      file <- IO.now(new File("hello.json"))
+      w <- IO.now(new FileWriter(file))
+      _ <- IO.sync(w.write(s))
+      _ <- IO.now(w.close())
+      // _ <- putStrLn(s)
     } yield ()
-  }
 
   def update(environment: Environment, jframe: Option[JFrame]): Option[Visualizer] = {
     println("update call")

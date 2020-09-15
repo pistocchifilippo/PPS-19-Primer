@@ -11,12 +11,12 @@ import helpers.Strategies._
 import javax.swing.JFrame
 
 trait SimulationView{
-  def print: String => Unit
+  def print: String => IO[IOException, Unit]
   def update: (Environment, Option[JFrame]) => Option[Visualizer]
   def frame: Option[JFrame]
 }
 
-case class View(override val print: String => Unit)
+case class View(override val print: String => IO[IOException, Unit])
                (override val update: (Environment, Option[JFrame]) => Option[Visualizer])
                (override val frame: Option[JFrame]) extends SimulationView {
 }
@@ -61,3 +61,4 @@ object View {
 
 
 }
+
