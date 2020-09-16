@@ -1,8 +1,9 @@
 package model.creature.movement
 
-import helpers.Configurations.GOAL_RADIUS
-import helpers.Strategies.randomBoundedPosition
+import com.sun.tools.classfile.TypeAnnotation.Position
+import helpers.Configurations.{BOUNDARIES, GOAL_RADIUS}
 import model.creature.Creature
+import model.Position._
 import model.{Blob, BlobImplementation}
 
 trait Movement extends Creature { c: Creature =>
@@ -13,5 +14,5 @@ trait Movement extends Creature { c: Creature =>
     case MAteCreature(center, speed, energy, radius, _) => MAteCreature(center, speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
   }
 
-  private def computeGoal: Movement => Blob = creature => if (Blob.collide(creature)(creature.goal)) BlobImplementation(randomBoundedPosition, GOAL_RADIUS) else creature.goal
+  private def computeGoal: Movement => Blob = creature => if (Blob.collide(creature)(creature.goal)) BlobImplementation(randomPosition(BOUNDARIES), GOAL_RADIUS) else creature.goal
 }
