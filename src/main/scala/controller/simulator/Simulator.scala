@@ -58,7 +58,6 @@ case class DaySimulator(executedStep: Int,
                   makeBoundedFoodCollection(nFood),
                   MovingCreature.makeEvolutionSet(consumeDay(
                     DayStepSimulator(0, environment, view)).environment.creatures)
-                                            (CREATURES_ENERGY)
                                             (() => Position.randomEdgePosition(BOUNDARIES))
                                             (p => p)
                                             (s => s)),

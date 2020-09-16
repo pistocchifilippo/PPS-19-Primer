@@ -118,7 +118,7 @@ class CreatureTest extends AnyFunSuite {
         } yield AteCreature(Position(10, 10),10,10,x, randomGoal)
       }.toSet
 
-    val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
+    val evolve = makeEvolutionSet(evolutionSet)(randomPos)(featureMutation)(featureMutation)
 
     assert(evolve.size equals setSize)
   }
@@ -133,7 +133,7 @@ class CreatureTest extends AnyFunSuite {
         } yield ReproducingCreature(Position(10, 10),10,10,x, randomGoal)
       }
 
-    val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
+    val evolve = makeEvolutionSet(evolutionSet)(randomPos)(featureMutation)(featureMutation)
 
     assert(evolve.size equals setSize*2)
   }
@@ -147,7 +147,7 @@ class CreatureTest extends AnyFunSuite {
         } yield ReproducingCreature(Position(10, 10),10,10,x, randomGoal)
       }.toSet
 
-    val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
+    val evolve = makeEvolutionSet(evolutionSet)(randomPos)(featureMutation)(featureMutation)
 
     for {
       c <- evolve
