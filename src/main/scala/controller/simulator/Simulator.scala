@@ -1,16 +1,15 @@
 package controller.simulator
 
-import controller.SimulationController
+//import controller.SimulationController
 import helpers.Configurations._
 import model.{Environment, Position}
-import view.View
+import view.{View, Visualizer}
 import helpers.Strategies._
 import model.creature.Creature
 
 
 trait Simulator extends Iterator [Simulator] {
   def environment: Environment
-  def view: View
 }
 
 case class DayStepSimulator(environment: Environment, view: View) extends Simulator {
@@ -32,8 +31,8 @@ case class DayStepSimulator(environment: Environment, view: View) extends Simula
     DayStepSimulator(
       Environment(BOUNDARIES,
                   environment.food, // con cibo rimosso
-                  environment.creatures),
-      view)
+                  environment.creatures)
+      ,view)
   }
 
 }
@@ -41,7 +40,7 @@ case class DayStepSimulator(environment: Environment, view: View) extends Simula
 case class DaySimulator(nFood: Int,
                          nDays: Int,
                          environment: Environment,
-                         view: View
+                        view: View
                          ) extends Simulator {
 
   override def hasNext: Boolean = nDays > 0
@@ -53,7 +52,8 @@ case class DaySimulator(nFood: Int,
       nDays - 1,
       Environment(BOUNDARIES,
                   makeBoundedFoodCollection(nFood),
-                  Creature.makeEvolutionSet(consumeDay(DayStepSimulator(environment, view)).environment.creatures)
+                  Creature.makeEvolutionSet(consumeDay(
+                    DayStepSimulator(environment, view)).environment.creatures)
                                             (CREATURES_ENERGY)
                                             (() => Position.randomEdgePosition(BOUNDARIES))
                                             (p => p)
@@ -69,7 +69,7 @@ case class DaySimulator(nFood: Int,
 
 }
 
-class GUIDayStepSimulator(environment: Environment, view: View) extends DayStepSimulator(environment, view) with SimulationController
+//class GUIDayStepSimulator(environment: Environment, view: View) extends DayStepSimulator(environment, view) with SimulationController
 
 
 object prova extends App {
@@ -78,5 +78,4 @@ object prova extends App {
   val s = DayStepSimulator(env, view)
   val sim = DaySimulator(100, 20, env, view)
   sim.next()
-
 }

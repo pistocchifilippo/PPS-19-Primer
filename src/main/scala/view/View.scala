@@ -9,14 +9,15 @@ import scalaz.ioeffect.IO
 import scalaz.ioeffect.console.{getStrLn, putStrLn}
 import helpers.Strategies._
 import javax.swing.JFrame
+import model.output.Output.Output
 
 trait SimulationView{
-  def print: String => IO[IOException, Unit]
+  def print: Output => IO[IOException, Unit]
   def update: (Environment, Option[JFrame]) => Option[Visualizer]
   def frame: Option[JFrame]
 }
 
-case class View(override val print: String => IO[IOException, Unit])
+case class View(override val print: Output => IO[IOException, Unit])
                (override val update: (Environment, Option[JFrame]) => Option[Visualizer])
                (override val frame: Option[JFrame]) extends SimulationView {
 }
