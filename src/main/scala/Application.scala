@@ -1,6 +1,6 @@
 import java.io.IOException
 
-import controller.Controller
+import controller.ApplicationController
 import controller.simulator.DaySimulator
 import helpers.Configurations._
 import helpers.Strategies._
@@ -16,7 +16,7 @@ object Application extends SafeApp {
     parameters <- View.buildWithIO
     environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(parameters.get.nFood), makeOnBoundsCreaturesCollection(parameters.get.nCreatures)))
     simulator <- IO.now(DaySimulator(0, parameters.get.nFood, parameters.get.nDays, environment, parameters.get.view))
-    controller <- IO.now(Controller())
+    controller <- IO.now(ApplicationController())
     output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
     _ <- IO.sync(parameters.get.view.print(output))
   } yield ()
