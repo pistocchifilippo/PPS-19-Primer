@@ -3,6 +3,7 @@ package controller.simulator
 import helpers.Configurations._
 import helpers.Strategies._
 import model.creature.Creature
+import model.creature.movement.MovingCreature
 import model.{Environment, Position}
 import view.View
 
@@ -14,7 +15,7 @@ trait Simulator extends Iterator [Simulator] {
 
 case class DayStepSimulator(executedStep: Int, environment: Environment, view: View) extends Simulator {
 
-  implicit val kineticConsumption: (Double, Double) => Double =  Creature.kineticConsumption
+  implicit val kineticConsumption: (Double, Double) => Double =  MovingCreature.kineticConsumption
 
   override def hasNext: Boolean = environment.creatures.count(_.energy > 0) > 0
 
@@ -55,7 +56,7 @@ case class DaySimulator(executedStep: Int,
       nDays - 1,
       Environment(BOUNDARIES,
                   makeBoundedFoodCollection(nFood),
-                  Creature.makeEvolutionSet(consumeDay(
+                  MovingCreature.makeEvolutionSet(consumeDay(
                     DayStepSimulator(0, environment, view)).environment.creatures)
                                             (CREATURES_ENERGY)
                                             (() => Position.randomEdgePosition(BOUNDARIES))

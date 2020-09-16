@@ -1,7 +1,8 @@
 package helpers.json
 
+import model.creature.Creature
+import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreature}
 import model.{Environment, Food}
-import model.creature.{AteCreature, Creature, ReproducingCreature, StarvingCreature}
 import model.output.Output.Output
 import play.api.libs.json.{JsObject, Json}
 
@@ -36,9 +37,9 @@ object PimpModelJson {
 
     def condition: JsObject = {
       val cond: String = c match {
-        case StarvingCreature(_,_,_,_) => STARVING
-        case AteCreature(_,_,_,_) => ATE
-        case ReproducingCreature(_,_,_,_) => REPRODUCING
+        case StarvingCreature(_,_,_,_,_) => STARVING
+        case AteCreature(_,_,_,_,_) => ATE
+        case ReproducingCreature(_,_,_,_,_) => REPRODUCING
       }
       Json.obj(CONDITION -> cond)
     }

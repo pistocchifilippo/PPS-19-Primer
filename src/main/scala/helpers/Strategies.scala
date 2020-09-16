@@ -6,10 +6,11 @@ import helpers.Configurations._
 import javax.swing.JFrame
 import model.Blob.makeBlobCollection
 import model.Position._
-import model.creature.{Creature, StarvingCreature}
+import model.creature.Creature
+import model.creature.movement.StarvingCreature
 import model.output.Output
 import model.output.Output.Output
-import model.{Environment, Food, Position}
+import model.{Blob, BlobImplementation, Environment, Food, Position}
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console._
 import view.{View, Visualizer}
@@ -20,15 +21,16 @@ object Strategies {
 //    () => Position(Random.nextInt(boundaries.bottomRight.x.toInt),
 //      Random.nextInt(boundaries.bottomRight.y.toInt))
 
-//  val randomBoundedPosition: Position = Position.randomPosition(BOUNDARIES)
-//  val randomBoundedEdgePosition: Position = Position.randomEdgePosition(BOUNDARIES)
+  def randomBoundedPosition: Position = Position.randomPosition(BOUNDARIES)
+  def randomBoundedEdgePosition: Position = Position.randomEdgePosition(BOUNDARIES)
 
 //  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomBoundedPosition, FOOD_RADIUS))(nFood)
 //  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomBoundedEdgePosition, CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
 
+  def randomGoal: Blob = BlobImplementation(randomBoundedPosition, GOAL_RADIUS)
 
   def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomPosition(BOUNDARIES), FOOD_RADIUS))(nFood)
-  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
+  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
 
   def printCLI(output: Output): IO[IOException, Unit] = putStrLn(Output.CliParser(output))
 

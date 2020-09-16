@@ -1,18 +1,19 @@
 import model.Position
-import model.creature.{AteCreature, ReproducingCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
+import helpers.Strategies._
+import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreature}
 
 class CreatureTest extends AnyFunSuite {
 
-  import model.creature.Creature._
+  import model.creature.movement.MovingCreature._
   implicit val randomPos: () => Position = () => Position(10, 10)
   val featureMutation: Double => Double = e => e * 0.1
 
 
   test("A non ReproducingCreature should not reproduce") {
 
-    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
-    val ateCreature = AteCreature(Position(10, 10),10,10,10)
+    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
+    val ateCreature = AteCreature(Position(10, 10),10,10,10, randomGoal)
 
     val child1 = starvingCreature.reproduce(featureMutation)(featureMutation)
     val child2 = ateCreature.reproduce(featureMutation)(featureMutation)
@@ -23,13 +24,13 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A ReproducingCreature should reproduce") {
-    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
     val child = reproducingCreature.reproduce(featureMutation)(featureMutation)
     assert(child.nonEmpty)
   }
 
   test("The new creature should be a StarvingCreature") {
-    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
     val child = reproducingCreature.reproduce(featureMutation)(featureMutation)
 
     for {
@@ -37,7 +38,7 @@ class CreatureTest extends AnyFunSuite {
     } yield {
       assert(
         c match {
-          case StarvingCreature(_, _, _, _) => true
+          case StarvingCreature(_, _, _, _,_) => true
           case _ => false
         }
       )
@@ -46,7 +47,7 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A StarvingCreature should not survive") {
-    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
+    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
     val cSurvive = starvingCreature.survive
 
     assert(!cSurvive)
@@ -54,8 +55,8 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("A AteCreature and a ReproducingCreature should survive") {
-    val ateCreature = AteCreature(Position(10, 10),10,10,10)
-    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val ateCreature = AteCreature(Position(10, 10),10,10,10, randomGoal)
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
     val survive1 = ateCreature.survive
     val survive2 = reproducingCreature.survive
 
@@ -65,15 +66,15 @@ class CreatureTest extends AnyFunSuite {
   }
 
   test("Position should change") {
-    val creature = StarvingCreature(Position(10, 10),10,10,10)
+    val creature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
 //    val movedCreature = move(creature)(Position(30,5))
 //    assert(movedCreature.center equals Position(30,5))
   }
 
   test("Creature class should not change") {
-    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10)
-    val ateCreature = AteCreature(Position(10, 10),10,10,10)
-    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10)
+    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
+    val ateCreature = AteCreature(Position(10, 10),10,10,10, randomGoal)
+    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
 
 //    assert(
 ////      move(starvingCreature)(Position(30,5)) match {
@@ -100,7 +101,7 @@ class CreatureTest extends AnyFunSuite {
 
   test("Energy should be lower") {
     val energy = 100000
-    val creature = StarvingCreature(Position(10, 10),10, energy,20)
+    val creature = StarvingCreature(Position(10, 10),10, energy,20, randomGoal)
 //    val movedCreature = move(creature)(Position(30,5))(kineticConsumption)
 //
 //    assert(movedCreature.energy < energy)
@@ -114,7 +115,7 @@ class CreatureTest extends AnyFunSuite {
       {
         for {
           x <- 0 until setSize
-        } yield AteCreature(Position(10, 10),10,10,x)
+        } yield AteCreature(Position(10, 10),10,10,x, randomGoal)
       }.toSet
 
     val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
@@ -129,7 +130,7 @@ class CreatureTest extends AnyFunSuite {
       {
         for {
           x <- 0 until setSize
-        } yield ReproducingCreature(Position(10, 10),10,10,x)
+        } yield ReproducingCreature(Position(10, 10),10,10,x, randomGoal)
       }
 
     val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
@@ -143,7 +144,7 @@ class CreatureTest extends AnyFunSuite {
       {
         for {
           x <- 0 until setSize
-        } yield ReproducingCreature(Position(10, 10),10,10,x)
+        } yield ReproducingCreature(Position(10, 10),10,10,x, randomGoal)
       }.toSet
 
     val evolve = makeEvolutionSet(evolutionSet)(10)(randomPos)(featureMutation)(featureMutation)
@@ -152,7 +153,7 @@ class CreatureTest extends AnyFunSuite {
       c <- evolve
     } yield
       assert(c match {
-          case StarvingCreature(_,_,_,_) => true
+          case StarvingCreature(_,_,_,_,_) => true
           case _ => false
         }
       )
