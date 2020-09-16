@@ -1,35 +1,24 @@
 import java.io.IOException
 
 import controller.Controller
+import controller.simulator.DaySimulator
 import helpers.Configurations._
+import helpers.Strategies._
 import model.Environment
 import scalaz.ioeffect
 import scalaz.ioeffect.{IO, SafeApp}
 import view.View
 
-import scala.concurrent.duration.{Duration, SECONDS}
-
 object Application extends SafeApp {
 
-  def runApplication: IO[IOException, Unit] =
-
-  for {
+  def runApplication: IO[IOException, Unit] = for {
+    // gestione parametri errati
     parameters <- View.buildWithIO
-    controller <- IO.now(
-      parameters match {
-        case Some(params) => Option(Controller(params.view)(params.nDays, params.nCreatures, params.nFood))
-        case _ => Option.empty
-    })
-    _ <- IO.now(
-      controller match {
-        case Some(contr) => Option(contr.execute())
-        case _ => Option.empty
-      }
-    )
-    //_ <- parameters.get.view.print("ciao")
-    //stats <- c.execute
-    //_ <- IO.sync(view.print("stats"))
-    _ <- IO.sleep(Duration(15, SECONDS))
+    environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(parameters.get.nFood), makeOnBoundsCreaturesCollection(parameters.get.nCreatures)))
+    simulator <- IO.now(DaySimulator(parameters.get.nFood, parameters.get.nDays, environment, parameters.get.view))
+    controller <- IO.now(Controller())
+    output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
+    _ <- IO.sync(parameters.get.view.print(output))
   } yield ()
 
   override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =

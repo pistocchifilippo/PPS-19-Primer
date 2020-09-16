@@ -1,33 +1,30 @@
 package controller
 
-import controller.simulator.DaySimulator
+import controller.simulator.{DaySimulator, Simulator}
 import model.{Environment, Position}
 import view.{View, Visualizer}
 import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS, SIMULATOR_HEIGHT, SIMULATOR_WIDTH}
 import helpers.Strategies._
 import model.Blob._
 import helpers.Configurations._
+import model.output.Output
+import model.output.Output._
 
-case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
+//case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
+case class Controller(){
 
-  def execute(): Unit = {
-    //BOZZA
+  var output : Output = Output()
 
-    //creo environment
-    val environment = Environment(
-      BOUNDARIES,
-      makeBoundedFoodCollection(nFood),
-      makeOnBoundsCreaturesCollection(nCreature)
-    )
+  //def execute(simulator: Simulator): Unit = {
+  def execute(simulator: Simulator): Output = {
 
-    // creo simulator
-    val simulator = DaySimulator(
-      nFood,
-      nDays,
-      environment,
-      view)
-     // --> rimuovere nFood come parametro? recuperabile da environment.food.size anche all'interno
-
+    if(simulator.hasNext) {
+      val nextDay = simulator.next()
+      output = log(output)(1, nextDay.environment)
+      execute(nextDay)
+    }
+    output
+/*
     view.update(environment, view.frame) match {
       case Some(visualizer) => {
         visualizer.validate()
@@ -36,6 +33,8 @@ case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
       }
       case _ =>
     }
+ */
+
 
     // display view
     /*
@@ -44,11 +43,6 @@ case class Controller(view: View)(nDays: Int, nCreature: Int, nFood: Int){
       case _ => {}
     }
      */
-
-    // run simulator -> update view each step
-    /*
-    ...
-    */
 
   }
 }
