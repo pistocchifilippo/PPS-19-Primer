@@ -2,10 +2,10 @@ package controller.simulator
 
 //import controller.SimulationController
 import helpers.Configurations._
-import model.{Environment, Position}
-import view.{View, Visualizer}
 import helpers.Strategies._
 import model.creature.Creature
+import model.{Environment, Position}
+import view.View
 
 
 trait Simulator extends Iterator [Simulator] {
