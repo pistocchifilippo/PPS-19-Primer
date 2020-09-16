@@ -16,8 +16,4 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 .idea/workspace.xml
-<<<<<<< HEAD
-~$*
-=======
 .DS_Store
->>>>>>> dev-guimixin
