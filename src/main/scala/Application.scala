@@ -18,7 +18,7 @@ object Application extends SafeApp {
     simulator <- IO.now(DaySimulator(0, parameters.get.nFood, parameters.get.nDays, environment, parameters.get.view))
     controller <- IO.now(ApplicationController())
     output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
-    _ <- IO.sync(parameters.get.view.print(output))
+    _ <- parameters.get.view.print(output)
 } yield ()
 
   override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =
