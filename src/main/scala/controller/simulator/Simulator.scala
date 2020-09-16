@@ -1,6 +1,5 @@
 package controller.simulator
 
-//import controller.SimulationController
 import helpers.Configurations._
 import helpers.Strategies._
 import model.creature.Creature
@@ -10,9 +9,10 @@ import view.View
 
 trait Simulator extends Iterator [Simulator] {
   def environment: Environment
+  def executedStep: Int
 }
 
-case class DayStepSimulator(environment: Environment, view: View) extends Simulator {
+case class DayStepSimulator(executedStep: Int, environment: Environment, view: View) extends Simulator {
 
   implicit val kineticConsumption: (Double, Double) => Double =  Creature.kineticConsumption
 
@@ -29,6 +29,7 @@ case class DayStepSimulator(environment: Environment, view: View) extends Simula
     view.update(environment, view.frame)
 
     DayStepSimulator(
+      executedStep + 1,
       Environment(BOUNDARIES,
                   environment.food, // con cibo rimosso
                   environment.creatures)
@@ -37,7 +38,8 @@ case class DayStepSimulator(environment: Environment, view: View) extends Simula
 
 }
 
-case class DaySimulator(nFood: Int,
+case class DaySimulator(executedStep: Int,
+                         nFood: Int,
                          nDays: Int,
                          environment: Environment,
                         view: View
@@ -48,12 +50,13 @@ case class DaySimulator(nFood: Int,
   override def next(): Simulator ={
     println("[DAY " + nDays + " ]")
     DaySimulator(
+      executedStep + 1,
       nFood,
       nDays - 1,
       Environment(BOUNDARIES,
                   makeBoundedFoodCollection(nFood),
                   Creature.makeEvolutionSet(consumeDay(
-                    DayStepSimulator(environment, view)).environment.creatures)
+                    DayStepSimulator(0, environment, view)).environment.creatures)
                                             (CREATURES_ENERGY)
                                             (() => Position.randomEdgePosition(BOUNDARIES))
                                             (p => p)
@@ -62,10 +65,7 @@ case class DaySimulator(nFood: Int,
   }
 
   @scala.annotation.tailrec
-  private def consumeDay(dayStepSimulator: Simulator): Simulator =
-    if (dayStepSimulator.hasNext) {
-      consumeDay(dayStepSimulator.next())
-    } else dayStepSimulator
+  private def consumeDay(dayStepSimulator: Simulator): Simulator = if (dayStepSimulator.hasNext) consumeDay(dayStepSimulator.next()) else dayStepSimulator
 
 }
 
@@ -75,7 +75,7 @@ case class DaySimulator(nFood: Int,
 object prova extends App {
   val env = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
   val view = View(printCLI)(update)(getFrame(false))
-  val s = DayStepSimulator(env, view)
-  val sim = DaySimulator(100, 20, env, view)
+  val s = DayStepSimulator(0, env, view)
+  val sim = DaySimulator(0, 100, 20, env, view)
   sim.next()
 }
