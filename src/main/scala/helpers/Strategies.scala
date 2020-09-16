@@ -2,18 +2,17 @@ package helpers
 
 import java.io._
 
-import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY, CREATURES_RADIUS, CREATURES_SPEED, FOOD_RADIUS, OUTPUT_PATH}
+import helpers.Configurations._
 import javax.swing.JFrame
 import model.Blob.makeBlobCollection
+import model.Position._
 import model.creature.{Creature, StarvingCreature}
 import model.output.Output
 import model.output.Output.Output
-import model.{Boundaries, Environment, Food, Position}
+import model.{Environment, Food, Position}
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console._
 import view.{View, Visualizer}
-
-import scala.util.Random
 
 object Strategies {
 
@@ -21,11 +20,15 @@ object Strategies {
 //    () => Position(Random.nextInt(boundaries.bottomRight.x.toInt),
 //      Random.nextInt(boundaries.bottomRight.y.toInt))
 
-  val randomBoundedPosition: Position = Position.randomPosition(BOUNDARIES)
-  val randomBoundedEdgePosition: Position = Position.randomEdgePosition(BOUNDARIES)
+//  val randomBoundedPosition: Position = Position.randomPosition(BOUNDARIES)
+//  val randomBoundedEdgePosition: Position = Position.randomEdgePosition(BOUNDARIES)
 
-  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomBoundedPosition, FOOD_RADIUS))(nFood)
-  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomBoundedEdgePosition, CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
+//  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomBoundedPosition, FOOD_RADIUS))(nFood)
+//  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomBoundedEdgePosition, CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
+
+
+  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomPosition(BOUNDARIES), FOOD_RADIUS))(nFood)
+  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
 
   def printCLI(output: Output): IO[IOException, Unit] = putStrLn(Output.CliParser(output))
 
@@ -43,6 +46,7 @@ object Strategies {
         frame.getContentPane.removeAll()
         val visualizer = Visualizer(environment)
         frame.getContentPane.add(visualizer)
+        frame.revalidate()
         Option(visualizer)
       }
       case _ => Option.empty
