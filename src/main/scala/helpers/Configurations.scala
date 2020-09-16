@@ -17,6 +17,8 @@ object Configurations {
 
   def FOOD_RADIUS = 3
 
+  def GOAL_RADIUS = 2
+
   def OUTPUT_PATH = "output.json"
 
   def SIMULATOR_HEIGHT = 500

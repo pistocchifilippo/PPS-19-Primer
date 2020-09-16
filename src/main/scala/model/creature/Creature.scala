@@ -38,4 +38,16 @@ object Creature {
       }
     )
 
+//  def copy(creature: Creature): Creature = creature match {
+//    case ReproducingCreature(position, speed, energy, radius) => ReproducingCreature(position, speed, energy, radius)
+//    case StarvingCreature(position, speed, energy, radius) => StarvingCreature(position, speed, energy, radius)
+//    case AteCreature(position, speed, energy, radius) => AteCreature(position, speed, energy, radius)
+//  }
+//
+//  def move(creature: Creature)(position: Position): Creature = creature match {
+//    case ReproducingCreature(_, speed, energy, radius) => ReproducingCreature(position, speed, energy, radius)
+//    case StarvingCreature(_, speed, energy, radius) => StarvingCreature(position, speed, energy, radius)
+//    case AteCreature(_, speed, energy, radius) => AteCreature(position, speed, energy, radius)
+//  }
+
 }
