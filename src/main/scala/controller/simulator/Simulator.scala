@@ -2,7 +2,6 @@ package controller.simulator
 
 import helpers.Configurations._
 import helpers.Strategies._
-import model.creature.Creature
 import model.creature.movement.MovingCreature
 import model.{Environment, Position}
 import view.View
@@ -23,17 +22,20 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
   override def next(): Simulator =  {
 
     // movimento => nuovo set di creature
+    val creatures = environment.creatures map (_.move)
     // collisioni => rimozione cibo mangiato => nuovo set di cibo
+    val food = environment.food // missing collision check
 
     println("New Step")
 
+    Thread.sleep(2000)
     view.update(environment, view.frame)
 
     DayStepSimulator(
       executedStep + 1,
       Environment(BOUNDARIES,
-                  environment.food, // con cibo rimosso
-                  environment.creatures)
+        food, // con cibo rimosso
+        creatures)
       ,view)
   }
 
