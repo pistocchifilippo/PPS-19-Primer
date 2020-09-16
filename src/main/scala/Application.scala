@@ -19,7 +19,7 @@ object Application extends SafeApp {
     controller <- IO.now(ApplicationController())
     output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
     _ <- IO.sync(parameters.get.view.print(output))
-  } yield ()
+} yield ()
 
   override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =
     runApplication.attempt.map(_.fold(_ => 1, _ => 0)).map(ExitStatus.ExitNow(_))
