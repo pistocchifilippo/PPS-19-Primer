@@ -24,25 +24,17 @@ trait EnvironmentCreature extends Creature with Movement {
 
 object EnvironmentCreature {
 
-  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * Math.pow(v, 2)
+  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {Math pow (v, 2)}
 
   implicit val noSizeMutation: Double => Double = m => m
 
   implicit val noSpeedMutation: Double => Double = s => s
 
   def makeEvolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): Traversable[EnvironmentCreature] =
-    creatures.flatMap(
+    creatures flatMap {
       _ match {
-
         case StarvingCreature(_,_,_,_,_) => Traversable.empty
-
-        case c: EnvironmentCreature =>
-          Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ {
-            c.reproduce(sizeMutation)(speedMutation)(pos) match {
-              case Some(a) => Traversable(a)
-              case None => Nil
-            }
-          }
+        case c: EnvironmentCreature => Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ c.reproduce(sizeMutation)(speedMutation)(pos)
       }
-    )
+    }
 }
