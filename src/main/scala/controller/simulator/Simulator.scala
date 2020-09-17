@@ -20,31 +20,53 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
 
   override def next(): Simulator =  {
 
-    val creatures = environment.creatures
+    val creatures = environment.creatures map (_.move)
+
     val food = environment.food
 
-    val step = for {
+    // collisions
+    val collisions = for {
       c <- creatures
       f <- food
       if Blob.collide(c)(f) && {c match {
         case ReproducingCreature(_, _, _, _, _) => false
         case _ => true}
       }
-      newC <- creatures collect {
-        case StarvingCreature(center, speed, energy, radius, goal) => AteCreature(center, speed, energy, radius, goal)
-        case AteCreature(center, speed, energy, radius, goal) => ReproducingCreature(center, speed, energy, radius, goal)
-        //case ReproducingCreature(center, speed, energy, radius, goal) => ReproducingCreature(center, speed, energy, radius, goal)
-      }
-      newF <- food filter (_ equals f)
-    } yield (newF, newC)
+    } yield (c, f)
 
-    val newF = step map (_._1)
-    val newC = step map (_._2)
+    val collisionsCreature = collisions.map(_._1).toList
+    val collisionsFood = collisions.map(_._2).toList
+
+    // the new food set
+    val newF = food.filter(!collisionsFood.contains(_))
+//      for {
+//      f <- food
+//      toRemove <- step map (_._2)
+//      if !{f equals toRemove}
+//    } yield f
+
+    // the new creature set
+    // implement feed trait into creature
+    val newC = creatures.collect {
+      case c: StarvingCreature if collisionsCreature.contains(c) => AteCreature(c.center, c.speed, c.energy, c.radius, c.goal)
+      case c: AteCreature if collisionsCreature.contains(c) => ReproducingCreature(c.center, c.speed, c.energy, c.radius, c.goal)
+      case c: MovingCreature => c
+    }
+
+//    for {
+//      c <- creatures
+//      eatingC <- collisions map (_._1)
+//      newC <- creatures collect {
+//        case c: StarvingCreature if c equals eatingC => AteCreature(c.center, c.speed, c.energy, c.radius, c.goal)
+//        case c: AteCreature if c equals eatingC => ReproducingCreature(c.center, c.speed, c.energy, c.radius, c.goal)
+//        case c: MovingCreature => c
+//      }
+//    } yield newC
 
     val env = Environment(BOUNDARIES, newF, newC)
 
     println("New Step")
-    Thread.sleep(2000)
+    Thread.sleep(300)
     view.update(environment, view.frame)
 
     DayStepSimulator(
