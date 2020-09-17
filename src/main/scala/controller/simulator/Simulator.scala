@@ -1,10 +1,10 @@
 package controller.simulator
 
 import helpers.Configurations._
-import helpers.Strategies._
 import model.creature.movement.MovingCreature
 import model.{Environment, Position}
 import view.View
+import helpers.Strategies._
 
 
 trait Simulator extends Iterator [Simulator] {
@@ -26,17 +26,17 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
     // collisioni => rimozione cibo mangiato => nuovo set di cibo
     val food = environment.food // missing collision check
 
-    println("New Step")
+    val env = Environment(BOUNDARIES, food, creatures)
 
+    println("New Step")
     Thread.sleep(2000)
     view.update(environment, view.frame)
 
     DayStepSimulator(
       executedStep + 1,
-      Environment(BOUNDARIES,
-        food, // con cibo rimosso
-        creatures)
-      ,view)
+      env,
+      view
+    )
   }
 
 }
@@ -48,22 +48,28 @@ case class DaySimulator(executedStep: Int,
                         view: View
                          ) extends Simulator {
 
+  private val sizeMutation = MovingCreature.noSizeMutation
+  private val speedMutation = MovingCreature.noSpeedMutation
+
   override def hasNext: Boolean = nDays > 0
 
-  override def next(): Simulator ={
+  override def next(): Simulator = {
     println("[DAY " + nDays + " ]")
+
+    val food = makeBoundedFoodCollection(nFood)
+    val dayStepSim = DayStepSimulator(1, environment, view)
+    val endDaySim = consumeDay(dayStepSim)
+    val endCreatures = endDaySim.environment.creatures
+    val creatures = MovingCreature.makeEvolutionSet(endCreatures)(() => randomBoundedPosition)(sizeMutation)(speedMutation)
+    val env = Environment(BOUNDARIES, food, creatures)
+
     DaySimulator(
       executedStep + 1,
       nFood,
       nDays - 1,
-      Environment(BOUNDARIES,
-                  makeBoundedFoodCollection(nFood),
-                  MovingCreature.makeEvolutionSet(consumeDay(
-                    DayStepSimulator(0, environment, view)).environment.creatures)
-                                            (() => Position.randomEdgePosition(BOUNDARIES))
-                                            (p => p)
-                                            (s => s)),
-      view)
+      env,
+      view
+    )
   }
 
   @scala.annotation.tailrec

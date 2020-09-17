@@ -8,7 +8,12 @@ import helpers.Configurations._
 trait MovingCreature extends Creature with Movement
 
 object MovingCreature {
+
   implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * Math.pow(v, 2)
+
+  implicit val noSizeMutation: Double => Double = m => m
+
+  implicit val noSpeedMutation: Double => Double = s => s
 
   def makeEvolutionSet(creatures: Traversable[MovingCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): Traversable[MovingCreature] =
     creatures.flatMap(
