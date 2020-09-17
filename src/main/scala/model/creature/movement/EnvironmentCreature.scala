@@ -5,9 +5,9 @@ import model.Position
 import model.creature.Creature
 import helpers.Configurations._
 
-trait EnvironmentCreature extends Creature with Movement
-
 object EnvironmentCreature {
+
+  trait EnvironmentCreature extends Creature with Movement
 
   implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {Math pow (v, 2)}
 

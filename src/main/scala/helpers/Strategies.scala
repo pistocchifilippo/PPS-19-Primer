@@ -6,11 +6,11 @@ import helpers.Configurations._
 import javax.swing.JFrame
 import model.Blob.makeBlobCollection
 import model.Position._
-import model.creature.Creature
-import model.creature.movement.{EnvironmentCreature, StarvingCreature}
+import model.creature.movement.StarvingCreature
 import model.output.Output
 import model.output.Output.Output
-import model.{Blob, BlobImplementation, Environment, Food, Position}
+import model._
+import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console._
 import view.{View, Visualizer}

@@ -1,6 +1,7 @@
 package model.creature.movement
 
 import model.{Blob, Position}
+import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 
 case class StarvingCreature(
                              override val center: Position,

@@ -4,6 +4,7 @@ import helpers.Configurations.GOAL_RADIUS
 import model.creature.Creature
 import model.{Blob, BlobImplementation}
 import helpers.Strategies._
+import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 
 trait Movement extends Creature { c: Creature =>
   def goal: Blob

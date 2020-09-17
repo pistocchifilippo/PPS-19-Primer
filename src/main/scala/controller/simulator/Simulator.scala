@@ -2,10 +2,9 @@ package controller.simulator
 
 import helpers.Configurations._
 import helpers.Strategies._
-import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
+import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
 import model.{Blob, Environment}
 import view.View
-
 
 trait Simulator extends Iterator [Simulator] {
   def environment: Environment

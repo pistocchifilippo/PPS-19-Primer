@@ -1,6 +1,6 @@
 package model
 
-import model.creature.movement.EnvironmentCreature
+import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 
 trait BlobEnvironment {
   def boundaries : Boundaries
