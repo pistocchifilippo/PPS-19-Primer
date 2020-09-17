@@ -15,8 +15,8 @@ class CreatureTest extends AnyFunSuite {
     val starvingCreature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
     val ateCreature = AteCreature(Position(10, 10),10,10,10, randomGoal)
 
-    val child1 = starvingCreature.reproduce(featureMutation)(featureMutation)
-    val child2 = ateCreature.reproduce(featureMutation)(featureMutation)
+    val child1 = reproduce(starvingCreature)(featureMutation)(featureMutation)
+    val child2 = reproduce(ateCreature)(featureMutation)(featureMutation)
 
     assert(child1.isEmpty)
     assert(child2.isEmpty)
@@ -25,13 +25,13 @@ class CreatureTest extends AnyFunSuite {
 
   test("A ReproducingCreature should reproduce") {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
-    val child = reproducingCreature.reproduce(featureMutation)(featureMutation)
+    val child = reproduce(reproducingCreature)(featureMutation)(featureMutation)
     assert(child.nonEmpty)
   }
 
   test("The new creature should be a StarvingCreature") {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
-    val child = reproducingCreature.reproduce(featureMutation)(featureMutation)
+    val child = reproduce(reproducingCreature)(featureMutation)(featureMutation)
 
     for {
       c <- child
