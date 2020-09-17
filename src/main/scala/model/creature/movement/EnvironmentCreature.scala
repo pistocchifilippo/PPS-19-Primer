@@ -31,5 +31,6 @@ object EnvironmentCreature {
   def feed(c: EnvironmentCreature): EnvironmentCreature = c match {
     case StarvingCreature(position, speed, energy, radius, goal) => AteCreature(position, speed, energy, radius, goal)
     case AteCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
+    case ReproducingCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
   }
 }
