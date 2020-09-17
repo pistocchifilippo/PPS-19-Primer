@@ -38,14 +38,13 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
     val collisionsFood = collisions.map(_._2).toList
 
     // the new food set
-    val newF = food.filter(!collisionsFood.contains(_))
+    val newF = food filter (!collisionsFood.contains(_))
 
     // the new creature set
     // implement feed trait into creature
-    val newC = creatures.collect {
-      case c: StarvingCreature if collisionsCreature.contains(c) => AteCreature(c.center, c.speed, c.energy, c.radius, c.goal)
-      case c: AteCreature if collisionsCreature.contains(c) => ReproducingCreature(c.center, c.speed, c.energy, c.radius, c.goal)
-      case c: MovingCreature => c
+    val newC = creatures collect {
+      case c if collisionsCreature.contains(c) => c.feed
+      case c => c
     }
 
     val env = Environment(BOUNDARIES, newF, newC)

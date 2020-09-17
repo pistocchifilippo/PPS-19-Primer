@@ -15,6 +15,11 @@ trait MovingCreature extends Creature with Movement {
     case ReproducingCreature(_, speed, energy, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), energy, sizeMutation(radius), randomGoal))
     case _ => None
   }
+
+  def feed: MovingCreature = this match {
+    case StarvingCreature(position, speed, energy, radius, goal) => AteCreature(position, speed, energy, radius, goal)
+    case AteCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
+  }
 }
 
 object MovingCreature {
