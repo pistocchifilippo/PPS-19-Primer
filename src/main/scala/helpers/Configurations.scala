@@ -19,6 +19,8 @@ object Configurations {
 
   def GOAL_RADIUS = 2
 
+  def FIRST_DAY = 1
+
   def OUTPUT_PATH = "output.json"
 
   def SIMULATOR_HEIGHT = 500

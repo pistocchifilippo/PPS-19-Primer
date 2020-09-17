@@ -15,7 +15,7 @@ object Application extends SafeApp {
     // gestione parametri errati
     parameters <- View.buildWithIO
     environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(parameters.get.nFood), makeOnBoundsCreaturesCollection(parameters.get.nCreatures)))
-    simulator <- IO.now(DaySimulator(0, parameters.get.nFood, parameters.get.nDays, environment, parameters.get.view))
+    simulator <- IO.now(DaySimulator(FIRST_DAY, parameters.get.nFood, parameters.get.nDays, environment, parameters.get.view))
     controller <- IO.now(ApplicationController())
     output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
     _ <- parameters.get.view.print(output)
