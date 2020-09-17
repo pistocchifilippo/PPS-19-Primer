@@ -5,7 +5,17 @@ import model.Position
 import model.creature.Creature
 import helpers.Configurations._
 
-trait MovingCreature extends Creature with Movement
+trait MovingCreature extends Creature with Movement {
+  def survive: Boolean = this match {
+    case StarvingCreature(_, _, _, _, _) => false
+    case _ => true
+  }
+
+  def reproduce(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[MovingCreature] = this match {
+    case ReproducingCreature(_, speed, energy, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), energy, sizeMutation(radius), randomGoal))
+    case _ => None
+  }
+}
 
 object MovingCreature {
 
@@ -24,7 +34,7 @@ object MovingCreature {
         case c: MovingCreature =>
           Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ {
             c.reproduce(sizeMutation)(speedMutation)(pos) match {
-              case Some(a) => Traversable(a.asInstanceOf[MovingCreature])
+              case Some(a) => Traversable(a)
               case None => Nil
             }
           }
