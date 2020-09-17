@@ -1,10 +1,10 @@
 package controller.simulator
 
 import helpers.Configurations._
-import model.creature.movement.MovingCreature
-import model.{Environment, Position}
-import view.View
 import helpers.Strategies._
+import model.creature.movement.{AteCreature, MovingCreature, ReproducingCreature, StarvingCreature}
+import model.{Blob, Environment}
+import view.View
 
 
 trait Simulator extends Iterator [Simulator] {
@@ -18,15 +18,30 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
 
   override def hasNext: Boolean = environment.creatures.count(_.energy > 0) > 0
 
-  // Here I need to update graphic component
   override def next(): Simulator =  {
 
-    // movimento => nuovo set di creature
-    val creatures = environment.creatures map (_.move)
-    // collisioni => rimozione cibo mangiato => nuovo set di cibo
-    val food = environment.food // missing collision check
+    val creatures = environment.creatures
+    val food = environment.food
 
-    val env = Environment(BOUNDARIES, food, creatures)
+    val step = for {
+      c <- creatures
+      f <- food
+      if Blob.collide(c)(f) && {c match {
+        case ReproducingCreature(_, _, _, _, _) => false
+        case _ => true}
+      }
+      newC <- creatures collect {
+        case StarvingCreature(center, speed, energy, radius, goal) => AteCreature(center, speed, energy, radius, goal)
+        case AteCreature(center, speed, energy, radius, goal) => ReproducingCreature(center, speed, energy, radius, goal)
+        //case ReproducingCreature(center, speed, energy, radius, goal) => ReproducingCreature(center, speed, energy, radius, goal)
+      }
+      newF <- food filter (_ equals f)
+    } yield (newF, newC)
+
+    val newF = step map (_._1)
+    val newC = step map (_._2)
+
+    val env = Environment(BOUNDARIES, newF, newC)
 
     println("New Step")
     Thread.sleep(2000)
