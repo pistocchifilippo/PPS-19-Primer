@@ -1,7 +1,8 @@
-import model.Position
-import org.scalatest.funsuite.AnyFunSuite
+package model
+
 import helpers.Strategies._
 import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
+import org.scalatest.funsuite.AnyFunSuite
 
 class CreatureTest extends AnyFunSuite {
 

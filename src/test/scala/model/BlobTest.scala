@@ -1,4 +1,5 @@
-import model.{Blob, BlobImplementation, Boundaries, Position}
+package model
+
 import org.scalatest.funsuite.AnyFunSuite
 
 class BlobTest extends AnyFunSuite{

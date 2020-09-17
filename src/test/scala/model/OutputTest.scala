@@ -1,8 +1,9 @@
+package model
+
 import helpers.Strategies.randomGoal
 import model.creature.movement.StarvingCreature
 import model.output.Output
 import model.output.Output.{JsonParser, Output}
-import model.{Boundaries, Environment, Food, Position}
 import org.scalatest.funsuite.AnyFunSuite
 
 class OutputTest extends AnyFunSuite {

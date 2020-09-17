@@ -1,6 +1,6 @@
-import model.Boundaries
+package model
+
 import model.Boundaries._
-import model.Position
 import org.scalatest.funsuite.AnyFunSuite
 
 class PositionTest extends AnyFunSuite {

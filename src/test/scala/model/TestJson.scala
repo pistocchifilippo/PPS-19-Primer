@@ -1,6 +1,7 @@
+package model
+
 import helpers.Strategies.randomGoal
 import model.creature.movement.{AteCreature, StarvingCreature}
-import model.{Boundaries, Environment, Food, Position}
 import org.scalatest.funsuite.AnyFunSuite
 import play.api.libs.json.Json
 

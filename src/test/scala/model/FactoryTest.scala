@@ -1,16 +1,13 @@
-import model.{Blob, Boundaries, Food, Position}
-import model.Position._
+package model
+
 import model.Boundaries._
 import model.creature.Creature
 import org.scalatest.funsuite.AnyFunSuite
-import org.scalatest.flatspec.AnyFlatSpec
-
-import scala.util.Random
 
 class FactoryTest extends AnyFunSuite {
 
-  import helpers.Strategies._
   import helpers.Configurations._
+  import helpers.Strategies._
 
   val bounds: Boundaries = BOUNDARIES
 

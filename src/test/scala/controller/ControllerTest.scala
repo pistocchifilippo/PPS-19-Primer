@@ -1,7 +1,8 @@
-import controller.ApplicationController
-import controller.simulator.{DaySimulator, DayStepSimulator}
+package controller
+
+import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
-import helpers.Strategies.{getFrame, makeBoundedFoodCollection, makeOnBoundsCreaturesCollection, printCLI, update}
+import helpers.Strategies._
 import model.Environment
 import org.scalatest.funsuite.AnyFunSuite
 import view.View
