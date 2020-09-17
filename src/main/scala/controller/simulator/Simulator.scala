@@ -2,7 +2,7 @@ package controller.simulator
 
 import helpers.Configurations._
 import helpers.Strategies._
-import model.creature.movement.{AteCreature, MovingCreature, ReproducingCreature, StarvingCreature}
+import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import model.{Blob, Environment}
 import view.View
 
@@ -14,7 +14,7 @@ trait Simulator extends Iterator [Simulator] {
 
 case class DayStepSimulator(executedStep: Int, environment: Environment, view: View) extends Simulator {
 
-  implicit val kineticConsumption: (Double, Double) => Double =  MovingCreature.kineticConsumption
+  implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 
   override def hasNext: Boolean = environment.creatures.count(_.energy > 0) > 0
 
@@ -68,8 +68,8 @@ case class DaySimulator(executedStep: Int,
                         view: View
                          ) extends Simulator {
 
-  private val sizeMutation = MovingCreature.noSizeMutation
-  private val speedMutation = MovingCreature.noSpeedMutation
+  private val sizeMutation = EnvironmentCreature.noSizeMutation
+  private val speedMutation = EnvironmentCreature.noSpeedMutation
 
   override def hasNext: Boolean = nDays > 0
 
@@ -80,7 +80,7 @@ case class DaySimulator(executedStep: Int,
     val dayStepSim = DayStepSimulator(1, environment, view)
     val endDaySim = consumeDay(dayStepSim)
     val endCreatures = endDaySim.environment.creatures
-    val creatures = MovingCreature.makeEvolutionSet(endCreatures)(() => randomBoundedPosition)(sizeMutation)(speedMutation)
+    val creatures = EnvironmentCreature.makeEvolutionSet(endCreatures)(() => randomBoundedPosition)(sizeMutation)(speedMutation)
     val env = Environment(BOUNDARIES, food, creatures)
 
     DaySimulator(

@@ -5,7 +5,7 @@ import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreatu
 
 class CreatureTest extends AnyFunSuite {
 
-  import model.creature.movement.MovingCreature._
+  import model.creature.movement.EnvironmentCreature._
   implicit val randomPos: () => Position = () => Position(10, 10)
   val featureMutation: Double => Double = e => e * 0.1
 

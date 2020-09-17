@@ -7,7 +7,7 @@ import javax.swing.JFrame
 import model.Blob.makeBlobCollection
 import model.Position._
 import model.creature.Creature
-import model.creature.movement.{MovingCreature, StarvingCreature}
+import model.creature.movement.{EnvironmentCreature, StarvingCreature}
 import model.output.Output
 import model.output.Output.Output
 import model.{Blob, BlobImplementation, Environment, Food, Position}
@@ -30,7 +30,7 @@ object Strategies {
   def randomGoal: Blob = BlobImplementation(randomBoundedPosition, GOAL_RADIUS)
 
   def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomPosition(BOUNDARIES), FOOD_RADIUS))(nFood)
-  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[MovingCreature] = makeBlobCollection(() => StarvingCreature(randomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
+  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[EnvironmentCreature] = makeBlobCollection(() => StarvingCreature(randomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
 
   def printCLI(output: Output): IO[IOException, Unit] = putStrLn(Output.CliParser(output))
 

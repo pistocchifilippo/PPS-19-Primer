@@ -8,7 +8,7 @@ case class StarvingCreature(
                              override val energy: Double,
                              override val radius: Double,
                              override val goal: Blob
-                           ) extends MovingCreature
+                           ) extends EnvironmentCreature
 
 case class AteCreature(
                         override val center: Position,
@@ -16,7 +16,7 @@ case class AteCreature(
                         override val energy: Double,
                         override val radius: Double,
                         override val goal: Blob
-                      ) extends MovingCreature
+                      ) extends EnvironmentCreature
 
 case class ReproducingCreature(
                                 override val center: Position,
@@ -24,4 +24,4 @@ case class ReproducingCreature(
                                 override val energy: Double,
                                 override val radius: Double,
                                 override val goal: Blob
-                              ) extends MovingCreature
+                              ) extends EnvironmentCreature
