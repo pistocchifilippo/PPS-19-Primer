@@ -39,11 +39,6 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
 
     // the new food set
     val newF = food.filter(!collisionsFood.contains(_))
-//      for {
-//      f <- food
-//      toRemove <- step map (_._2)
-//      if !{f equals toRemove}
-//    } yield f
 
     // the new creature set
     // implement feed trait into creature
@@ -53,19 +48,8 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
       case c: MovingCreature => c
     }
 
-//    for {
-//      c <- creatures
-//      eatingC <- collisions map (_._1)
-//      newC <- creatures collect {
-//        case c: StarvingCreature if c equals eatingC => AteCreature(c.center, c.speed, c.energy, c.radius, c.goal)
-//        case c: AteCreature if c equals eatingC => ReproducingCreature(c.center, c.speed, c.energy, c.radius, c.goal)
-//        case c: MovingCreature => c
-//      }
-//    } yield newC
-
     val env = Environment(BOUNDARIES, newF, newC)
 
-    println("New Step")
     Thread.sleep(300)
     view.update(environment, view.frame)
 
