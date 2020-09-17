@@ -6,10 +6,6 @@ import model.creature.Creature
 import helpers.Configurations._
 
 trait EnvironmentCreature extends Creature with Movement {
-  def survive: Boolean = this match {
-    case StarvingCreature(_, _, _, _, _) => false
-    case _ => true
-  }
 
   def reproduce(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
     case ReproducingCreature(_, speed, energy, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), energy, sizeMutation(radius), randomGoal))

@@ -46,25 +46,6 @@ class CreatureTest extends AnyFunSuite {
 
   }
 
-  test("A StarvingCreature should not survive") {
-    val starvingCreature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
-    val cSurvive = starvingCreature.survive
-
-    assert(!cSurvive)
-
-  }
-
-  test("A AteCreature and a ReproducingCreature should survive") {
-    val ateCreature = AteCreature(Position(10, 10),10,10,10, randomGoal)
-    val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
-    val survive1 = ateCreature.survive
-    val survive2 = reproducingCreature.survive
-
-    assert(survive1)
-    assert(survive2)
-
-  }
-
   test("Position should change") {
     val creature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
 //    val movedCreature = move(creature)(Position(30,5))
