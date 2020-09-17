@@ -6,19 +6,25 @@ import helpers.Configurations._
 import helpers.Strategies._
 import model.Environment
 import scalaz.ioeffect
+import scalaz.ioeffect.console.putStrLn
 import scalaz.ioeffect.{IO, SafeApp}
 import view.View
 
 object Application extends SafeApp {
 
   def runApplication: IO[IOException, Unit] = for {
-    // gestione parametri errati
     parameters <- View.buildWithIO
-    environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(parameters.get.nFood), makeOnBoundsCreaturesCollection(parameters.get.nCreatures)))
-    simulator <- IO.now(DaySimulator(FIRST_DAY, parameters.get.nFood, parameters.get.nDays, environment, parameters.get.view))
-    controller <- IO.now(ApplicationController())
-    output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
-    _ <- parameters.get.view.print(output)
+    _ <- parameters match {
+      case Some(param) => for {
+        environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures)))
+        simulator <- IO.now(DaySimulator(0, param.nFood, param.nDays, environment, param.view))
+        controller <- IO.now(ApplicationController())
+        output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
+        _ <- parameters.get.view.print(output)
+      } yield ()
+      // spostare la stampa lato view?
+      case _ => putStrLn("Parametri non corretti. Riprova.")
+    }
   } yield ()
 
   override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =

@@ -41,7 +41,7 @@ object View {
       _ <- putStrLn("Numero unità cibo")
       food <- getStrLn
     } yield (simMode, outputFile, days.toInt, bodies.toInt, food.toInt) match {
-      case (mode, file, nDays, nBodies, nFood) if nDays > 0 && nBodies > 0 && nFood > 0
+      case (mode, file, nDays, nBodies, nFood) if checkParameters(mode, file, nDays, nBodies, nFood)
         => (mode, file) match {
         case ("1", "y") => Option(Parameters(View(printFile)(update)(getFrame(false)), nDays, nBodies, nFood))
         case ("1", "n") => Option(Parameters(View(printCLI)(update)(getFrame(false)), nDays, nBodies, nFood))
@@ -51,6 +51,12 @@ object View {
       case _ => Option.empty
     }
 
+  }
+
+  def checkParameters(mode: String, file: String, nDays: Int, nCreatures: Int, nFood: Int): Boolean ={
+    ((mode equals "1" )|| (mode equals "2")) &&
+      ((file equals "y") || (file equals "n")) &&
+      (nDays >= 0) && (nCreatures > 0) && (nFood > 0)
   }
 
   def buildFrame() = new JFrame(SIMULATOR_TITLE){
