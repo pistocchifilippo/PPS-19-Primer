@@ -48,7 +48,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
 
     val env = Environment(BOUNDARIES, newF, newC)
 
-    Thread.sleep(300)
+//    Thread.sleep(300)
     view.update(environment, view.frame)
 
     DayStepSimulator(

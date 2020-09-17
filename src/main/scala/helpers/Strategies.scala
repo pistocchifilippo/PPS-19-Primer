@@ -45,6 +45,7 @@ object Strategies {
     //println("update call")
     jframe match {
       case Some(frame) => {
+        Thread.sleep(UPDATE_TIME_MS)
         frame.getContentPane.removeAll()
         val visualizer = Visualizer(environment)
         frame.getContentPane.add(visualizer)
