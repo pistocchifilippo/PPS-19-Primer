@@ -5,15 +5,7 @@ import model.Position
 import model.creature.Creature
 import helpers.Configurations._
 
-trait EnvironmentCreature extends Creature with Movement {
-
-
-
-  def feed: EnvironmentCreature = this match {
-    case StarvingCreature(position, speed, energy, radius, goal) => AteCreature(position, speed, energy, radius, goal)
-    case AteCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
-  }
-}
+trait EnvironmentCreature extends Creature with Movement
 
 object EnvironmentCreature {
 
@@ -31,8 +23,13 @@ object EnvironmentCreature {
       }
     }
 
-  def reproduce(c: Creature)(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[EnvironmentCreature] = c match {
+  def reproduce(c: EnvironmentCreature)(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[EnvironmentCreature] = c match {
     case ReproducingCreature(_, speed, energy, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), energy, sizeMutation(radius), randomGoal))
     case _ => None
+  }
+
+  def feed(c: EnvironmentCreature): EnvironmentCreature = c match {
+    case StarvingCreature(position, speed, energy, radius, goal) => AteCreature(position, speed, energy, radius, goal)
+    case AteCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
   }
 }

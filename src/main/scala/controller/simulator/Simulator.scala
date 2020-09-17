@@ -43,7 +43,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
     // the new creature set
     // implement feed trait into creature
     val newC = creatures collect {
-      case c if collisionsCreature.contains(c) => c.feed
+      case c if collisionsCreature.contains(c) => EnvironmentCreature.feed(c)
       case c => c
     }
 
