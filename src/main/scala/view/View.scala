@@ -13,17 +13,15 @@ import model.output.Output.Output
 
 trait SimulationView{
   def print: Output => IO[IOException, Unit]
-  def update: (Environment, Option[JFrame]) => Unit
-//  def update: (Environment, Option[JFrame]) => Option[Visualizer]
+  def update(performUpdate: () => Unit) { performUpdate() }
 }
 
 case class View(override val print: Output => IO[IOException, Unit])
-               (override val update: (Environment, Option[JFrame]) => Unit)
-//               (override val update: (Environment, Option[JFrame]) => Option[Visualizer])
                (val frame: Option[JFrame]) extends SimulationView {
 }
 
 object SimulationView {
+
 
   def buildWithIO : IO[IOException, Option[Parameters]] = {
     for {
@@ -43,19 +41,20 @@ object SimulationView {
     } yield (simMode, outputFile, days.toInt, bodies.toInt, food.toInt) match {
       case (mode, file, nDays, nBodies, nFood) if checkParameters(mode, file, nDays, nBodies, nFood)
         => (mode, file) match {
-        case ("1", "y") => Option(Parameters(View(printFile)(updateFrame)(getFrame(false)), nDays, nBodies, nFood))
-        case ("1", "n") => Option(Parameters(View(printCLI)(updateFrame)(getFrame(false)), nDays, nBodies, nFood))
-        case ("2", "y") => Option(Parameters(View(printFile)(updateFrame)(getFrame(true)) , nDays, nBodies, nFood))
-        case ("2", "n") => Option(Parameters(View(printCLI)(updateFrame)(getFrame(true)), nDays, nBodies, nFood))
+        case ("1", "y") => Option(Parameters(View(printFile)(getFrame(false)), nDays, nBodies, nFood))
+        case ("1", "n") => Option(Parameters(View(printCLI)(getFrame(false)), nDays, nBodies, nFood))
+        case ("2", "y") => Option(Parameters(View(printFile)(getFrame(true)) , nDays, nBodies, nFood))
+        case ("2", "n") => Option(Parameters(View(printCLI)(getFrame(true)), nDays, nBodies, nFood))
         }
       case _ => Option.empty
     }
 
   }
 
+
   def update(sView: SimulationView, environment: Environment) {
     sView match {
-      case view: View => view.update(environment, view.frame)
+      case view: View => view.update(updateJFrame(environment, view.frame))
       case _ => {}
     }
   }

@@ -10,7 +10,7 @@ import view.View
 class SimulatorTest extends AnyFunSuite{
 
   val env: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view: View = View(printCLI)(updateFrame)(getFrame(false))
+  val view: View = View(printCLI)(getFrame(false))
   val nDays = 20
 
   test("A day simulator should have expected behaviour" ) {

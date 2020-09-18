@@ -41,19 +41,23 @@ object Strategies {
       _ <- IO.now(w.close())
     } yield ()
 
-  def updateFrame(environment: Environment, jframe: Option[JFrame]): Option[Visualizer] = {
+
+  val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jframe) => () => {
     jframe match {
-      case Some(frame) => {
-        Thread.sleep(UPDATE_TIME_MS)
-        frame.getContentPane.removeAll()
-        val visualizer = Visualizer(environment)
-        frame.getContentPane.add(visualizer)
-        frame.revalidate()
-        Option(visualizer)
-      }
-      case _ => Option.empty
+    case Some(frame) => {
+      Thread.sleep(UPDATE_TIME_MS)
+      frame.getContentPane.removeAll()
+      val visualizer = Visualizer(environment)
+      frame.getContentPane.add(visualizer)
+      frame.revalidate()
     }
-  }
+    case _ => {}
+  }}
+
+
+
+
+  //def updateFrame(environment: Environment, jframe: Option[JFrame]): () => Unit = updateJFrame(environment, jframe)
 
   def getFrame(bool: Boolean): Option[JFrame] = bool match {
     case _ if bool => Option(SimulationView.buildFrame())

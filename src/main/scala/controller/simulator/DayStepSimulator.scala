@@ -1,6 +1,7 @@
 package controller.simulator
 
 import helpers.Configurations.BOUNDARIES
+import helpers.Strategies.updateJFrame
 import model.{Blob, Environment}
 import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
 import view.SimulationView
@@ -44,7 +45,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
 
     //    Thread.sleep(300)
 //    view.update(environment, view.frame)
-    SimulationView.update(view, environment)
+    SimulationView.update(view, env)
 
     DayStepSimulator(
       executedStep + 1,
