@@ -13,7 +13,7 @@ import model._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import scalaz.ioeffect.IO
 import scalaz.ioeffect.console._
-import view.{View, Visualizer}
+import view.{SimulationView, View, Visualizer}
 
 object Strategies {
 
@@ -41,8 +41,7 @@ object Strategies {
       _ <- IO.now(w.close())
     } yield ()
 
-  def update(environment: Environment, jframe: Option[JFrame]): Option[Visualizer] = {
-    //println("update call")
+  def updateFrame(environment: Environment, jframe: Option[JFrame]): Option[Visualizer] = {
     jframe match {
       case Some(frame) => {
         Thread.sleep(UPDATE_TIME_MS)
@@ -57,7 +56,7 @@ object Strategies {
   }
 
   def getFrame(bool: Boolean): Option[JFrame] = bool match {
-    case _ if bool => Option(View.buildFrame())
+    case _ if bool => Option(SimulationView.buildFrame())
     case _ => Option.empty
   }
 }

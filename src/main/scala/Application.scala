@@ -8,12 +8,12 @@ import model.Environment
 import scalaz.ioeffect
 import scalaz.ioeffect.console.putStrLn
 import scalaz.ioeffect.{IO, SafeApp}
-import view.View
+import view.{SimulationView, View}
 
 object Application extends SafeApp {
 
   def runApplication: IO[IOException, Unit] = for {
-    parameters <- View.buildWithIO
+    parameters <- SimulationView.buildWithIO
     _ <- parameters match {
       case Some(param) => for {
         environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures)))
