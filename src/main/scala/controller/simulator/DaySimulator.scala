@@ -4,13 +4,13 @@ import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
 import model.Environment
 import model.creature.movement.EnvironmentCreature
-import view.View
+import view.{SimulationView, View}
 
 case class DaySimulator(executedStep: Int,
                         nFood: Int,
                         nDays: Int,
                         environment: Environment,
-                        view: View
+                        view: SimulationView
                        ) extends Simulator {
 
   private val sizeMutation = EnvironmentCreature.noSizeMutation

@@ -3,9 +3,9 @@ package controller.simulator
 import helpers.Configurations.BOUNDARIES
 import model.{Blob, Environment}
 import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
-import view.View
+import view.SimulationView
 
-case class DayStepSimulator(executedStep: Int, environment: Environment, view: View) extends Simulator {
+case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 
@@ -43,7 +43,8 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: V
     val env = Environment(BOUNDARIES, newF, newC)
 
     //    Thread.sleep(300)
-    view.update(environment, view.frame)
+//    view.update(environment, view.frame)
+    SimulationView.update(view, environment)
 
     DayStepSimulator(
       executedStep + 1,

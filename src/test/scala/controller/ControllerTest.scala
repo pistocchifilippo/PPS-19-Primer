@@ -10,7 +10,7 @@ import view.View
 class ControllerTest extends AnyFunSuite{
 
   val env = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view = View(printCLI)(update)(getFrame(false))
+  val view = View(printCLI)(updateFrame)(getFrame(false))
 
   test("A controller should return an Output of proper size" ) {
     val sim = DaySimulator(0, 100, 20, env, view)
