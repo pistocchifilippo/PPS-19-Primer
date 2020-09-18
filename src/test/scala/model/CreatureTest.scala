@@ -16,8 +16,8 @@ class CreatureTest extends AnyFunSuite {
     val starvingCreature = StarvingCreature(Position(10, 10),10,10,10, randomGoal)
     val ateCreature = AteCreature(Position(10, 10),10,10,10, randomGoal)
 
-    val child1 = EnvironmentCreature.reproduce(starvingCreature)(dummyMutation)(dummyMutation)
-    val child2 = EnvironmentCreature.reproduce(ateCreature)(dummyMutation)(dummyMutation)
+    val child1 = starvingCreature.reproduce(dummyMutation)(dummyMutation)
+    val child2 = ateCreature.reproduce(dummyMutation)(dummyMutation)
 
     assert(child1.isEmpty)
     assert(child2.isEmpty)
@@ -26,13 +26,13 @@ class CreatureTest extends AnyFunSuite {
 
   test("A ReproducingCreature should reproduce") {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
-    val child = EnvironmentCreature.reproduce(reproducingCreature)(dummyMutation)(dummyMutation)
+    val child = reproducingCreature.reproduce(dummyMutation)(dummyMutation)
     assert(child.nonEmpty)
   }
 
   test("The new creature should be a StarvingCreature") {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
-    val child = EnvironmentCreature.reproduce(reproducingCreature)(dummyMutation)(dummyMutation)
+    val child = reproducingCreature.reproduce(dummyMutation)(dummyMutation)
 
     for {
       c <- child
@@ -54,21 +54,21 @@ class CreatureTest extends AnyFunSuite {
     val reproducingCreature = ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
 
     assert(
-      EnvironmentCreature.feed(starvingCreature) match {
+      starvingCreature.feed() match {
         case AteCreature(_, _, _, _, _) => true
         case _ => false
       }
     )
 
     assert(
-      EnvironmentCreature.feed(ateCreature) match {
+      ateCreature.feed() match {
         case ReproducingCreature(_, _, _, _, _) => true
         case _ => false
       }
     )
 
     assert(
-      EnvironmentCreature.feed(reproducingCreature) match {
+      reproducingCreature.feed() match {
         case ReproducingCreature(_, _, _, _, _) => true
         case _ => false
       }

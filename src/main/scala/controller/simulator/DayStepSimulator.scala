@@ -1,7 +1,6 @@
 package controller.simulator
 
 import helpers.Configurations.BOUNDARIES
-import helpers.Strategies.updateJFrame
 import model.{Blob, Environment}
 import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
 import view.SimulationView
@@ -37,7 +36,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
     // the new creature set
     // implement feed trait into creature
     val newC = creatures collect {
-      case c if collisionsCreature.contains(c) => EnvironmentCreature.feed(c)
+      case c if collisionsCreature.contains(c) => c.feed()
       case c => c
     }
 
