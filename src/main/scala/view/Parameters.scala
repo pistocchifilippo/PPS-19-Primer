@@ -1,7 +1,7 @@
 package view
 
 case class Parameters(
-                     view: View,
+                     view: SimulationView,
                      nDays: Int,
                      nCreatures: Int,
                      nFood: Int

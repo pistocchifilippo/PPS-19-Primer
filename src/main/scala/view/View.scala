@@ -13,16 +13,14 @@ import model.output.Output.Output
 
 trait SimulationView{
   def print: Output => IO[IOException, Unit]
-  def update: (Environment, Option[JFrame]) => Option[Visualizer]
-  def frame: Option[JFrame]
+  def update(performUpdate: () => Unit) { performUpdate() }
 }
 
 case class View(override val print: Output => IO[IOException, Unit])
-               (override val update: (Environment, Option[JFrame]) => Option[Visualizer])
-               (override val frame: Option[JFrame]) extends SimulationView {
+               (val frame: Option[JFrame]) extends SimulationView {
 }
 
-object View {
+object SimulationView {
 
 
   def buildWithIO : IO[IOException, Option[Parameters]] = {
@@ -41,16 +39,30 @@ object View {
       _ <- putStrLn("Numero unità cibo")
       food <- getStrLn
     } yield (simMode, outputFile, days.toInt, bodies.toInt, food.toInt) match {
-      case (mode, file, nDays, nBodies, nFood) if nDays > 0 && nBodies > 0 && nFood > 0
+      case (mode, file, nDays, nBodies, nFood) if checkParameters(mode, file, nDays, nBodies, nFood)
         => (mode, file) match {
-        case ("1", "y") => Option(Parameters(View(printFile)(update)(getFrame(false)), nDays, nBodies, nFood))
-        case ("1", "n") => Option(Parameters(View(printCLI)(update)(getFrame(false)), nDays, nBodies, nFood))
-        case ("2", "y") => Option(Parameters(View(printFile)(update)(getFrame(true)) , nDays, nBodies, nFood))
-        case ("2", "n") => Option(Parameters(View(printCLI)(update)(getFrame(true)), nDays, nBodies, nFood))
+        case ("1", "y") => Option(Parameters(View(printFile)(getFrame(false)), nDays, nBodies, nFood))
+        case ("1", "n") => Option(Parameters(View(printCLI)(getFrame(false)), nDays, nBodies, nFood))
+        case ("2", "y") => Option(Parameters(View(printFile)(getFrame(true)) , nDays, nBodies, nFood))
+        case ("2", "n") => Option(Parameters(View(printCLI)(getFrame(true)), nDays, nBodies, nFood))
         }
       case _ => Option.empty
     }
 
+  }
+
+
+  def update(sView: SimulationView, environment: Environment) {
+    sView match {
+      case view: View => view.update(updateJFrame(environment, view.frame))
+      case _ => {}
+    }
+  }
+
+  def checkParameters(mode: String, file: String, nDays: Int, nCreatures: Int, nFood: Int): Boolean ={
+    ((mode equals "1" )|| (mode equals "2")) &&
+      ((file equals "y") || (file equals "n")) &&
+      (nDays >= 0) && (nCreatures > 0) && (nFood > 0)
   }
 
   def buildFrame() = new JFrame(SIMULATOR_TITLE){
