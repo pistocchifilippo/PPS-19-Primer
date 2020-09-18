@@ -12,11 +12,11 @@ class PositionTest extends AnyFunSuite {
   test("Should all be inside bounds"){
 
     assert(
-      (for { _ <- 0 to 100 } yield randomPosition(boundaries))
+      (for { _ <- 0 to 100 } yield RandomPosition(boundaries))
         .forall(p => isInside(boundaries, p)))
 
     assert(
-      (for { _ <- 0 to 100 } yield randomPosition(boundaries2))
+      (for { _ <- 0 to 100 } yield RandomPosition(boundaries2))
         .forall(pos => isInside(boundaries2, pos)))
   }
 
@@ -25,7 +25,7 @@ class PositionTest extends AnyFunSuite {
         p <-
           for {
             _ <- 0 to 5
-          } yield randomEdgePosition(boundaries)
+          } yield RandomEdgePosition(boundaries)
       } yield {
         println(p)
         assert(

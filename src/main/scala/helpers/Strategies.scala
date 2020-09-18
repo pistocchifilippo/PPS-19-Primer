@@ -21,16 +21,16 @@ object Strategies {
 //    () => Position(Random.nextInt(boundaries.bottomRight.x.toInt),
 //      Random.nextInt(boundaries.bottomRight.y.toInt))
 
-  def randomBoundedPosition: Position = Position.randomPosition(BOUNDARIES)
-  def randomBoundedEdgePosition: Position = Position.randomEdgePosition(BOUNDARIES)
+  def randomBoundedPosition: Position = Position.RandomPosition(BOUNDARIES)
+  def randomBoundedEdgePosition: Position = Position.RandomEdgePosition(BOUNDARIES)
 
 //  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomBoundedPosition, FOOD_RADIUS))(nFood)
 //  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[Creature] = makeBlobCollection(() => StarvingCreature(randomBoundedEdgePosition, CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS))(nCreature)
 
   def randomGoal: Blob = BlobImplementation(randomBoundedPosition, GOAL_RADIUS)
 
-  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(randomPosition(BOUNDARIES), FOOD_RADIUS))(nFood)
-  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[EnvironmentCreature] = makeBlobCollection(() => StarvingCreature(randomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
+  def makeBoundedFoodCollection(nFood: Int): Traversable[Food] = makeBlobCollection(() => Food(RandomPosition(BOUNDARIES), FOOD_RADIUS))(nFood)
+  def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[EnvironmentCreature] = makeBlobCollection(() => StarvingCreature(RandomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
 
   def printCLI(output: Output): IO[IOException, Unit] = putStrLn(Output.CliParser(output))
 
