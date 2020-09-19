@@ -24,6 +24,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
   override def next(): IO[Simulator] = for {
     creatures <- IO {environment.creatures map (_.move)}
     food <- IO {environment.food}
+
     // collisions
     collisions <- IO {for {
       c <- creatures

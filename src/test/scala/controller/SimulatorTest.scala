@@ -13,13 +13,13 @@ class SimulatorTest extends AnyFunSuite{
   val view: View = View(printCLI)(getFrame(false))
   val nDays = 20
 
-//  test("A day simulator should have expected behaviour" ) {
+  test("A day simulator should have expected behaviour" ) {
 //    var sim: Simulator = DaySimulator(0, 100, nDays, env, view)
 //    for(_ <- 1 to nDays){
 //      assert(sim.hasNext)
 //      sim = sim.next()
 //    }
 //    assert(!sim.hasNext)
-//  }
+  }
 
 }
