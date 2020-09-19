@@ -4,6 +4,7 @@ import controller.simulator.DaySimulator
 import helpers.Configurations._
 import helpers.Strategies._
 import model.Environment
+import model.output.Output
 import view.SimulationView
 
 object Application extends App {
@@ -15,7 +16,7 @@ object Application extends App {
         environment <- IO(Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures)))
         simulator <- IO(DaySimulator(0, param.nFood, param.nDays, environment, param.view))
         controller <- IO(ApplicationController())
-        output <- IO(controller.execute(simulator)) // da aggiornare -broken-
+        output <- IO(controller.execute(simulator)(Output())) // da aggiornare -broken-
         _ <- parameters.get.view.print(output)
       } yield ()
       // spostare la stampa lato view?
