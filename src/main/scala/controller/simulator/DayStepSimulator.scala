@@ -1,5 +1,6 @@
 package controller.simulator
 
+import cats.effect.IO
 import helpers.Configurations.BOUNDARIES
 import model.{Blob, Environment}
 import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
@@ -20,46 +21,42 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
    *
    * @return A new simulator (maybe) ready to simulate another step of the day
    */
-  override def next(): Simulator =  {
-
-    val creatures = environment.creatures map (_.move)
-
-    val food = environment.food
-
+  override def next(): IO[Simulator] = for {
+    creatures <- IO {environment.creatures map (_.move)}
+    food <- IO {environment.food}
     // collisions
-    val collisions = for {
+    collisions <- IO {for {
       c <- creatures
       f <- food
       if Blob.collide(c)(f) && {c match {
         case ReproducingCreature(_, _, _, _, _) => false
         case _ => true}
       }
-    } yield (c, f)
+    } yield (c, f)}
 
-    val collisionsCreature = collisions.map(_._1).toList
-    val collisionsFood = collisions.map(_._2).toList
+    collisionsCreature <- IO {collisions.map(_._1).toList}
+    collisionsFood <- IO {collisions.map(_._2).toList}
 
     // the new food set
-    val newF = food filter (!collisionsFood.contains(_))
+    newF <- IO {food filter (!collisionsFood.contains(_))}
 
     // the new creature set
-    // implement feed trait into creature
-    val newC = creatures collect {
+    newC <- IO {creatures collect {
       case c if collisionsCreature.contains(c) => c.feed()
       case c => c
-    }
+    }}
 
-    val env = Environment(BOUNDARIES, newF, newC)
+    env <- IO {Environment(BOUNDARIES, newF, newC)}
+    _ <- IO {SimulationView.update(view, env)}
 
-    //    Thread.sleep(300)
-//    view.update(environment, view.frame)
-    SimulationView.update(view, env)
-
-    DayStepSimulator(
+    } yield DayStepSimulator(
       executedStep + 1,
       env,
       view
     )
-  }
+
+
+
+
 
 }
