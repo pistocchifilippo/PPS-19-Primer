@@ -1,5 +1,6 @@
 package helpers.json
 
+/** This are label used to build json objects */
 object JsonLabel {
 
   val STARVING = "Starving"
