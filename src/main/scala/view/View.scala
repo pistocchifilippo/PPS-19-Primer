@@ -1,29 +1,27 @@
 package view
 
 import java.awt.Dimension
-import java.io.IOException
 
 import helpers.Configurations.{SIMULATOR_HEIGHT, SIMULATOR_TITLE, SIMULATOR_WIDTH}
 import model.Environment
-import scalaz.ioeffect.IO
-import scalaz.ioeffect.console.{getStrLn, putStrLn}
 import helpers.Strategies._
 import javax.swing.JFrame
 import model.output.Output.Output
+import cats.effect.IO
 
 trait SimulationView{
-  def print: Output => IO[IOException, Unit]
+  def print: Output => IO[Unit]
   def update(performUpdate: () => Unit) { performUpdate() }
 }
 
-case class View(override val print: Output => IO[IOException, Unit])
+case class View(override val print: Output => IO[Unit])
                (val frame: Option[JFrame]) extends SimulationView {
 }
 
 object SimulationView {
 
 
-  def buildWithIO : IO[IOException, Option[Parameters]] = {
+  def buildWithIO : IO[Option[Parameters]] = {
     for {
       _ <- putStrLn("Welcome to natural selection simulator!!!")
       _ <- putStrLn("Scegli la modalità di esecuzione")
