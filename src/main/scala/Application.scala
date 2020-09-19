@@ -6,6 +6,7 @@ import helpers.Strategies._
 import model.Environment
 import model.output.Output
 import view.SimulationView
+import helpers.io.IoConversion._
 
 object Application extends App {
 
@@ -13,10 +14,9 @@ object Application extends App {
     parameters <- SimulationView.buildWithIO
     _ <- parameters match {
       case Some(param) => for {
-        environment <- IO(Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures)))
-        simulator <- IO(DaySimulator(0, param.nFood, param.nDays, environment, param.view))
-        controller <- IO(ApplicationController())
-        output <- controller.execute(simulator)(Output()) // da aggiornare -broken-
+        environment <- Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))
+        simulator <- IO{DaySimulator(0, param.nFood, param.nDays, environment, param.view)}
+        output <- ApplicationController().execute(simulator)(Output())
         _ <- parameters.get.view.print(output)
       } yield ()
       // spostare la stampa lato view?
