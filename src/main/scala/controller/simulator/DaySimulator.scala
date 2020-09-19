@@ -49,6 +49,6 @@ case class DaySimulator(executedStep: Int,
       next <- dayStepSimulator.next()
       d <- consumeDay(next)
     } yield d
-    else IO {dayStepSimulator}
+    else dayStepSimulator
 
 }

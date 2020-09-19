@@ -3,6 +3,7 @@ package controller
 import cats.effect.IO
 import controller.simulator.Simulator
 import model.output.Output._
+import helpers.io.IoConversion._
 
 case class ApplicationController() {
 
@@ -16,7 +17,7 @@ case class ApplicationController() {
       sim <- simulator.next()
       step <- execute(sim)(log(output)(simulator.executedStep, simulator.environment))
     } yield step
-    else IO {output}
+    else output
 //    if (simulator.hasNext) {
 //      val sim = simulator.next()
 //      execute(sim)(log(output)(simulator.executedStep, sim.environment))
