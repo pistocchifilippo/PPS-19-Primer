@@ -22,4 +22,11 @@ trait Simulator extends Iterator [IO[Simulator]] {
    * @return the number of executed step
    */
   def executedStep: Int
+
+  def executeAll: IO[Simulator] = {
+    @scala.annotation.tailrec
+    def consume(simulator: IO[Simulator]): IO[Simulator] = if (hasNext) consume(next) else IO.pure{this}
+    consume(IO.pure{this})
+  }
+
 }

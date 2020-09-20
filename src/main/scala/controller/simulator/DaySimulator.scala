@@ -7,7 +7,7 @@ import model.Environment
 import view.SimulationView
 import helpers.Strategies._
 import model.creature.movement.EnvironmentCreature._
-import helpers.io.IoConversion._
+import model.io.Transitions._
 
 /** The day simulator execute an entire day per step */
 case class DaySimulator(executedStep: Int,
@@ -31,9 +31,9 @@ case class DaySimulator(executedStep: Int,
     _ <- putStrLn("[DAY " + nDays + " ]")
     food <- IO {makeBoundedFoodCollection(nFood)}
     sim <- IO {DayStepSimulator(1, environment, view)}
-    endSim <- consumeDay(sim)
+    endSim <- sim.executeAll
     endCreatures = endSim.environment.creatures
-    creatures <- IO {makeEvolutionSet(endCreatures)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)}
+    creatures <- evolutionSet(endCreatures)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)
     env <- IO{Environment(BOUNDARIES, food, creatures)}
   } yield
     DaySimulator(
@@ -43,12 +43,5 @@ case class DaySimulator(executedStep: Int,
       env,
       view
     )
-
-  private def consumeDay(dayStepSimulator: Simulator): IO[Simulator] =
-    if (dayStepSimulator.hasNext) for {
-      next <- dayStepSimulator.next()
-      d <- consumeDay(next)
-    } yield d
-    else IO{dayStepSimulator}
 
 }
