@@ -23,6 +23,7 @@ object Transitions {
     } yield (c, f)
   }
 
+  // maybe can be done better
   def makeNewEnvironment(newCreatures: Traversable[EnvironmentCreature])(food: Traversable[Food])(coll: Traversable[(EnvironmentCreature, Food)]): IO[Environment] = for {
 
     c <- IO {coll.map{_._1}.toList}
