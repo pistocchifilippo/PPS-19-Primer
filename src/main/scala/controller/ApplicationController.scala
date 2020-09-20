@@ -17,7 +17,7 @@ case class ApplicationController() {
       sim <- simulator.next()
       step <- execute(sim)(log(output)(simulator.executedStep, simulator.environment))
     } yield step
-    else output
+    else IO{output}
 //    if (simulator.hasNext) {
 //      val sim = simulator.next()
 //      execute(sim)(log(output)(simulator.executedStep, sim.environment))

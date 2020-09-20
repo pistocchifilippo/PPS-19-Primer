@@ -34,7 +34,7 @@ case class DaySimulator(executedStep: Int,
     endSim <- consumeDay(sim)
     endCreatures = endSim.environment.creatures
     creatures <- IO {makeEvolutionSet(endCreatures)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)}
-    env <- Environment(BOUNDARIES, food, creatures)
+    env <- IO{Environment(BOUNDARIES, food, creatures)}
   } yield
     DaySimulator(
       executedStep + 1,
@@ -49,6 +49,6 @@ case class DaySimulator(executedStep: Int,
       next <- dayStepSimulator.next()
       d <- consumeDay(next)
     } yield d
-    else dayStepSimulator
+    else IO{dayStepSimulator}
 
 }

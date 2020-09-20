@@ -14,7 +14,7 @@ object Application extends App {
     parameters <- SimulationView.buildWithIO
     _ <- parameters match {
       case Some(param) => for {
-        environment <- Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))
+        environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
         simulator <- IO{DaySimulator(0, param.nFood, param.nDays, environment, param.view)}
         output <- ApplicationController().execute(simulator)(Output())
         _ <- parameters.get.view.print(output)
