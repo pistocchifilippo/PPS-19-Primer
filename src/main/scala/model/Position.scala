@@ -6,6 +6,8 @@ case class Position (x: Double, y : Double)
 
 object Position {
 
+//  type Position = (Double, Double)
+
   type BoundedPosition = Boundaries => Position
 
   object RandomPosition extends BoundedPosition {

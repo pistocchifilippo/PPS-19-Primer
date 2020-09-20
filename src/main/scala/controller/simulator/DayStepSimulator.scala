@@ -2,10 +2,11 @@ package controller.simulator
 
 import cats.effect.IO
 import helpers.Configurations.BOUNDARIES
+import helpers.Strategies
 import model.{Blob, Environment}
 import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
 import view.SimulationView
-import  model.io.Transitions._
+import model.io.Transitions._
 
 /** The DayStepSimulator represent the simulation for just one step of just one day */
 case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {
