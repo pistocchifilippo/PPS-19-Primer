@@ -28,9 +28,13 @@ trait Simulator extends Iterator [IO[Simulator]] {
    * @return The simulator executed as long as possible
    */
   def executeAll: IO[Simulator] = {
-    @scala.annotation.tailrec
-    def consume(simulator: IO[Simulator]): IO[Simulator] = if (hasNext) consume(next) else IO pure this
-    consume(IO pure this)
+    def consume(dayStepSimulator: Simulator): IO[Simulator] =
+      if (dayStepSimulator.hasNext) for {
+        next <- dayStepSimulator.next()
+        d <- consume(next)
+      } yield d
+      else IO{dayStepSimulator}
+    consume(this)
   }
 
 }

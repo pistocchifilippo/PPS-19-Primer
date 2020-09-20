@@ -10,7 +10,7 @@ import helpers.Configurations._
 
 object Transitions {
 
-  def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double,Double) => Double): IO[Traversable[EnvironmentCreature]] = IO pure {creatures map (_.move(energyConsumption))}
+  def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double,Double) => Double): IO[Traversable[EnvironmentCreature]] = IO pure {creatures map (_.move)}
 
   def collisions(creatures: Traversable[EnvironmentCreature])(food: Traversable[Food]): IO[Traversable[(EnvironmentCreature, Food)]] = IO pure {
     for {
@@ -23,16 +23,16 @@ object Transitions {
     } yield (c, f)
   }
 
-  def updateEnvironment(env: Environment)(coll: Traversable[(EnvironmentCreature, Food)]): IO[Environment] = for {
+  def makeNewEnvironment(newCreatures: Traversable[EnvironmentCreature])(food: Traversable[Food])(coll: Traversable[(EnvironmentCreature, Food)]): IO[Environment] = for {
 
     c <- IO {coll.map{_._1}.toList}
     f <- IO {coll.map{_._2}.toList}
 
     // the new food set
-    newF <- IO {env.food filter (!f.contains(_))}
+    newF <- IO {food filter (!f.contains(_))}
 
     // the new creature set
-    newC <- IO {env.creatures collect {
+    newC <- IO {newCreatures collect {
       case cr if c.contains(cr) => cr.feed()
       case cr => cr
     }}

@@ -2,6 +2,7 @@ package controller.simulator
 
 import cats.effect.IO
 import helpers.Configurations._
+import helpers.Strategies._
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
 import model.Environment
 import view.SimulationView
@@ -27,6 +28,7 @@ case class DaySimulator(executedStep: Int,
    * @return A new simulator (maybe) ready to simulate another entire day
    */
   override def next(): IO[Simulator] = for {
+    _ <- putStrLn("Day " + executedStep)
     sim <- DayStepSimulator(FIRST_DAY, environment, view).executeAll
     c = sim.environment.creatures
     creatures <- evolutionSet(c)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)
