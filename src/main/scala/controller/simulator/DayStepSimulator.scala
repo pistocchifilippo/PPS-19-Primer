@@ -26,7 +26,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
     c <- moveCreatures(environment.creatures)
     coll <- collisions(c)(environment.food)
     env <- updateEnvironment(environment)(coll)
-    //_ <- view.update()
+    _ <- IO{SimulationView.update(view, env)}
     } yield DayStepSimulator (
       executedStep + 1,
       env,
