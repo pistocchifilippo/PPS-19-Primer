@@ -15,7 +15,7 @@ object Application extends App {
     _ <- parameters match {
       case Some(param) => for {
         environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
-        simulator <- IO{DaySimulator(0, param.nFood, param.nDays, environment, param.view)}
+        simulator <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
         output <- ApplicationController().execute(simulator)(Output())
         _ <- parameters.get.view.print(output)
       } yield ()

@@ -5,19 +5,28 @@ import helpers.Configurations.CREATURES_ENERGY
 import helpers.Strategies.randomGoal
 import model.{Blob, Environment, Food, Position}
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
-import model.creature.movement.StarvingCreature
+import model.creature.movement.{ReproducingCreature, StarvingCreature}
 import helpers.Configurations._
 
 object Transitions {
 
-  type Collision = (Blob, Blob)
+  def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double,Double) => Double): IO[Traversable[EnvironmentCreature]] = IO pure {creatures map (_.move(energyConsumption))}
 
-  def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double,Double) => Double): IO[Traversable[EnvironmentCreature]] = IO.pure{creatures map (_.move(energyConsumption))}
-  def collisions(c: Traversable[EnvironmentCreature])(f: Traversable[Food]): IO[Traversable[Collision]] = ???
-  def updateEnvironment(env: Environment)(coll: Traversable[Option[Collision]]): IO[Environment] = for {
+  def collisions(creatures: Traversable[EnvironmentCreature])(food: Traversable[Food]): IO[Traversable[(EnvironmentCreature, Food)]] = IO pure {
+    for {
+      c <- creatures
+      f <- food
+      if Blob.collide(c)(f) && {c match {
+        case ReproducingCreature(_, _, _, _, _) => false
+        case _ => true}
+      }
+    } yield (c, f)
+  }
 
-    c <- IO {coll.collect{case Some(c) => c._1}.toList}
-    f <- IO {coll.collect{case Some(f) => f._1}.toList}
+  def updateEnvironment(env: Environment)(coll: Traversable[(EnvironmentCreature, Food)]): IO[Environment] = for {
+
+    c <- IO {coll.map{_._1}.toList}
+    f <- IO {coll.map{_._2}.toList}
 
     // the new food set
     newF <- IO {env.food filter (!f.contains(_))}
@@ -30,11 +39,14 @@ object Transitions {
 
   } yield Environment(BOUNDARIES, newF, newC)
 
-  def evolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): IO[Traversable[EnvironmentCreature]] = IO.pure{creatures flatMap {
-    _ match {
-      case StarvingCreature(_,_,_,_,_) => Traversable.empty
-      case c: EnvironmentCreature => Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ c.reproduce(sizeMutation)(speedMutation)(pos)
+  def evolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): IO[Traversable[EnvironmentCreature]] = IO pure {
+    creatures flatMap {
+      _ match {
+        case StarvingCreature(_,_,_,_,_) => Traversable.empty
+        case c: EnvironmentCreature => Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ c.reproduce(sizeMutation)(speedMutation)(pos)
+      }
     }
-  }}
+  }
+
 
 }
