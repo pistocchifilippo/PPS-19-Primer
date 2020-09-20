@@ -28,13 +28,11 @@ case class DaySimulator(executedStep: Int,
    * @return A new simulator (maybe) ready to simulate another entire day
    */
   override def next(): IO[Simulator] = for {
-    _ <- putStrLn("[DAY " + nDays + " ]")
-    food <- IO {makeBoundedFoodCollection(nFood)}
-    sim <- IO {DayStepSimulator(1, environment, view)}
-    endSim <- sim.executeAll
-    endCreatures = endSim.environment.creatures
-    creatures <- evolutionSet(endCreatures)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)
-    env <- IO{Environment(BOUNDARIES, food, creatures)}
+    sim <- DayStepSimulator(1, environment, view).executeAll
+    c = sim.environment.creatures
+    creatures <- evolutionSet(c)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)
+    food = makeBoundedFoodCollection(nFood)
+    env = Environment(BOUNDARIES, food, creatures)
   } yield
     DaySimulator(
       executedStep + 1,
