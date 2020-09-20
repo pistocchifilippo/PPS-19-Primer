@@ -12,7 +12,7 @@ import scalaz.ioeffect.IO
 case class Visualizer(environment: Environment) extends JPanel {
 
   override def paint(g: Graphics): Unit = {
-    setSize(VISUALIZER_HEIGHT, SIMULATOR_HEIGHT)
+    setSize(SIMULATOR_WIDTH, SIMULATOR_HEIGHT)
     val g2 = g.asInstanceOf[Graphics2D]
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
     g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
