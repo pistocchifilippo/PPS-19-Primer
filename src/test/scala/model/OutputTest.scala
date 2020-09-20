@@ -1,5 +1,6 @@
 package model
 
+import cats.effect.IO
 import helpers.Strategies.randomGoal
 import model.creature.movement.StarvingCreature
 import model.output.Output
@@ -15,20 +16,35 @@ class OutputTest extends AnyFunSuite {
 
 
   test("Environment should be the same") {
-    val newOut = Output.log(out)(1, environment)
-    assert(newOut(1) equals environment)
+    val test: IO[Unit] = for {
+      newOut <- IO.pure{Output.log(out)(1, environment)}
+    } yield {
+      assert(newOut(1) equals environment)
+    }
+
+    test.unsafeRunSync()
   }
 
   test("Size should be one") {
-    val newOut = Output.log(out)(1, environment)
-    assert(newOut.size equals 1)
+    val test: IO[Unit] = for {
+      newOut <- IO.pure{Output.log(out)(1, environment)}
+    } yield {
+      assert(newOut.size equals 1)
+    }
+
+    test.unsafeRunSync()
   }
 
   test("Parsed output should be the same") {
-    val newOut = Output.log(out)(1, environment)
-    val parse = JsonParser(newOut)
-    val real = "{\"1\":{\"Environment\":{\"Creatures\":[{\"Creature\":{\"Condition\":\"Starving\",\"Size\":10,\"Speed\":10,\"Position\":{\"X\":10,\"Y\":10}}}],\"Food\":[{\"Food\":{\"Position\":{\"X\":10,\"Y\":10}}}]}}}"
-    assert(parse.toString equals real)
+    val test: IO[Unit] = for {
+      newOut <- IO.pure{Output.log(out)(1, environment)}
+      parse = JsonParser(newOut)
+      real = "{\"1\":{\"Environment\":{\"Creatures\":[{\"Creature\":{\"Condition\":\"Starving\",\"Size\":10,\"Speed\":10,\"Position\":{\"X\":10,\"Y\":10}}}],\"Food\":[{\"Food\":{\"Position\":{\"X\":10,\"Y\":10}}}]}}}"
+    } yield {
+      assert(parse.toString equals real)
+    }
+
+    test.unsafeRunSync()
   }
 
 }
