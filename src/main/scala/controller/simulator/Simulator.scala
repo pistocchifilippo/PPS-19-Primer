@@ -23,6 +23,10 @@ trait Simulator extends Iterator [IO[Simulator]] {
    */
   def executedStep: Int
 
+  /** Execute all the simulation until hasNext
+   *
+   * @return The simulator executed as long as possible
+   */
   def executeAll: IO[Simulator] = {
     @scala.annotation.tailrec
     def consume(simulator: IO[Simulator]): IO[Simulator] = if (hasNext) consume(next) else IO.pure{this}
