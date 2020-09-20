@@ -12,7 +12,7 @@ import model.output.Output.Output
 import model._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import view.{SimulationView, View, Visualizer}
-
+import helpers.io.IoConversion._
 import cats.effect.IO
 
 object Strategies {
@@ -43,16 +43,19 @@ object Strategies {
 
 
   val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jframe) => () => {
+
+    def _update(frame: JFrame): IO[Unit] = for {
+      _ <- IO{Thread.sleep(UPDATE_TIME_MS)}
+      _ <- IO{frame.getContentPane.removeAll()}
+      visualizer <- Visualizer(environment)
+      _ <- IO{frame.getContentPane.add(visualizer)}
+      _ <- IO{frame.revalidate()}
+    } yield()
+
     jframe match {
-    case Some(frame) => {
-      Thread.sleep(UPDATE_TIME_MS)
-      frame.getContentPane.removeAll()
-      val visualizer = Visualizer(environment)
-      frame.getContentPane.add(visualizer)
-      frame.revalidate()
-    }
-    case _ => {}
-  }}
+      case Some(frame) => _update(frame).unsafeRunSync()
+      case _ => {}
+    }}
 
 
 
