@@ -32,7 +32,7 @@ case class DaySimulator(executedStep: Int,
     food <- IO {makeBoundedFoodCollection(nFood)}
     sim <- IO {DayStepSimulator(1, environment, view)}
     endSim <- consumeDay(sim)
-    endCreatures <- IO {endSim.environment.creatures}
+    endCreatures = endSim.environment.creatures
     creatures <- IO {makeEvolutionSet(endCreatures)(() => randomBoundedPosition)(noSizeMutation)(noSpeedMutation)}
     env <- Environment(BOUNDARIES, food, creatures)
   } yield
