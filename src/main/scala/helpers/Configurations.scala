@@ -9,11 +9,11 @@ object Configurations {
 
   def BOUNDARIES: Boundaries = Boundaries(TOP_LEFT, BOTTOM_RIGHT)
 
-  def CREATURES_RADIUS = 10
+  def CREATURES_RADIUS = 15
 
-  def CREATURES_ENERGY = 1000
+  def CREATURES_ENERGY = 30000
 
-  def CREATURES_SPEED = 2
+  def CREATURES_SPEED = 3
 
   def FOOD_RADIUS = 3
 
@@ -26,5 +26,5 @@ object Configurations {
   def SIMULATOR_HEIGHT = 500
   def SIMULATOR_WIDTH = 500
   def SIMULATOR_TITLE = "NATURAL SELECTION SIMULATOR"
-  def UPDATE_TIME_MS = 300
+  def UPDATE_TIME_MS = 30
 }
