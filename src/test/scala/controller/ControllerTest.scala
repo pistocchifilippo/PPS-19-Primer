@@ -1,9 +1,11 @@
 package controller
 
+import cats.effect.IO
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies._
 import model.Environment
+import model.output.Output
 import org.scalatest.funsuite.AnyFunSuite
 import view.View
 
@@ -13,12 +15,22 @@ class ControllerTest extends AnyFunSuite{
   val view = View(printCLI)(getFrame(false))
 
   test("A controller should return an Output of proper size" ) {
-    val sim = DaySimulator(0, 100, 20, env, view)
-    assert(ApplicationController().execute(sim).size == 20)
-    val sim2 = DaySimulator(0, 100, 1, env, view)
-    assert(ApplicationController().execute(sim2).size == 1)
-    val sim3 = DaySimulator(0, 100, 0, env, view)
-    assert(ApplicationController().execute(sim3).isEmpty)
+    val test: IO[Unit] = for {
+      sim1 <- IO {DaySimulator(0, 100, 20, env, view)}
+      sim2 <- IO {DaySimulator(0, 100, 1, env, view)}
+      sim3 <- IO {DaySimulator(0, 100, 0, env, view)}
+      out1 <- ApplicationController.execute(sim1)
+      out2 <- ApplicationController.execute(sim2)
+      out3 <- ApplicationController.execute(sim3)
+
+    } yield {
+      assert(out1.size == 20)
+      assert(out2.size == 1)
+      assert(out3.isEmpty)
+    }
+
+    test.unsafeRunSync()
+
   }
 
 }

@@ -1,25 +1,20 @@
-import java.io.IOException
-
+import cats.effect.IO
 import controller.ApplicationController
 import controller.simulator.DaySimulator
 import helpers.Configurations._
 import helpers.Strategies._
 import model.Environment
-import scalaz.ioeffect
-import scalaz.ioeffect.console.putStrLn
-import scalaz.ioeffect.{IO, SafeApp}
-import view.{SimulationView, View}
+import view.SimulationView
 
-object Application extends SafeApp {
+object Application extends App {
 
-  def runApplication: IO[IOException, Unit] = for {
+  def application: IO[Unit] = for {
     parameters <- SimulationView.buildWithIO
     _ <- parameters match {
       case Some(param) => for {
-        environment <- IO.now(Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures)))
-        simulator <- IO.now(DaySimulator(0, param.nFood, param.nDays, environment, param.view))
-        controller <- IO.now(ApplicationController())
-        output <- IO.now(controller.execute(simulator)) // da aggiornare -broken-
+        environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
+        simulator <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
+        output <- ApplicationController.execute(simulator)
         _ <- parameters.get.view.print(output)
       } yield ()
       // spostare la stampa lato view?
@@ -27,7 +22,6 @@ object Application extends SafeApp {
     }
   } yield ()
 
-  override def run(args: List[String]): IO[ioeffect.Void, Application.ExitStatus] =
-    runApplication.attempt.map(_.fold(_ => 1, _ => 0)).map(ExitStatus.ExitNow(_))
+  application.unsafeRunSync()
 
 }

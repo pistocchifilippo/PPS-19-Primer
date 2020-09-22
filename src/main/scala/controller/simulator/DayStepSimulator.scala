@@ -1,8 +1,9 @@
 package controller.simulator
 
-import helpers.Configurations.BOUNDARIES
-import model.{Blob, Environment}
-import model.creature.movement.{EnvironmentCreature, ReproducingCreature}
+import cats.effect.IO
+import model.Environment
+import model.creature.movement.EnvironmentCreature
+import model.io.Transitions._
 import view.SimulationView
 
 /** The DayStepSimulator represent the simulation for just one step of just one day */
@@ -20,46 +21,14 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
    *
    * @return A new simulator (maybe) ready to simulate another step of the day
    */
-  override def next(): Simulator =  {
-
-    val creatures = environment.creatures map (_.move)
-
-    val food = environment.food
-
-    // collisions
-    val collisions = for {
-      c <- creatures
-      f <- food
-      if Blob.collide(c)(f) && {c match {
-        case ReproducingCreature(_, _, _, _, _) => false
-        case _ => true}
-      }
-    } yield (c, f)
-
-    val collisionsCreature = collisions.map(_._1).toList
-    val collisionsFood = collisions.map(_._2).toList
-
-    // the new food set
-    val newF = food filter (!collisionsFood.contains(_))
-
-    // the new creature set
-    // implement feed trait into creature
-    val newC = creatures collect {
-      case c if collisionsCreature.contains(c) => c.feed()
-      case c => c
-    }
-
-    val env = Environment(BOUNDARIES, newF, newC)
-
-    //    Thread.sleep(300)
-//    view.update(environment, view.frame)
-    SimulationView.update(view, env)
-
-    DayStepSimulator(
+  override def next(): IO[Simulator] = for {
+    c <- moveCreatures(environment.creatures)
+    coll <- collisions(c)(environment.food)
+    env <- makeNewEnvironment(c)(environment.food)(coll)
+    _ <- IO {SimulationView.update(view, env)} // This is not a pure value
+    } yield DayStepSimulator (
       executedStep + 1,
       env,
       view
     )
-  }
-
 }

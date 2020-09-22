@@ -39,20 +39,4 @@ object EnvironmentCreature {
 
   implicit val noSpeedMutation: Double => Double = s => s
 
-  /** Makes the creatures pass to another day
-   *
-   * @param creatures set of the day before
-   * @param pos of the new creature
-   * @param sizeMutation of the creature
-   * @param speedMutation of the creature
-   * @return the collection of creatures of the next day
-   */
-  def makeEvolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): Traversable[EnvironmentCreature] =
-    creatures flatMap {
-      _ match {
-        case StarvingCreature(_,_,_,_,_) => Traversable.empty
-        case c: EnvironmentCreature => Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ c.reproduce(sizeMutation)(speedMutation)(pos)
-      }
-    }
-
 }
