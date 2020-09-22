@@ -1,12 +1,7 @@
 package controller.simulator
 
 import cats.effect.IO
-import helpers.Configurations.BOUNDARIES
-import helpers.Strategies.{getFrame, makeBoundedFoodCollection, makeOnBoundsCreaturesCollection, printCLI}
 import model.Environment
-import model.output.Output
-import model.output.Output.log
-import view.View
 
 /** This trait represent the behaviour of the Simulator
  *
