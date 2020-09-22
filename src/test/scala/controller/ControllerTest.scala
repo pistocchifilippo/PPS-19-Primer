@@ -19,9 +19,9 @@ class ControllerTest extends AnyFunSuite{
       sim1 <- IO {DaySimulator(0, 100, 20, env, view)}
       sim2 <- IO {DaySimulator(0, 100, 1, env, view)}
       sim3 <- IO {DaySimulator(0, 100, 0, env, view)}
-      out1 <- ApplicationController().execute(sim1)(Output())
-      out2 <- ApplicationController().execute(sim2)(Output())
-      out3 <- ApplicationController().execute(sim3)(Output())
+      out1 <- ApplicationController.execute(sim1)
+      out2 <- ApplicationController.execute(sim2)
+      out3 <- ApplicationController.execute(sim3)
 
     } yield {
       assert(out1.size == 20)
