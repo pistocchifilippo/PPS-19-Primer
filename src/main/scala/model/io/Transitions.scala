@@ -7,6 +7,7 @@ import model.{Blob, Environment, Food, Position}
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.{ReproducingCreature, StarvingCreature}
 import helpers.Configurations._
+import model.output.Output.Output
 
 object Transitions {
 
@@ -48,6 +49,5 @@ object Transitions {
       }
     }
   }
-
 
 }

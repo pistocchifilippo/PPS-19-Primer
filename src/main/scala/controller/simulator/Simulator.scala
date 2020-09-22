@@ -1,7 +1,12 @@
 package controller.simulator
 
 import cats.effect.IO
+import helpers.Configurations.BOUNDARIES
+import helpers.Strategies.{getFrame, makeBoundedFoodCollection, makeOnBoundsCreaturesCollection, printCLI}
 import model.Environment
+import model.output.Output
+import model.output.Output.log
+import view.View
 
 /** This trait represent the behaviour of the Simulator
  *
@@ -23,18 +28,20 @@ trait Simulator extends Iterator [IO[Simulator]] {
    */
   def executedStep: Int
 
-  /** Execute all the simulation until hasNext
-   *
-   * @return The simulator executed as long as possible
-   */
   def executeAll: IO[Simulator] = {
-    def consume(dayStepSimulator: Simulator): IO[Simulator] =
-      if (dayStepSimulator.hasNext) for {
-        next <- dayStepSimulator.next()
-        d <- consume(next)
-      } yield d
-      else IO{dayStepSimulator}
-    consume(this)
+    def executeAll(dayStepSimulator: Simulator): IO[Simulator] = for {
+      next <- dayStepSimulator.next()
+      d <- if(next.hasNext) executeAll(next) else IO pure dayStepSimulator
+    } yield d
+    executeAll(this)
+  }
+
+  def foldRight[A](base: A)(f: (Simulator, A) => A): IO[A] = {
+    def foldRight(simulator: Simulator)(base: A)(f: (Simulator, A) => A): IO[A] =  for {
+      next <- simulator.next()
+      d <- if (simulator.hasNext) foldRight(next)(f(next, base))(f) else IO pure base
+    } yield d
+    foldRight(this)(base)(f)
   }
 
 }
