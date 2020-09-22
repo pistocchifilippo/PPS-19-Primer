@@ -4,9 +4,7 @@ import controller.simulator.DaySimulator
 import helpers.Configurations._
 import helpers.Strategies._
 import model.Environment
-import model.output.Output
 import view.SimulationView
-import helpers.io.IoConversion._
 
 object Application extends App {
 
