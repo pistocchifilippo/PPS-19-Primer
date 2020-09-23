@@ -2,18 +2,19 @@ package helpers
 
 import java.io._
 
+import cats.effect.IO
 import helpers.Configurations._
+import helpers.io.IoConversion._
 import javax.swing.JFrame
-import model.Blob.{FoodCreatureCollision, makeBlobCollection}
+import model.Blob.makeBlobCollection
 import model.Position._
-import model.creature.movement.StarvingCreature
-import model.output.Output
-import model.output.Output.Output
 import model._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
-import view.{SimulationView, View, Visualizer}
-import helpers.io.IoConversion._
-import cats.effect.IO
+import model.creature.movement.StarvingCreature
+import model.io.Transitions.FoodCreatureCollision
+import model.output.Output
+import model.output.Output.Output
+import view.{SimulationView, Visualizer}
 
 object Strategies {
 
@@ -34,6 +35,11 @@ object Strategies {
   // Collisions
   def collidingCreatures(collisions: Traversable[FoodCreatureCollision]): List[EnvironmentCreature] = collisions.map{_._1}.toList
   def collidingFood(collisions: Traversable[FoodCreatureCollision]): List[Food] = collisions.map{_._2}.toList
+  def updateCreatureCollection(creatureCollection: Traversable[EnvironmentCreature])(toFeed: List[EnvironmentCreature]): IO[Traversable[EnvironmentCreature]] = IO pure {creatureCollection collect {
+    case cr if {toFeed contains cr} => cr.feed()
+    case cr => cr
+  }}
+  def updateFoodCollection(foodCollection: Traversable[Food])(toRemove: List[Food]): IO[Traversable[Food]] = IO pure {foodCollection filter (!toRemove.contains(_))}
 
   // View
   def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))
