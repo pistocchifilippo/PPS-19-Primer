@@ -11,6 +11,6 @@ object ApplicationController {
    *
    * @return The output of the simulation
    */
-  def execute: Simulator => IO[Output] = sim => sim.foldRight(Output())((sim, out) => log(out)(sim.executedStep, sim.environment))
+  def execute: Simulator => IO[Output] = sim => sim.foldRight(Output())((sim, out) => log(out)(sim.executedStep - 1, sim.environment))
 
 }
