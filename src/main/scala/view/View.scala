@@ -49,6 +49,11 @@ object SimulationView {
 
   }
 
+  private def checkParameters(mode: String, file: String, nDays: Int, nCreatures: Int, nFood: Int): Boolean ={
+    ((mode equals "1" )|| (mode equals "2")) &&
+      ((file equals "y") || (file equals "n")) &&
+      (nDays >= 0) && (nCreatures > 0) && (nFood > 0)
+  }
 
   def update(sView: SimulationView, environment: Environment) {
     sView match {
@@ -57,13 +62,9 @@ object SimulationView {
     }
   }
 
-  def checkParameters(mode: String, file: String, nDays: Int, nCreatures: Int, nFood: Int): Boolean ={
-    ((mode equals "1" )|| (mode equals "2")) &&
-      ((file equals "y") || (file equals "n")) &&
-      (nDays >= 0) && (nCreatures > 0) && (nFood > 0)
-  }
 
-  def buildFrame() = new JFrame(SIMULATOR_TITLE){
+
+  def buildFrame(): JFrame = new JFrame(SIMULATOR_TITLE){
     setDefaultCloseOperation(3)
     setSize(new Dimension(SIMULATOR_WIDTH, SIMULATOR_HEIGHT))
     setLocationRelativeTo(null)
