@@ -4,7 +4,7 @@ import java.io._
 
 import helpers.Configurations._
 import javax.swing.JFrame
-import model.Blob.makeBlobCollection
+import model.Blob.{FoodCreatureCollision, makeBlobCollection}
 import model.Position._
 import model.creature.movement.StarvingCreature
 import model.output.Output
@@ -30,6 +30,10 @@ object Strategies {
     makeBlobCollection(() => StarvingCreature(RandomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
 
   def randomGoal: Blob = BlobImplementation(randomBoundedPosition, GOAL_RADIUS)
+
+  // Collisions
+  def collidingCreatures(collisions: Traversable[FoodCreatureCollision]): List[EnvironmentCreature] = collisions.map{_._1}.toList
+  def collidingFood(collisions: Traversable[FoodCreatureCollision]): List[Food] = collisions.map{_._2}.toList
 
   // View
   def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))

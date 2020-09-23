@@ -1,5 +1,7 @@
 package model
 
+import model.creature.movement.EnvironmentCreature.EnvironmentCreature
+
 trait Blob {
   def center : Position
   def radius : Double
@@ -15,7 +17,7 @@ object Blob {
 
   def makeBlobCollection[A <: Blob](producer: () => A)(units: Int): Traversable[A] = if (units > 0) makeBlobCollection(producer)(units - 1) ++ Traversable(producer()) else Nil
 
-//  type Collision = (Blob, Blob)
+  type FoodCreatureCollision = (EnvironmentCreature, Food)
 
   //def collide(b1: model.Blob)(b2: model.Blob)(sense: (model.Blob, model.Blob) => Boolean) : Boolean = {
   def collide(blob1: Blob)(blob2: Blob) : Boolean = {
