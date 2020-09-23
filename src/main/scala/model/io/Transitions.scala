@@ -1,6 +1,7 @@
 package model.io
 
 import cats.effect.IO
+import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations.CREATURES_ENERGY
 import helpers.Strategies.randomGoal
 import model.{Blob, Environment, Food, Position}
@@ -8,8 +9,14 @@ import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.{ReproducingCreature, StarvingCreature}
 import helpers.Configurations._
 import helpers.Strategies._
+import view.SimulationParameters
 
 object Transitions {
+
+  def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
+    environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
+    sim <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
+  } yield sim
 
   def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double,Double) => Double): IO[Traversable[EnvironmentCreature]] = IO pure {creatures map (_.move)}
 
