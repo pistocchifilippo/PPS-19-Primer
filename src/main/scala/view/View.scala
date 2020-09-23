@@ -21,7 +21,7 @@ case class View(override val print: Output => IO[Unit])
 object SimulationView {
 
 
-  def buildWithIO : IO[Option[Parameters]] = {
+  def collectParameters : IO[Option[Parameters]] = {
     for {
       _ <- putStrLn("Welcome to natural selection simulator!!!")
       _ <- putStrLn("Scegli la modalità di esecuzione")

@@ -9,7 +9,7 @@ import view.SimulationView
 object Application extends App {
 
   def application: IO[Unit] = for {
-    parameters <- SimulationView.buildWithIO
+    parameters <- SimulationView.collectParameters
     _ <- parameters match {
       case Some(param) => for {
         environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
