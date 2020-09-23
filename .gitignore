@@ -9,7 +9,9 @@ dist/*
 target/
 lib_managed/
 src_managed/
-project/
+project/boot/
+project/plugins/project/
+project/*
 
 # Scala-IDE specific
 .scala_dependencies
