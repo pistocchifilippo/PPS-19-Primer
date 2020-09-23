@@ -17,6 +17,11 @@ import cats.effect.IO
 
 object Strategies {
 
+  // IO
+  def putStrLn(str: String): IO[Unit] = cats.effect.IO(println(str))
+  def getStrLn: IO[String] = cats.effect.IO(scala.io.StdIn.readLine())
+
+  // Positions
   def randomBoundedPosition: Position = Position.RandomPosition(BOUNDARIES)
   def randomBoundedEdgePosition: Position = Position.RandomEdgePosition(BOUNDARIES)
 
@@ -26,6 +31,7 @@ object Strategies {
 
   def randomGoal: Blob = BlobImplementation(randomBoundedPosition, GOAL_RADIUS)
 
+  // View
   def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))
 
   def printFile(output: Output): IO[Unit] = for {
@@ -36,7 +42,7 @@ object Strategies {
     } yield ()
 
 
-  val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jframe) => () => {
+  val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
 
     def _update(frame: JFrame): IO[Unit] = for {
       _ <- IO{Thread.sleep(UPDATE_TIME_MS)}
@@ -46,13 +52,11 @@ object Strategies {
       _ <- IO{frame.revalidate()}
     } yield()
 
-    jframe match {
+    jFrame match {
       case Some(frame) => _update(frame).unsafeRunSync()
-      case _ => {}
-    }}
-
-
-
+      case _ =>
+    }
+  }
 
   //def updateFrame(environment: Environment, jframe: Option[JFrame]): () => Unit = updateJFrame(environment, jframe)
 
@@ -60,8 +64,5 @@ object Strategies {
     case _ if bool => Option(SimulationView.buildFrame())
     case _ => Option.empty
   }
-
-  def putStrLn(str: String): IO[Unit] = cats.effect.IO(println(str))
-  def getStrLn: IO[String] = cats.effect.IO(scala.io.StdIn.readLine())
 
 }
