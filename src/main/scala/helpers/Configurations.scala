@@ -27,4 +27,19 @@ object Configurations {
   def SIMULATOR_WIDTH = 500
   def SIMULATOR_TITLE = "NATURAL SELECTION SIMULATOR"
   def UPDATE_TIME_MS = 30
+
+  // Gets
+  val WELCOME = "Welcome to natural selection simulator!!!"
+  val SM = "1. Simulation mode"
+  val TM = "2. Test mode"
+  val MODE = "Choose the execution mode " + SM + " " + TM
+  val ACCEPT_MODE = List("1","2")
+
+  val OUT = "Output on file? y/n"
+  val ACCEPT_OUT = List("y","n")
+
+  val DAYS = "Number of days"
+  val CREATURES = "Number of creatures"
+  val FOOD = "Number of food"
+
 }
