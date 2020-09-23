@@ -24,20 +24,4 @@ trait Simulator extends PureIterator [Simulator] {
    */
   def executedStep: Int
 
-//  def executeAll: IO[Simulator] = {
-//    def executeAll(dayStepSimulator: Simulator): IO[Simulator] = for {
-//      next <- dayStepSimulator.next()
-//      d <- if(next.hasNext) executeAll(next) else IO pure dayStepSimulator
-//    } yield d
-//    executeAll(this)
-//  }
-//
-//  def foldRight[A](base: A)(f: (Simulator, A) => A): IO[A] = {
-//    def foldRight(simulator: Simulator)(base: A)(f: (Simulator, A) => A): IO[A] =  for {
-//      next <- simulator.next()
-//      d <- if (simulator.hasNext) foldRight(next)(f(next, base))(f) else IO pure base
-//    } yield d
-//    foldRight(this)(base)(f)
-//  }
-
 }
