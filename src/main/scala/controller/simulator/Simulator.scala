@@ -1,6 +1,5 @@
 package controller.simulator
 
-import cats.effect.IO
 import controller.simulator.iterator.PureIterator
 import model.Environment
 

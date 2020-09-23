@@ -1,7 +1,6 @@
 package model.creature.movement
 
 import helpers.Configurations.GOAL_RADIUS
-import helpers.Conversions._
 import model.creature.Creature
 import model.{Blob, BlobImplementation, Position}
 import helpers.Strategies._

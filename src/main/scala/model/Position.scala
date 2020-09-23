@@ -8,6 +8,21 @@ object Position {
 
 //  type Position = (Double, Double)
 
+  implicit class MathPosition(pos: Position){
+    def +(position: Position): Position = Position(
+      x = pos.x + position.x,
+      y = pos.y + position.y
+    )
+
+    def -(position: Position): Position = Position(
+      x = pos.x - position.x,
+      y = pos.y - position.y
+    )
+
+    def aTan2: Double = Math.atan2(pos.y, pos.x)
+
+  }
+
   type BoundedPosition = Boundaries => Position
 
   object RandomPosition extends BoundedPosition {
