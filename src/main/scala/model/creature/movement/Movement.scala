@@ -5,6 +5,7 @@ import model.creature.Creature
 import model.{Blob, BlobImplementation, Position}
 import helpers.Strategies._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
+import model.Position.MathPosition
 
 /** Self type, adding movement to a creature */
 trait Movement extends Creature { c: Creature =>
