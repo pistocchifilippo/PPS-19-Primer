@@ -35,11 +35,6 @@ object Strategies {
   // Collisions
   def collidingCreatures(collisions: Traversable[FoodCreatureCollision]): List[EnvironmentCreature] = collisions.map{_._1}.toList
   def collidingFood(collisions: Traversable[FoodCreatureCollision]): List[Food] = collisions.map{_._2}.toList
-  def updateCreatureCollection(creatureCollection: Traversable[EnvironmentCreature])(toFeed: List[EnvironmentCreature]): IO[Traversable[EnvironmentCreature]] = IO pure {creatureCollection collect {
-    case cr if {toFeed contains cr} => cr.feed()
-    case cr => cr
-  }}
-  def updateFoodCollection(foodCollection: Traversable[Food])(toRemove: List[Food]): IO[Traversable[Food]] = IO pure {foodCollection filter (!toRemove.contains(_))}
 
   // View
   def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))

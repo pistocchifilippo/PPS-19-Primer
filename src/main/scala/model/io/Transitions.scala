@@ -25,6 +25,12 @@ object Transitions {
     } yield (c, f)
   }
 
+  private def updateCreatureCollection(creatureCollection: Traversable[EnvironmentCreature])(toFeed: List[EnvironmentCreature]): IO[Traversable[EnvironmentCreature]] = IO pure {creatureCollection collect {
+    case cr if {toFeed contains cr} => cr.feed()
+    case cr => cr
+  }}
+  private def updateFoodCollection(foodCollection: Traversable[Food])(toRemove: List[Food]): IO[Traversable[Food]] = IO pure {foodCollection filter (!toRemove.contains(_))}
+
   def makeNewEnvironment(movedCreatures: Traversable[EnvironmentCreature])(foodCollection: Traversable[Food])(coll: Traversable[FoodCreatureCollision]): IO[Environment] = for {
     c <- updateCreatureCollection(movedCreatures)(collidingCreatures(coll))
     f <- updateFoodCollection(foodCollection)(collidingFood(coll))
