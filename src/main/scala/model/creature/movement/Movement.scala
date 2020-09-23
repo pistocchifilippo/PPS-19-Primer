@@ -24,7 +24,7 @@ trait Movement extends Creature { c: Creature =>
 
   private def computeGoal: Movement => Blob = creature => if (Blob.collide(creature)(creature.goal)) BlobImplementation(randomBoundedPosition, GOAL_RADIUS) else creature.goal
 
-  private def computeNextPosition:  (Position, Double,  Position) => Position = (source, speed, dest) => {
+  private def computeNextPosition: (Position, Double,  Position) => Position = (source, speed, dest) => {
     source + Position(
       x = speed * Math.cos((dest - source).aTan2),
       y = speed * Math.sin((dest - source).aTan2)
