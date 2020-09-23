@@ -21,7 +21,7 @@ case class View(override val print: Output => IO[Unit])
 object SimulationView {
 
 
-  def collectParameters : IO[Option[Parameters]] = {
+  def collectParameters : IO[Option[SimulationParameters]] = {
     for {
       _ <- putStrLn("Welcome to natural selection simulator!!!")
       _ <- putStrLn("Scegli la modalità di esecuzione")
@@ -39,10 +39,10 @@ object SimulationView {
     } yield (simMode, outputFile, days.toInt, bodies.toInt, food.toInt) match {
       case (mode, file, nDays, nBodies, nFood) if checkParameters(mode, file, nDays, nBodies, nFood)
         => (mode, file) match {
-        case ("1", "y") => Option(Parameters(View(printFile)(getFrame(false)), nDays, nBodies, nFood))
-        case ("1", "n") => Option(Parameters(View(printCLI)(getFrame(false)), nDays, nBodies, nFood))
-        case ("2", "y") => Option(Parameters(View(printFile)(getFrame(true)) , nDays, nBodies, nFood))
-        case ("2", "n") => Option(Parameters(View(printCLI)(getFrame(true)), nDays, nBodies, nFood))
+        case ("1", "y") => Option(SimulationParameters(View(printFile)(getFrame(false)), nDays, nBodies, nFood))
+        case ("1", "n") => Option(SimulationParameters(View(printCLI)(getFrame(false)), nDays, nBodies, nFood))
+        case ("2", "y") => Option(SimulationParameters(View(printFile)(getFrame(true)) , nDays, nBodies, nFood))
+        case ("2", "n") => Option(SimulationParameters(View(printCLI)(getFrame(true)), nDays, nBodies, nFood))
         }
       case _ => Option.empty
     }

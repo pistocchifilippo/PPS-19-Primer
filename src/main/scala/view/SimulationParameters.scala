@@ -1,6 +1,6 @@
 package view
 
-case class Parameters(
+case class SimulationParameters(
                      view: SimulationView,
                      nDays: Int,
                      nCreatures: Int,
