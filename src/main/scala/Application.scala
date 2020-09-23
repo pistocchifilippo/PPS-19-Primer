@@ -6,7 +6,7 @@ import view.SimulationView
 
 object Application extends App {
 
-  def application: IO[Unit] = for {
+  val application: IO[Unit] = for {
     parameters <- SimulationView.collectParameters
     _ <- parameters match {
       case Some(param) => for {
