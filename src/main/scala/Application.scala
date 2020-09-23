@@ -12,7 +12,7 @@ object Application extends App {
       case Some(param) => for {
         sim <- makeSimulation(param)
         output <- ApplicationController.execute(sim)
-        _ <- parameters.get.view.print(output)
+        _ <- param.view.print(output)
       } yield ()
       // spostare la stampa lato view?
       case _ => putStrLn("Parametri non corretti. Riprova.")
