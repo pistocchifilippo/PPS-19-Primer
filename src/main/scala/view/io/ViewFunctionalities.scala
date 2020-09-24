@@ -4,8 +4,9 @@ import java.awt.BorderLayout
 import java.io.{File, FileWriter}
 
 import cats.effect.IO
+import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations._
-import helpers.Strategies.{getStrLn, isNumber, putStrLn}
+import helpers.Strategies.{getStrLn, isNumber, makeBoundedFoodCollection, makeOnBoundsCreaturesCollection, putStrLn}
 import helpers.io.IoConversion._
 import javax.swing.JFrame
 import model.Environment
@@ -47,6 +48,11 @@ object ViewFunctionalities {
     case ("2", "y", nDays,nCreatures,nFood) => SimulationParameters(View(printFile)(getFrame(true)) , nDays, nCreatures, nFood)
     case ("2", "n", nDays,nCreatures,nFood) => SimulationParameters(View(printCLI)(getFrame(true)), nDays, nCreatures, nFood)
   }
+
+  def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
+    environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
+    sim <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
+  } yield sim
 
   // View
   def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))

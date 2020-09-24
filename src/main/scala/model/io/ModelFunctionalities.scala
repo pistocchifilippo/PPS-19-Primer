@@ -13,11 +13,6 @@ import view.SimulationParameters
 
 object ModelFunctionalities {
 
-  def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
-    environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
-    sim <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
-  } yield sim
-
   def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double,Double) => Double): IO[Traversable[EnvironmentCreature]] = IO pure {creatures map (_.move)}
 
   type FoodCreatureCollision = (EnvironmentCreature, Food)
