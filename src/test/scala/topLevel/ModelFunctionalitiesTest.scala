@@ -1,9 +1,7 @@
 package topLevel
 
 import cats.effect.IO
-import helpers.Strategies.randomGoal
-import model.Position
-import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
+import model.creature.movement.{EnvironmentCreature, StarvingCreature}
 import model.io.Transitions.evolutionSet
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
