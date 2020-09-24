@@ -3,7 +3,8 @@ package controller.simulator
 import cats.effect.IO
 import model.Environment
 import model.creature.movement.EnvironmentCreature
-import model.io.Transitions._
+import model.io.ModelFunctionalities._
+import view.io.ViewFunctionalities._
 import view.SimulationView
 
 /** The DayStepSimulator represent the simulation for just one step of just one day */
@@ -25,7 +26,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: S
     c <- moveCreatures(environment.creatures)
     coll <- collisions(c)(environment.food)
     env <- makeNewEnvironment(c)(environment.food)(coll)
-    _ <- IO {SimulationView.update(view, env)} // This is not a pure value
+    _ <- update(view, env)
     } yield DayStepSimulator (
       executedStep + 1,
       env,

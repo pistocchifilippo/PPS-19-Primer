@@ -1,5 +1,7 @@
 package helpers.io
 
+import java.awt.Component
+
 import cats.effect.IO
 import model.Environment
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
@@ -13,5 +15,6 @@ object IoConversion {
   implicit def environmentToIo(env: Environment): IO[Environment] = IO pure env
   implicit def visualizerToIo(visualizer: Visualizer): IO[Visualizer] = IO.pure(visualizer)
   implicit def unitToIo(fun: Unit): IO[Unit] = IO.pure { () => fun }
+  implicit def componentToIo(component: Component): IO[Component] = IO pure component
 
 }

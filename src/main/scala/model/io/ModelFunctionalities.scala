@@ -11,7 +11,7 @@ import helpers.Configurations._
 import helpers.Strategies._
 import view.SimulationParameters
 
-object Transitions {
+object ModelFunctionalities {
 
   def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
     environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}

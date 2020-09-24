@@ -1,13 +1,13 @@
 import cats.effect.IO
 import controller.ApplicationController
-import helpers.Strategies._
-import model.io.Transitions._
-import view.SimulationView
+import model.io.ModelFunctionalities._
+import view.io.ViewFunctionalities._
+
 
 object Application extends App {
 
   val application: IO[Unit] = for {
-    parameters <- SimulationView.collectParameters
+    parameters <- collectParameters
     sim <- makeSimulation(parameters)
     output <- ApplicationController.execute(sim)
     _ <- parameters.view.print(output)

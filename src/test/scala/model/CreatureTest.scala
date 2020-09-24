@@ -4,7 +4,7 @@ import cats.effect.IO
 import helpers.Strategies._
 import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
-import model.io.Transitions._
+import model.io.ModelFunctionalities._
 import helpers.io.IoConversion._
 
 class CreatureTest extends AnyFunSuite {
