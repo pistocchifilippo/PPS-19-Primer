@@ -100,7 +100,7 @@ class CreatureTest extends AnyFunSuite {
       c <- StarvingCreature(Position(10, 10),10,10,10, randomGoal)
       m <- c.move(EnvironmentCreature.kineticConsumption)
     } yield {
-      //assert(!{movedCreature.center equals creature.center})
+      assert(!{m.center equals c.center})
     }
 
     test.unsafeRunSync()
