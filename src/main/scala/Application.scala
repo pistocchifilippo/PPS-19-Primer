@@ -1,8 +1,6 @@
 import cats.effect.IO
 import controller.ApplicationController
-import model.io.ModelFunctionalities._
 import view.io.ViewFunctionalities._
-
 
 object Application extends App {
 
