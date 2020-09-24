@@ -1,8 +1,9 @@
 package topLevel
 
 import cats.effect.IO
+import model.Blob
 import model.creature.movement.{EnvironmentCreature, StarvingCreature}
-import model.io.ModelFunctionalities.evolutionSet
+import model.io.ModelFunctionalities._
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 
@@ -58,5 +59,22 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
     test.unsafeRunSync()
 
   }
+
+  // Move
+  test("Creature position should be different") {
+    val test: IO[Unit] = for {
+      c <- IO pure {Blob.makeBlobCollection(() => mockStarving)(100)}
+      m <- moveCreatures(c)
+    } yield {
+      assert(!(c equals m))
+    }
+
+    test.unsafeRunSync()
+
+  }
+
+  test("Make new env"){}
+
+  test("Collisions"){}
 
 }
