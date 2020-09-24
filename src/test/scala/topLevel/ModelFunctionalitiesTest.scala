@@ -6,20 +6,19 @@ import model.Position
 import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import model.io.Transitions.evolutionSet
 import org.scalatest.funsuite.AnyFunSuite
+import testsUtil.Mock._
 
 class ModelFunctionalitiesTest extends AnyFunSuite {
 
   implicit val k: (Double, Double) => Double = EnvironmentCreature.kineticConsumption
-  implicit val randomPos: () => Position = () => Position(10, 10)
-  val dummyMutation: Double => Double = e => e * 0.1
 
   // EVOLUTION SET TESTS
   test("Evolution Set size should be the same") {
 
     val test: IO[Unit] = for {
       size <- IO {10}
-      evSet <- IO {for {x <- 0 until size} yield AteCreature(Position(10, 10),10,10,x, randomGoal)}
-      evolve <- evolutionSet(evSet)(randomPos)(dummyMutation)(dummyMutation)
+      evSet <- IO {for {_ <- 0 until size} yield mockAte}
+      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)(MOCK_MUTATION)
     } yield {
       assert(evolve.size equals size)
     }
@@ -32,8 +31,8 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
 
     val test: IO[Unit] = for {
       size <- IO {10}
-      evSet <- IO {for {x <- 0 until size} yield ReproducingCreature(Position(10, 10),10,10,x, randomGoal)}
-      evolve <- evolutionSet(evSet)(randomPos)(dummyMutation)(dummyMutation)
+      evSet <- IO {for {_ <- 0 until size} yield mockReproducing}
+      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)(MOCK_MUTATION)
     } yield {
       assert(evolve.size equals size * 2)
     }
@@ -46,8 +45,8 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
 
     val test: IO[Unit] = for {
       size <- IO {10}
-      evSet <- IO {for {x <- 0 until size} yield ReproducingCreature(Position(10, 10),10,10,x, randomGoal)}
-      evolve <- evolutionSet(evSet)(randomPos)(dummyMutation)(dummyMutation)
+      evSet <- IO {for {_ <- 0 until size} yield mockReproducing}
+      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)(MOCK_MUTATION)
     } yield for {
       c <- evolve
     } yield {
