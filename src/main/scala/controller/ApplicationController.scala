@@ -1,12 +1,9 @@
 package controller
 
 import cats.effect.IO
-import controller.simulator.{DaySimulator, Simulator}
-import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
-import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
-import model.Environment
-import model.output.Output._
+import controller.simulator.Simulator
 import model.output.Output
+import model.output.Output._
 
 object ApplicationController {
 
