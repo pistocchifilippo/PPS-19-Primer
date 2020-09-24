@@ -11,15 +11,6 @@ object Application extends App {
     sim <- makeSimulation(parameters)
     output <- ApplicationController.execute(sim)
     _ <- parameters.view.print(output)
-//    _ <- parameters match {
-//      case Some(param) => for {
-//        sim <- makeSimulation(param)
-//        output <- ApplicationController.execute(sim)
-//        _ <- param.view.print(output)
-//      } yield ()
-//      // spostare la stampa lato view?
-//      case _ => putStrLn("Parametri non corretti. Riprova.")
-//    }
   } yield ()
 
   application.unsafeRunSync()
