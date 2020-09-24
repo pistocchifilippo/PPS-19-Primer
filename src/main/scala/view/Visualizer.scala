@@ -1,26 +1,23 @@
 package view
 
-import java.awt.{Color, Graphics, Graphics2D, RenderingHints}
-import java.io.IOException
-import java.util.Random
-
+import java.awt.{Graphics, Graphics2D, RenderingHints}
+import helpers.io.IoConversion._
 import cats.effect.IO
+import helpers.Configurations._
 import javax.swing.JPanel
 import model.Environment
-import helpers.Configurations._
-//import scalaz.ioeffect.IO
 
 case class Visualizer(environment: Environment) extends JPanel {
 
   override def paint(g: Graphics): Unit = {
 
     def _paint(g1: Graphics2D): IO[Unit] = for {
-      _ <- IO{setSize(SIMULATOR_WIDTH, SIMULATOR_HEIGHT)}
-      _ <- IO{g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)}
-      _ <- IO{g1.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)}
-      _ <- IO{g1.clearRect(0, 0, SIMULATOR_WIDTH, SIMULATOR_HEIGHT)}
-      _ <- IO{environment.creatures.foreach(c => g1.drawOval(c.center.x.toInt, c.center.y.toInt, c.radius.toInt, c.radius.toInt))}
-      _ <- IO{environment.food.foreach(f => g1.drawOval(f.center.x.toInt, f.center.y.toInt, f.radius.toInt, f.radius.toInt))}
+      _ <- setSize(SIMULATOR_WIDTH, SIMULATOR_HEIGHT)
+      _ <- g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+      _ <- g1.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+      _ <- g1.clearRect(0, 0, SIMULATOR_WIDTH, SIMULATOR_HEIGHT)
+      _ <- environment.creatures.foreach(c => g1.drawOval(c.center.x.toInt, c.center.y.toInt, c.radius.toInt, c.radius.toInt))
+      _ <- environment.food.foreach(f => g1.drawOval(f.center.x.toInt, f.center.y.toInt, f.radius.toInt, f.radius.toInt))
     } yield ()
 
     _paint(g.asInstanceOf[Graphics2D]).unsafeRunSync()

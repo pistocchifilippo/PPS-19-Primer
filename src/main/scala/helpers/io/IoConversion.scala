@@ -12,5 +12,6 @@ object IoConversion {
   implicit def outputToIo(out: Output): IO[Output] = IO pure out
   implicit def environmentToIo(env: Environment): IO[Environment] = IO pure env
   implicit def visualizerToIo(visualizer: Visualizer): IO[Visualizer] = IO.pure(visualizer)
+  implicit def unitToIo(fun: Unit): IO[Unit] = IO.pure { () => fun }
 
 }
