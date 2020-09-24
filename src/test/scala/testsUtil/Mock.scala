@@ -2,12 +2,14 @@ package testsUtil
 
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
-import helpers.Strategies.{getFrame, makeBoundedFoodCollection, printCLI}
+import helpers.Strategies.makeBoundedFoodCollection
 import model.Blob.makeBlobCollection
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreature}
 import model.{Blob, BlobImplementation, Environment, Position}
 import view.View
+import view.io.ViewFunctionalities.printCLI
+import view.utils.ViewUtils.getFrame
 
 object Mock {
 

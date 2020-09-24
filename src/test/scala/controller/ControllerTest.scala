@@ -8,6 +8,8 @@ import model.Environment
 import model.output.Output
 import org.scalatest.funsuite.AnyFunSuite
 import view.View
+import view.io.ViewFunctionalities._
+import view.utils.ViewUtils._
 
 class ControllerTest extends AnyFunSuite{
 

@@ -6,6 +6,8 @@ import helpers.Strategies._
 import model.Environment
 import org.scalatest.funsuite.AnyFunSuite
 import view.View
+import view.io.ViewFunctionalities.printCLI
+import view.utils.ViewUtils._
 
 class SimulatorTest extends AnyFunSuite{
 

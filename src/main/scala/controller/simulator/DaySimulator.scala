@@ -7,7 +7,7 @@ import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
 import model.Environment
 import view.SimulationView
 import model.creature.movement.EnvironmentCreature._
-import model.io.Transitions._
+import model.io.ModelFunctionalities._
 
 /** The day simulator execute an entire day per step */
 case class DaySimulator(executedStep: Int,

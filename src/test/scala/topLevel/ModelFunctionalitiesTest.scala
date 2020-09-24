@@ -2,7 +2,7 @@ package topLevel
 
 import cats.effect.IO
 import model.creature.movement.{EnvironmentCreature, StarvingCreature}
-import model.io.Transitions.evolutionSet
+import model.io.ModelFunctionalities.evolutionSet
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 

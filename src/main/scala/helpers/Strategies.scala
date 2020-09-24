@@ -11,7 +11,7 @@ import model.Position._
 import model._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.StarvingCreature
-import model.io.Transitions.FoodCreatureCollision
+import model.io.ModelFunctionalities.FoodCreatureCollision
 import model.output.Output
 import model.output.Output.Output
 import view.{SimulationView, Visualizer}
@@ -37,39 +37,5 @@ object Strategies {
   def collidingFood(collisions: Traversable[FoodCreatureCollision]): List[Food] = collisions.map{_._2}.toList
 
   def isNumber: String => Boolean = s => s.forall(_.isDigit)
-
-  // View
-  def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))
-
-  def printFile(output: Output): IO[Unit] = for {
-      file <- IO(new File("hello.json"))
-      w <- IO(new FileWriter(file))
-      _ <- IO(w.write(Output.JsonParser(output)))
-      _ <- IO(w.close())
-    } yield ()
-
-
-  val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
-
-    def _update(frame: JFrame): IO[Unit] = for {
-      _ <- IO{Thread.sleep(UPDATE_TIME_MS)}
-      _ <- IO{frame.getContentPane.removeAll()}
-      visualizer <- Visualizer(environment)
-      _ <- IO{frame.getContentPane.add(visualizer)}
-      _ <- IO{frame.revalidate()}
-    } yield()
-
-    jFrame match {
-      case Some(frame) => _update(frame).unsafeRunSync()
-      case _ =>
-    }
-  }
-
-  //def updateFrame(environment: Environment, jframe: Option[JFrame]): () => Unit = updateJFrame(environment, jframe)
-
-  def getFrame(bool: Boolean): Option[JFrame] = bool match {
-    case _ if bool => Option(SimulationView.buildFrame())
-    case _ => Option.empty
-  }
 
 }
