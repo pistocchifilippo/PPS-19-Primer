@@ -7,7 +7,7 @@ import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCre
 import model.io.Transitions.evolutionSet
 import org.scalatest.funsuite.AnyFunSuite
 
-class ModelFunctionalities extends AnyFunSuite {
+class ModelFunctionalitiesTest extends AnyFunSuite {
 
   implicit val k: (Double, Double) => Double = EnvironmentCreature.kineticConsumption
   implicit val randomPos: () => Position = () => Position(10, 10)

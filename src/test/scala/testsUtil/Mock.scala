@@ -2,11 +2,11 @@ package testsUtil
 
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
-import helpers.Strategies.{getFrame, makeBoundedFoodCollection, makeOnBoundsCreaturesCollection, printCLI}
-import model.{Blob, BlobImplementation, Environment, Position}
+import helpers.Strategies.{getFrame, makeBoundedFoodCollection, printCLI}
+import model.Blob.makeBlobCollection
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
-import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
-import model.Blob._
+import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreature}
+import model.{Blob, BlobImplementation, Environment, Position}
 import view.View
 
 object Mock {
@@ -21,6 +21,8 @@ object Mock {
   val MOCK_CREATURE_SET_SIZE = 100
 
   val MOCK_VIEW: View = View(printCLI)(getFrame(false))
+  val MOCK_MUTATION: Double => Double = e => e * 0.1
+  val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 
   def mockEnvironment: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(MOCK_FOOD_SET_SIZE), makeBlobCollection(() => mockStarving)(MOCK_CREATURE_SET_SIZE))
 

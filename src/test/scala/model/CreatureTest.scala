@@ -1,25 +1,23 @@
 package model
 
 import cats.effect.IO
-import helpers.Strategies._
+import helpers.io.IoConversion._
 import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
-import model.io.Transitions._
-import helpers.io.IoConversion._
+import testsUtil.Mock._
 
 class CreatureTest extends AnyFunSuite {
 
   implicit val k: (Double, Double) => Double = EnvironmentCreature.kineticConsumption
-  implicit val randomPos: () => Position = () => Position(10, 10)
-  val dummyMutation: Double => Double = e => e * 0.1
+  implicit val randomPos: () => Position = MOCK_POS_GENERATOR
 
   test("A non ReproducingCreature should not reproduce") {
 
     val test: IO[Unit] = for {
-      c1 <- StarvingCreature(Position(10, 10),10,10,10, randomGoal)
-      c2 <- AteCreature(Position(10, 10),10,10,10, randomGoal)
-      ch1 = c1.reproduce(dummyMutation)(dummyMutation)
-      ch2 = c2.reproduce(dummyMutation)(dummyMutation)
+      c1 <- mockStarving
+      c2 <- mockAte
+      ch1 = c1.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
+      ch2 = c2.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
     } yield {
       assert(ch1.isEmpty)
       assert(ch2.isEmpty)
@@ -32,8 +30,8 @@ class CreatureTest extends AnyFunSuite {
   test("A ReproducingCreature should reproduce") {
 
     val test: IO[Unit] = for {
-      c <- ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
-      ch = c.reproduce(dummyMutation)(dummyMutation)
+      c <- mockReproducing
+      ch = c.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
     } yield {
       assert(ch.nonEmpty)
     }
@@ -45,9 +43,9 @@ class CreatureTest extends AnyFunSuite {
   test("The new creature should be a StarvingCreature") {
 
     val test: IO[Unit] = for {
-      c <- ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
+      c <- mockReproducing
     } yield for {
-      ch <- c.reproduce(dummyMutation)(dummyMutation)
+      ch <- c.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
     } yield {
       assert(
         ch match {
@@ -64,9 +62,9 @@ class CreatureTest extends AnyFunSuite {
   // Testing feed
   test("Creature should be feed") {
     val test: IO[Unit] = for {
-      cs <- StarvingCreature(Position(10, 10),10,10,10, randomGoal)
-      ca <- AteCreature(Position(10, 10),10,10,10, randomGoal)
-      cr <- ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
+      cs <- mockStarving
+      ca <- mockAte
+      cr <- mockReproducing
     } yield {
       assert(
         cs feed() match {
@@ -97,7 +95,7 @@ class CreatureTest extends AnyFunSuite {
   // Test move
   test("Position should change") {
     val test: IO[Unit] = for {
-      c <- StarvingCreature(Position(10, 10),10,10,10, randomGoal)
+      c <- mockStarving
       m <- c.move(EnvironmentCreature.kineticConsumption)
     } yield {
       assert(!{m.center equals c.center})
@@ -110,9 +108,9 @@ class CreatureTest extends AnyFunSuite {
   test("Creature class should not change") {
 
     val test: IO[Unit] = for {
-      cs <- StarvingCreature(Position(10, 10),10,10,10, randomGoal)
-      ca <- AteCreature(Position(10, 10),10,10,10, randomGoal)
-      cr <- ReproducingCreature(Position(10, 10),10,10,10, randomGoal)
+      cs <- mockStarving
+      ca <- mockAte
+      cr <- mockReproducing
     } yield {
       assert(
         cs.move match {
@@ -142,11 +140,10 @@ class CreatureTest extends AnyFunSuite {
 
   test("Energy should be lower") {
     val test: IO[Unit] = for {
-      energy <- IO {10000}
-      c <- StarvingCreature(Position(10, 10),10, energy,20, randomGoal)
+      c <- mockStarving
       m <- c.move
     } yield {
-      assert(m.energy < energy)
+      assert(c.energy > m.energy)
     }
 
     test.unsafeRunSync()
