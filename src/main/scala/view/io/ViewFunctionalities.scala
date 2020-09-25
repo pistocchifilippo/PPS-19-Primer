@@ -55,7 +55,7 @@ object ViewFunctionalities {
   } yield sim
 
   // View
-  def printCLI(output: Output): IO[Unit] = putStrLn(Output.CliParser(output))
+  def printCLI(output: Output): IO[Unit] = putStrLn(Output.LastDayParser(output))
 
   def printFile(output: Output): IO[Unit] = for {
     file <- IO(new File("hello.json"))

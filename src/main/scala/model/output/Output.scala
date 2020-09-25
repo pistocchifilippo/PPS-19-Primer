@@ -38,4 +38,14 @@ object Output {
     override def apply(out: Output): String = prettyPrint(out.outputToJson)
   }
 
+  object LastDayParser extends Parser {
+    override def apply(out: Output): String = prettyPrint {
+      out.filter(
+        _._1 equals out.keys.foldRight(0)((a,b) => if (a>b) a else b) // max
+      )
+        .outputToJson
+    }
+
+  }
+
 }
