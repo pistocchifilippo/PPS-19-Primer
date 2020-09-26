@@ -5,18 +5,17 @@ import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies._
 import model.Environment
-import model.output.Output
 import org.scalatest.funsuite.AnyFunSuite
 import view.View
 import view.io.ViewFunctionalities._
-import view.utils.ViewUtils._
 
 class ControllerTest extends AnyFunSuite{
 
   val env = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view = View(printCLI)(Option(buildFrame()))
+  val view = View(printCLI)(Option.empty)
 
   test("A controller should return an Output of proper size" ) {
+
     val test: IO[Unit] = for {
       sim1 <- IO {DaySimulator(0, 100, 20, env, view)}
       sim2 <- IO {DaySimulator(0, 100, 1, env, view)}

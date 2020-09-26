@@ -2,12 +2,11 @@ package controller.simulator
 
 import cats.effect.IO
 import helpers.Configurations._
-import helpers.Strategies._
-import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
+import helpers.Strategies.{makeBoundedFoodCollection, _}
 import model.Environment
-import view.SimulationView
 import model.creature.movement.EnvironmentCreature._
 import model.io.ModelFunctionalities._
+import view.SimulationView
 
 /** The day simulator execute an entire day per step */
 case class DaySimulator(executedStep: Int,
