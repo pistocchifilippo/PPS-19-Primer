@@ -34,7 +34,6 @@ object Blob {
    *
    * @return a [[Boolean]] which is `true` if the Blobs are colliding, `false` if they are not
    * */
-  //def collide(b1: model.Blob)(b2: model.Blob)(sense: (model.Blob, model.Blob) => Boolean) : Boolean = {
   def collide(blob1: Blob)(blob2: Blob) : Boolean = (blob1.center distance blob2.center) < (blob1.radius + blob2.radius)
 
   /**

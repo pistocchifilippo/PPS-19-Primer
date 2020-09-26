@@ -4,7 +4,7 @@ import java.awt.Component
 import java.io.{File, FileWriter}
 
 import cats.effect.IO
-import model.Environment
+import model.{Blob, Boundaries, Environment}
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.output.Output.Output
 import view.Visualizer
@@ -12,6 +12,8 @@ import view.Visualizer
 /** Module for implicit conversions in [[IO]] elements, be used in for-comprehension statements */
 object IoConversion {
 
+  implicit def blobToIO(b: Blob): IO[Blob] = IO pure b
+  implicit def boundsToIO(b: Boundaries): IO[Boundaries] = IO pure b
   implicit def creatureToIo(c: EnvironmentCreature): IO[EnvironmentCreature] = IO pure c
   implicit def outputToIo(out: Output): IO[Output] = IO pure out
   implicit def environmentToIo(env: Environment): IO[Environment] = IO pure env

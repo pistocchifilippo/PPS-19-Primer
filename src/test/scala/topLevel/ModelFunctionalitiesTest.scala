@@ -1,7 +1,13 @@
 package topLevel
 
 import cats.effect.IO
-import model.Blob
+import helpers.Configurations.BOUNDARIES
+import helpers.Strategies.makeBoundedFoodCollection
+import helpers.io.IoConversion._
+import model.Blob.makeBlobCollection
+import model.{Blob, Environment}
+import model.Position.MathPosition
+import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.{EnvironmentCreature, StarvingCreature}
 import model.io.ModelFunctionalities._
 import org.scalatest.funsuite.AnyFunSuite
@@ -62,19 +68,49 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
 
   // Move
   test("Creature position should be different") {
+
     val test: IO[Unit] = for {
-      c <- IO pure {Blob.makeBlobCollection(() => mockStarving)(100)}
-      m <- moveCreatures(c)
+      creatures <- IO pure {Blob.makeBlobCollection(() => mockStarving)(100)}
+      movedCreatures <- moveCreatures(creatures)
     } yield {
-      assert(!(c equals m))
+      assert(!(creatures equals movedCreatures))
     }
 
     test.unsafeRunSync()
 
   }
 
-  test("Make new env"){}
+  test("Distance to goal should be less after moving"){
 
-  test("Collisions"){}
+    def getDistanceToGoal(creature: EnvironmentCreature): Double = creature.center distance creature.goal.center
+
+    val test: IO[Unit] = for {
+      creature <- mockStarving
+      movedCreature <- moveCreatures(Traversable(creature))
+    } yield {
+      assert(getDistanceToGoal(movedCreature.head) < getDistanceToGoal(creature))
+    }
+
+    test.unsafeRunSync()
+
+  }
+
+  test("Test on new Environment: creature eating and food set reducing on collisions"){
+
+    val test: IO[Unit] = for {
+      environment <- Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeBlobCollection(() => randomMockStarving)(100))
+      movedCreatures <- moveCreatures(environment.creatures)
+      coll <- collisions(movedCreatures)(environment.food)
+      newEnvironment <- makeNewEnvironment(movedCreatures)(environment.food)(coll)
+    } yield
+      coll.size match {
+        case n if n > 0 => assert(!(environment.food.size equals newEnvironment.food.size))
+        case _ => assert(environment.food.size equals newEnvironment.food.size)
+    }
+
+    test.unsafeRunSync()
+
+  }
+
 
 }
