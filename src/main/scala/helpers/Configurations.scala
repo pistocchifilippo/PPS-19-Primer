@@ -1,11 +1,12 @@
 package helpers
 
-import model.{Boundaries, Position}
+import model.Boundaries
+import model.Position.Position
 
 object Configurations {
-  def TOP_LEFT: Position = Position(0, 0)
+  def TOP_LEFT: Position = 0.0 -> 0.0
 
-  def BOTTOM_RIGHT: Position = Position(500, 500)
+  def BOTTOM_RIGHT: Position = 500.0 -> 500.0
 
   def BOUNDARIES: Boundaries = Boundaries(TOP_LEFT, BOTTOM_RIGHT)
 

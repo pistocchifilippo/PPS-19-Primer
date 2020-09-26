@@ -10,9 +10,9 @@ import org.scalatest.funsuite.AnyFunSuite
 class OutputTest extends AnyFunSuite {
 
   val out: Output = Map.empty
-  val food = Traversable(Food(Position(10,10), 10))
-  val creatures = Traversable(StarvingCreature(Position(10,10), 10, 10, 10, randomGoal))
-  val environment: Environment = Environment(Boundaries(Position(10,10), Position(10,10)), food, creatures)
+  val food = Traversable(Food(10.0-> 10.0, 10))
+  val creatures = Traversable(StarvingCreature(10.0-> 10.0, 10, 10, 10, randomGoal))
+  val environment: Environment = Environment(Boundaries(10.0-> 10.0, 10.0-> 10.0), food, creatures)
 
 
   test("Environment should be the same") {

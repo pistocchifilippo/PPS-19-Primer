@@ -3,6 +3,7 @@ package model
 import cats.effect.IO
 import helpers.io.IoConversion._
 import model.creature.movement.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
+import model.Position.Position
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 

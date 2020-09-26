@@ -1,20 +1,13 @@
 package helpers
 
-import java.io._
-
 import cats.effect.IO
 import helpers.Configurations._
-import helpers.io.IoConversion._
-import javax.swing.JFrame
 import model.Blob.makeBlobCollection
-import model.Position._
+import model.Position.{Position, RandomEdgePosition, RandomPosition}
 import model._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.StarvingCreature
 import model.io.ModelFunctionalities.FoodCreatureCollision
-import model.output.Output
-import model.output.Output.Output
-import view.{SimulationView, Visualizer}
 
 object Strategies {
 

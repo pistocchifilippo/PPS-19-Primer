@@ -1,6 +1,7 @@
 package helpers.io
 
 import java.awt.Component
+import java.io.{File, FileWriter}
 
 import cats.effect.IO
 import model.Environment
@@ -8,6 +9,7 @@ import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.output.Output.Output
 import view.Visualizer
 
+/** Module for implicit conversions in [[IO]] elements, be used in for-comprehension statements */
 object IoConversion {
 
   implicit def creatureToIo(c: EnvironmentCreature): IO[EnvironmentCreature] = IO pure c
@@ -16,5 +18,7 @@ object IoConversion {
   implicit def visualizerToIo(visualizer: Visualizer): IO[Visualizer] = IO.pure(visualizer)
   implicit def unitToIo(fun: Unit): IO[Unit] = IO.pure { () => fun }
   implicit def componentToIo(component: Component): IO[Component] = IO pure component
+  implicit def fileToIo(file: File): IO[File] = IO pure file
+  implicit def fileWriterToIo(fileWriter: FileWriter): IO[FileWriter] = IO pure fileWriter
 
 }

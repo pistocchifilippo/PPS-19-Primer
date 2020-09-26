@@ -3,7 +3,8 @@ package model.io
 import cats.effect.IO
 import helpers.Configurations.CREATURES_ENERGY
 import helpers.Strategies.randomGoal
-import model.{Blob, Environment, Food, Position}
+import model.{Blob, Environment, Food}
+import model.Position.Position
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.{ReproducingCreature, StarvingCreature}
 import helpers.Configurations._
