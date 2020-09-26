@@ -2,7 +2,7 @@ package testsUtil
 
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
-import helpers.Strategies.makeBoundedFoodCollection
+import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
 import model.Blob.makeBlobCollection
 import model.Position.Position
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
@@ -10,7 +10,7 @@ import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreatu
 import model.{Blob, BlobImplementation, Environment, Position}
 import view.View
 import view.io.ViewFunctionalities.printCLI
-import view.utils.ViewUtils.getFrame
+import view.utils.ViewUtils.buildFrame
 
 object Mock {
 
@@ -23,7 +23,7 @@ object Mock {
   val MOCK_FOOD_SET_SIZE = 100
   val MOCK_CREATURE_SET_SIZE = 100
 
-  val MOCK_VIEW: View = View(printCLI)(getFrame(false))
+  val MOCK_VIEW: View = View(printCLI)(Option.empty)
   val MOCK_MUTATION: Double => Double = e => e * 0.1
   val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 
@@ -33,6 +33,14 @@ object Mock {
 
   def mockStarving: EnvironmentCreature = StarvingCreature(
     center = MOCK_POSITION,
+    radius = MOCK_RADIUS,
+    speed = MOCK_SPEED,
+    energy = MOCK_ENERGY,
+    goal = MOCK_GOAL
+  )
+
+  def randomMockStarving: EnvironmentCreature = StarvingCreature(
+    center = Position.RandomPosition(BOUNDARIES),
     radius = MOCK_RADIUS,
     speed = MOCK_SPEED,
     energy = MOCK_ENERGY,

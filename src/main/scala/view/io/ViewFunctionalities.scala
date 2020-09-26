@@ -12,7 +12,7 @@ import javax.swing.JFrame
 import model.Environment
 import model.output.Output
 import model.output.Output.Output
-import view.utils.ViewUtils.getFrame
+import view.utils.ViewUtils.buildFrame
 import view.{SimulationParameters, SimulationView, View, Visualizer}
 
 object ViewFunctionalities {
@@ -43,7 +43,7 @@ object ViewFunctionalities {
 
   /** Retrieves all the parameters.
    *
-   * @return a [[SimulationParameters]] element, casted in [[IO]] to be used in a for-comprehension statement. */
+   * @return a [[SimulationParameters]] element, casted in [[IO]], to be used in a for-comprehension statement. */
   def collectParameters : IO[SimulationParameters] = for {
     _ <- putStrLn(WELCOME)
     mode <- scheduleGet(() => getParameters(MODE), ACCEPT_MODE contains _)
@@ -52,14 +52,18 @@ object ViewFunctionalities {
     nCreatures <- scheduleGet(() => getParameters(CREATURES), isNumber)
     nFood <- scheduleGet(() => getParameters(FOOD), isNumber)
   } yield (mode, out, nDays.toInt, nCreatures.toInt, nFood.toInt) match {
-    case ("1", "y", nDays,nCreatures,nFood) => SimulationParameters(View(printFile)(getFrame(false)), nDays, nCreatures, nFood)
-    case ("1", "n", nDays,nCreatures,nFood) => SimulationParameters(View(printCLI)(getFrame(false)), nDays, nCreatures, nFood)
-    case ("2", "y", nDays,nCreatures,nFood) => SimulationParameters(View(printFile)(getFrame(true)) , nDays, nCreatures, nFood)
-    case ("2", "n", nDays,nCreatures,nFood) => SimulationParameters(View(printCLI)(getFrame(true)), nDays, nCreatures, nFood)
+    case ("1", "y", days, creatures, food) => SimulationParameters(View(printFile)(Option.empty), days, creatures, food)
+    case ("1", "n", days, creatures, food) => SimulationParameters(View(printCLI)(Option.empty), days, creatures, food)
+    case ("2", "y", days, creatures, food) => SimulationParameters(View(printFile)(Option(buildFrame())) , days, creatures, food)
+    case ("2", "n", days, creatures, food) => SimulationParameters(View(printCLI)(Option(buildFrame())), days, creatures, food)
   }
 
+  /** Creates a new [[DaySimulator]] on an environment with given [[SimulationParameters]]
+   *
+   * @return a [[DaySimulator]]
+   * */
   def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
-    environment <- IO {Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
+    environment <- Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))
     sim <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
   } yield sim
 
@@ -84,7 +88,7 @@ object ViewFunctionalities {
     case _ =>
   }
 
-  /** Update the [[JFrame]], if present, element of a [[View]] to display the given [[Environment]] */
+  /** Update the [[JFrame]] of a [[View]], if present, to display the given [[Environment]] */
   val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
 
     /** Update the [[JFrame]] with a new [[Visualizer]] that shows the given Environment*/

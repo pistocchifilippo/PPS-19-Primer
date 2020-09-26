@@ -14,7 +14,7 @@ import view.utils.ViewUtils._
 class ControllerTest extends AnyFunSuite{
 
   val env = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view = View(printCLI)(getFrame(false))
+  val view = View(printCLI)(Option(buildFrame()))
 
   test("A controller should return an Output of proper size" ) {
     val test: IO[Unit] = for {
