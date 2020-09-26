@@ -6,8 +6,8 @@ import org.scalatest.funsuite.AnyFunSuite
 class PositionTest extends AnyFunSuite {
 
   import model.Position._
-  val boundaries: Boundaries = Boundaries(Position(0,0), Position(100,100))
-  val boundaries2: Boundaries = Boundaries(Position(10, 10), Position(99,88))
+  val boundaries: Boundaries = Boundaries(0.0 -> 0.0, 100.0 -> 100.0)
+  val boundaries2: Boundaries = Boundaries(10.0-> 10.0, 99.0 -> 98.0)
 
   test("Should all be inside bounds"){
 
@@ -29,10 +29,10 @@ class PositionTest extends AnyFunSuite {
       } yield {
         println(p)
         assert(
-          p.x == 0 ||
-          p.x == 100 ||
-          p.y == 0 ||
-          p.y == 100
+          p._1 == 0 ||
+          p._1 == 100 ||
+          p._2 == 0 ||
+          p._2 == 100
         )
       }
   }

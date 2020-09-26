@@ -4,6 +4,7 @@ import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.makeBoundedFoodCollection
 import model.Blob.makeBlobCollection
+import model.Position.Position
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreature}
 import model.{Blob, BlobImplementation, Environment, Position}
@@ -14,8 +15,8 @@ import view.utils.ViewUtils.getFrame
 object Mock {
 
   val MOCK_STEP = 100
-  val MOCK_POSITION: Position = Position(10,10)
-  val MOCK_GOAL: Blob = BlobImplementation(Position(30,30), 10)
+  val MOCK_POSITION: Position = 10.0 -> 10.0
+  val MOCK_GOAL: Blob = BlobImplementation(30.0 -> 30.0, 10)
   val MOCK_SPEED = 10
   val MOCK_RADIUS = 10
   val MOCK_ENERGY = 10

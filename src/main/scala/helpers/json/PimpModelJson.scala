@@ -31,8 +31,8 @@ object PimpModelJson {
 
   /** Adds following conversions to Food trait */
   implicit class FoodToJson(f: Food) {
-    def xJson: JsObject = Json.obj(X -> f.center.x)
-    def yJson: JsObject = Json.obj(Y -> f.center.y)
+    def xJson: JsObject = Json.obj(X -> f.center._1)
+    def yJson: JsObject = Json.obj(Y -> f.center._2)
     def positionJson: JsObject = Json.obj(POSITION -> (xJson ++ yJson))
     def foodToJson: JsObject = Json.obj(FOOD -> positionJson)
   }
@@ -49,8 +49,8 @@ object PimpModelJson {
       Json.obj(CONDITION -> cond)
     }
 
-    def xJson: JsObject = Json.obj(X -> c.center.x)
-    def yJson: JsObject = Json.obj(Y -> c.center.y)
+    def xJson: JsObject = Json.obj(X -> c.center._1)
+    def yJson: JsObject = Json.obj(Y -> c.center._2)
     def positionToJson: JsObject = Json.obj(POSITION -> (xJson ++ yJson))
 
     def sizeJson: JsObject = Json.obj(SIZE -> c.radius)

@@ -1,6 +1,7 @@
 package model.creature.movement
 
-import model.{Blob, Position}
+import model.Blob
+import model.Position.Position
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 
 /** This is a creature that ate no food

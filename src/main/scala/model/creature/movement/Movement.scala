@@ -2,10 +2,10 @@ package model.creature.movement
 
 import helpers.Configurations.GOAL_RADIUS
 import model.creature.Creature
-import model.{Blob, BlobImplementation, Position}
+import model.{Blob, BlobImplementation}
 import helpers.Strategies._
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
-import model.Position.MathPosition
+import model.Position.{Position, MathPosition}
 
 /** Self type, adding movement to a creature */
 trait Movement extends Creature { c: Creature =>
@@ -24,11 +24,12 @@ trait Movement extends Creature { c: Creature =>
 
   private def computeGoal: Movement => Blob = creature => if (Blob.collide(creature)(creature.goal)) BlobImplementation(randomBoundedPosition, GOAL_RADIUS) else creature.goal
 
+  /** Compute the next position of a moving creature, based on `source`, `destination` and `speed`
+   *
+   * @return a [[Position]]
+   */
   private def computeNextPosition: (Position, Double,  Position) => Position = (source, speed, dest) => {
-    source + Position(
-      x = speed * Math.cos((dest - source).aTan2),
-      y = speed * Math.sin((dest - source).aTan2)
-    )
+    source + (speed * Math.cos((dest delta source).aTan2) -> speed * Math.sin((dest delta source).aTan2))
   }
 
 }
