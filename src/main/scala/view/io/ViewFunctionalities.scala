@@ -1,6 +1,5 @@
 package view.io
 
-import java.awt.BorderLayout
 import java.io.{File, FileWriter}
 
 import cats.effect.IO
@@ -20,8 +19,11 @@ object ViewFunctionalities {
   /** A Get is a request of a parameter to the user */
   type Get = String => IO[String]
 
+  /** Function that takes the given input and accepts or not that string */
+  type Acceptor = String => Boolean
+
   /** A GetScheduler keep asking the request until the input is correct */
-  type GetScheduler = (() => IO[String], String => Boolean) => IO[String]
+  type GetScheduler = (String, Get, Acceptor) => IO[String]
 
   /** Retrieves a [[SimulationParameters]] by console
    * @return a [[Get]] element
@@ -35,9 +37,9 @@ object ViewFunctionalities {
    *
    * @return the parameter if it is consistent, based on an given `accept rule`. Requests the parameter again otherwise.
    * */
-  def scheduleGet: GetScheduler = (get, accept) => for {
-    in <- get()
-    res <- if (accept(in)) IO{in} else scheduleGet(get, accept)
+  def scheduleGet: GetScheduler = (request, get, accept) => for {
+    in <- get(request)
+    res <- if (accept(in)) IO{in} else scheduleGet(request, get, accept)
   } yield res
 
 
@@ -46,11 +48,11 @@ object ViewFunctionalities {
    * @return a [[SimulationParameters]] element, casted in [[IO]], to be used in a for-comprehension statement. */
   def collectParameters : IO[SimulationParameters] = for {
     _ <- putStrLn(WELCOME)
-    mode <- scheduleGet(() => getParameters(MODE), ACCEPT_MODE contains _)
-    out <- scheduleGet(() => getParameters(OUT), ACCEPT_OUT contains _)
-    nDays <- scheduleGet(() => getParameters(DAYS), isNumber)
-    nCreatures <- scheduleGet(() => getParameters(CREATURES), isNumber)
-    nFood <- scheduleGet(() => getParameters(FOOD), isNumber)
+    mode <- scheduleGet(MODE, getParameters, ACCEPT_MODE contains _)
+    out <- scheduleGet(OUT, getParameters, ACCEPT_OUT contains _)
+    nDays <- scheduleGet(DAYS, getParameters, isNumber)
+    nCreatures <- scheduleGet(CREATURES, getParameters, isNumber)
+    nFood <- scheduleGet(FOOD, getParameters, isNumber)
   } yield (mode, out, nDays.toInt, nCreatures.toInt, nFood.toInt) match {
     case ("1", "y", days, creatures, food) => SimulationParameters(View(printFile)(Option.empty), days, creatures, food)
     case ("1", "n", days, creatures, food) => SimulationParameters(View(printCLI)(Option.empty), days, creatures, food)

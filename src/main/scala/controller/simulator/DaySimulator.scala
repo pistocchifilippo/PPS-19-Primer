@@ -2,7 +2,7 @@ package controller.simulator
 
 import cats.effect.IO
 import helpers.Configurations._
-import helpers.Strategies.{makeBoundedFoodCollection, _}
+import helpers.Strategies._
 import model.Environment
 import model.creature.movement.EnvironmentCreature._
 import model.io.ModelFunctionalities._
