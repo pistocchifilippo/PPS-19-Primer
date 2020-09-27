@@ -5,7 +5,7 @@ import controller.simulator.Simulator
 import model.output.Output
 import model.output.Output._
 
-object ApplicationController {
+object Controller {
 
   /** This function executes a simulation until it's expiredThis function executes a simulation until it's expired
    *
