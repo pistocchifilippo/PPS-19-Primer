@@ -1,8 +1,6 @@
 package model.creature
 
-import model.{Blob, Position}
-import helpers.Strategies._
-import model.creature.movement.{ReproducingCreature, StarvingCreature}
+import model.Blob
 
 /** Creature trait */
 trait Creature extends Blob {
