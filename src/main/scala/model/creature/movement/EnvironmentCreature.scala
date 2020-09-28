@@ -1,6 +1,7 @@
 package model.creature.movement
 
 import helpers.Strategies.randomGoal
+import model.Blob
 import model.Position.Position
 import model.creature.Creature
 
@@ -10,9 +11,9 @@ object EnvironmentCreature {
   trait EnvironmentCreature extends Creature with Movement {
     /** The creature reproduces if possible
      *
-     * @param sizeMutation of radius
+     * @param sizeMutation  of radius
      * @param speedMutation of speed
-     * @param newPosition of the creature
+     * @param newPosition   of the creature
      * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
      */
     def reproduce(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
@@ -31,8 +32,58 @@ object EnvironmentCreature {
     }
   }
 
+  /** This is a creature that ate no food
+   *
+   * @param center of the creature
+   * @param speed  of the creature
+   * @param energy of the creature
+   * @param radius of the creature
+   * @param goal   of the creature
+   */
+  case class StarvingCreature(
+                               override val center: Position,
+                               override val speed: Double,
+                               override val energy: Double,
+                               override val radius: Double,
+                               override val goal: Blob
+                             ) extends EnvironmentCreature
+
+  /** This is a creature that ate one food
+   *
+   * @param center of the creature
+   * @param speed  of the creature
+   * @param energy of the creature
+   * @param radius of the creature
+   * @param goal   of the creature
+   */
+  case class AteCreature(
+                          override val center: Position,
+                          override val speed: Double,
+                          override val energy: Double,
+                          override val radius: Double,
+                          override val goal: Blob
+                        ) extends EnvironmentCreature
+
+  /** This is a creature that ate two food
+   *
+   * @param center of the creature
+   * @param speed  of the creature
+   * @param energy of the creature
+   * @param radius of the creature
+   * @param goal   of the creature
+   */
+  case class ReproducingCreature(
+                                  override val center: Position,
+                                  override val speed: Double,
+                                  override val energy: Double,
+                                  override val radius: Double,
+                                  override val goal: Blob
+                                ) extends EnvironmentCreature
+
   /** Kinetic energy formula */
-  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {Math pow (v, 2)}
+  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {
+    Math pow(v, 2)
+  }
 
   implicit val noSizeMutation: Double => Double = m => m
 

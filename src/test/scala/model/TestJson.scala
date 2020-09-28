@@ -2,10 +2,10 @@ package model
 
 import cats.effect.IO
 import helpers.Strategies.randomGoal
-import model.creature.movement.{AteCreature, StarvingCreature}
+import helpers.io.IoConversion._
+import model.creature.movement.EnvironmentCreature.{AteCreature, StarvingCreature}
 import org.scalatest.funsuite.AnyFunSuite
 import play.api.libs.json.Json
-import helpers.io.IoConversion._
 
 import scala.collection.Traversable
 

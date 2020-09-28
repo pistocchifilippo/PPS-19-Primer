@@ -2,7 +2,7 @@ package model
 
 import cats.effect.IO
 import helpers.Strategies.randomGoal
-import model.creature.movement.StarvingCreature
+import model.creature.movement.EnvironmentCreature.{StarvingCreature, AteCreature, ReproducingCreature}
 import model.output.Output
 import model.output.Output.{JsonParser, Output}
 import org.scalatest.funsuite.AnyFunSuite

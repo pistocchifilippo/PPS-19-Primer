@@ -5,11 +5,11 @@ import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.makeBoundedFoodCollection
 import helpers.io.IoConversion._
 import model.Blob.makeBlobCollection
-import model.{Blob, Environment}
 import model.Position.MathPosition
-import model.creature.movement.EnvironmentCreature.EnvironmentCreature
-import model.creature.movement.{EnvironmentCreature, StarvingCreature}
+import model.creature.movement.EnvironmentCreature
+import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
 import model.io.ModelFunctionalities._
+import model.{Blob, Environment}
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 

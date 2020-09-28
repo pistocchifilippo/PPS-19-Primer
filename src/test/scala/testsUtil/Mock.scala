@@ -5,12 +5,10 @@ import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
 import model.Blob.makeBlobCollection
 import model.Position.Position
-import model.creature.movement.EnvironmentCreature.EnvironmentCreature
-import model.creature.movement.{AteCreature, ReproducingCreature, StarvingCreature}
+import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature, AteCreature, ReproducingCreature}
 import model.{Blob, BlobImplementation, Environment, Position}
 import view.View
 import view.io.ViewFunctionalities.printCLI
-import view.utils.ViewUtils.buildFrame
 
 object Mock {
 
