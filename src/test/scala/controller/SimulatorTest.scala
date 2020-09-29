@@ -6,14 +6,14 @@ import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies._
 import model.Environment
 import org.scalatest.funsuite.AnyFunSuite
-import view.View
-import view.io.ViewFunctionalities.printCLI
+import view.graphic.SimulationViewImpl
+import view.View.printCLI
 import view.utils.ViewUtils._
 
 class SimulatorTest extends AnyFunSuite{
 
   val env: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view: View = View(printCLI)(Option.empty)
+  val view: SimulationViewImpl = SimulationViewImpl(printCLI)(Option.empty)
   val nDays = 20
 
   test("A day simulator should have expected behaviour" ) {

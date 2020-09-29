@@ -6,8 +6,8 @@ import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
 import model.Environment
 import org.scalatest.funsuite.AnyFunSuite
-import view.View
 import testsUtil.Mock._
+import view.graphic.SimulationViewImpl
 
 class PureIteratorTest extends AnyFunSuite {
 

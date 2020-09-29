@@ -4,8 +4,8 @@ import cats.effect.IO
 import model.Environment
 import model.creature.movement.EnvironmentCreature
 import model.io.Model._
-import view.io.ViewFunctionalities._
-import view.SimulationView
+import view.graphic.SimulationView
+import view.View._
 
 /** The DayStepSimulator represent the simulation for just one step of just one day */
 case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {

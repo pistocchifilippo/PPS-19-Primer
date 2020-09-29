@@ -6,13 +6,13 @@ import helpers.Configurations.BOUNDARIES
 import helpers.Strategies._
 import model.Environment
 import org.scalatest.funsuite.AnyFunSuite
-import view.View
-import view.io.ViewFunctionalities._
+import view.graphic.SimulationViewImpl
+import view.View._
 
 class ControllerTest extends AnyFunSuite{
 
   val env = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view = View(printCLI)(Option.empty)
+  val view = SimulationViewImpl(printCLI)(Option.empty)
 
   test("A controller should return an Output of proper size" ) {
 

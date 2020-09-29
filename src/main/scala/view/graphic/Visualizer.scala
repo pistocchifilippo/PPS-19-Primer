@@ -1,9 +1,8 @@
-package view
+package view.graphic
 
 import java.awt.{Graphics, Graphics2D, RenderingHints}
-import helpers.io.IoConversion._
-import cats.effect.IO
-import helpers.Configurations._
+
+import helpers.Configurations.{VISUALIZER_HEIGHT, VISUALIZER_WIDTH}
 import javax.swing.JPanel
 import model.Environment
 

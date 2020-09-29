@@ -7,7 +7,7 @@ import cats.effect.IO
 import model.{Blob, Boundaries, Environment}
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.output.Output.Output
-import view.Visualizer
+import view.graphic.Visualizer
 
 /** Module for implicit conversions in [[IO]] elements, be used in for-comprehension statements */
 object IoConversion {

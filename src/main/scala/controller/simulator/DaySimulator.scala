@@ -6,7 +6,7 @@ import helpers.Strategies._
 import model.Environment
 import model.creature.movement.EnvironmentCreature._
 import model.io.Model._
-import view.SimulationView
+import view.graphic.SimulationView
 
 /** The day simulator execute an entire day per step */
 case class DaySimulator(executedStep: Int,

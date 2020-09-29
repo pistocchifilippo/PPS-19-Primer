@@ -5,10 +5,10 @@ import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
 import model.Blob.makeBlobCollection
 import model.Position.Position
-import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature, AteCreature, ReproducingCreature}
+import model.creature.movement.EnvironmentCreature.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import model.{Blob, BlobImplementation, Environment, Position}
-import view.View
-import view.io.ViewFunctionalities.printCLI
+import view.graphic.SimulationViewImpl
+import view.View.printCLI
 
 object Mock {
 
@@ -21,7 +21,7 @@ object Mock {
   val MOCK_FOOD_SET_SIZE = 100
   val MOCK_CREATURE_SET_SIZE = 100
 
-  val MOCK_VIEW: View = View(printCLI)(Option.empty)
+  val MOCK_VIEW: SimulationViewImpl = SimulationViewImpl(printCLI)(Option.empty)
   val MOCK_MUTATION: Double => Double = e => e * 0.1
   val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 
