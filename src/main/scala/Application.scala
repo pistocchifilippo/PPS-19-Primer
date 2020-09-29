@@ -1,6 +1,7 @@
 import cats.effect.IO
 import controller.Controller
 import view.View._
+import controller.Controller._
 
 object Application extends App {
 

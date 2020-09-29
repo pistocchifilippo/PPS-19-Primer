@@ -15,6 +15,7 @@ import view.utils.SimulationParameters
 import view.utils.ViewUtils.buildFrame
 import helpers.io.IoConversion._
 
+/** This is a top-level module containing view functionalities */
 object View {
 
   /** A Get is a request of a parameter to the user */
@@ -60,15 +61,6 @@ object View {
     case ("2", "y", days, creatures, food) => utils.SimulationParameters(SimulationViewImpl(printFile)(Option(buildFrame())) , days, creatures, food)
     case ("2", "n", days, creatures, food) => utils.SimulationParameters(SimulationViewImpl(printCLI)(Option(buildFrame())), days, creatures, food)
   }
-
-  /** Creates a new [[DaySimulator]] on an environment with given [[SimulationParameters]]
-   *
-   * @return a [[DaySimulator]]
-   * */
-  def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
-    environment <- Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))
-    sim <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
-  } yield sim
 
   /** Prints the given [[Output]] on console
    * */
