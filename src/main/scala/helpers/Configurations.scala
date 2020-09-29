@@ -1,5 +1,7 @@
 package helpers
 
+import java.io.File
+
 import model.environment
 import model.environment.Boundaries
 import model.environment.Position.Position
@@ -46,4 +48,6 @@ object Configurations {
   val CREATURES = "Number of creatures"
   val FOOD = "Number of food"
 
+
+  val SEPARATOR = File.separator
 }

@@ -4,7 +4,6 @@ import java.awt.Dimension
 
 import helpers.Configurations.{SIMULATOR_HEIGHT, SIMULATOR_TITLE, SIMULATOR_WIDTH}
 import javax.swing.JFrame
-import view.graphic.SimulationView
 
 /** Utilities module for [[SimulationView]] elements
  * */

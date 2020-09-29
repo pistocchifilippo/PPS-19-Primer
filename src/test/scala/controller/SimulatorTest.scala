@@ -1,19 +1,18 @@
 package controller
 
 import cats.effect.IO
-import controller.simulator.{DaySimulator, DayStepSimulator, Simulator}
+import controller.simulator.{DaySimulator, DayStepSimulator}
 import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies._
 import model.environment.Environment
 import org.scalatest.funsuite.AnyFunSuite
-import view.graphic.SimulationViewImpl
 import view.View.printCLI
-import view.utils.ViewUtils._
+import view.graphic.SimulationView
 
 class SimulatorTest extends AnyFunSuite{
 
   val env: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view: SimulationViewImpl = SimulationViewImpl(printCLI)(Option.empty)
+  val view: SimulationView = SimulationView(printCLI)(Option.empty)
   val nDays = 20
 
   test("A day simulator should have expected behaviour" ) {

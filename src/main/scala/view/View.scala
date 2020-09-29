@@ -1,19 +1,19 @@
 package view
 
-import java.io.{File, FileWriter}
+import java.io.{BufferedWriter, File, FileWriter}
+import java.sql.Timestamp
 
 import cats.effect.IO
-import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations._
 import helpers.Strategies._
+import helpers.io.IoConversion._
 import javax.swing.JFrame
+import model.environment.Environment
 import model.output.Output
 import model.output.Output.Output
-import view.graphic.{SimulationView, SimulationViewImpl, Visualizer}
+import view.graphic.{BaseView, SimulationView}
 import view.utils.SimulationParameters
 import view.utils.ViewUtils.buildFrame
-import helpers.io.IoConversion._
-import model.environment.Environment
 
 /** This is a top-level module containing view functionalities */
 object View {
@@ -56,34 +56,39 @@ object View {
     nCreatures <- scheduleGet(CREATURES, getParameters, isNumber)
     nFood <- scheduleGet(FOOD, getParameters, isNumber)
   } yield (mode, out, nDays.toInt, nCreatures.toInt, nFood.toInt) match {
-    case ("1", "y", days, creatures, food) => utils.SimulationParameters(SimulationViewImpl(printFile)(Option.empty), days, creatures, food)
-    case ("1", "n", days, creatures, food) => utils.SimulationParameters(SimulationViewImpl(printCLI)(Option.empty), days, creatures, food)
-    case ("2", "y", days, creatures, food) => utils.SimulationParameters(SimulationViewImpl(printFile)(Option(buildFrame())) , days, creatures, food)
-    case ("2", "n", days, creatures, food) => utils.SimulationParameters(SimulationViewImpl(printCLI)(Option(buildFrame())), days, creatures, food)
+    case ("1", "y", days, creatures, food) => utils.SimulationParameters(SimulationView(printFile)(Option.empty), days, creatures, food)
+    case ("1", "n", days, creatures, food) => utils.SimulationParameters(SimulationView(printCLI)(Option.empty), days, creatures, food)
+    case ("2", "y", days, creatures, food) => utils.SimulationParameters(SimulationView(printFile)(Option(buildFrame())) , days, creatures, food)
+    case ("2", "n", days, creatures, food) => utils.SimulationParameters(SimulationView(printCLI)(Option(buildFrame())), days, creatures, food)
   }
+
 
   /** Prints the given [[Output]] on console
    * */
-  def printCLI(output: Output): IO[Unit] = putStrLn(Output.LastDayParser(output))
+  def printCLI(output: Output): Unit = println(Output.LastDayParser(output))
 
   /** Prints the given [[Output]] in a file
    * */
-  def printFile(output: Output): IO[Unit] = for {
-    file <- new File("hello.json")
-    w <- new FileWriter(file)
-    _ <- w.write(Output.JsonParser(output))
-    _ <- w.close()
-  } yield ()
+  def printFile(output: Output) = {
+    new File("statistics"+ SEPARATOR).mkdirs()
+    new BufferedWriter(
+      new FileWriter(s"statistics${SEPARATOR}statistics_${timestamp}.json")) {
+      write(Output.JsonParser(output))
+      close()
+    }
+  }
+
+  val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString.replace(" ", "_"))
 
   /** Updates the [[SimulationView]] to show the current [[Environment]] in a different way based on the runtime type of
    * the `sView` parameter
    */
-  def update(sView: SimulationView, environment: Environment): IO[Unit] = sView match {
-    case view: SimulationViewImpl => view.update(updateJFrame(environment, view.frame))
+  def update(sView: BaseView, environment: Environment): IO[Unit] = sView match {
+    case view: SimulationView => view.update(updateJFrame(environment, view.frame))
     case _ =>
   }
 
-  /** Update the [[JFrame]] of a [[SimulationViewImpl]], if present, to display the given [[Environment]] */
+  /** Update the [[JFrame]] of a [[SimulationView]], if present, to display the given [[Environment]] */
   val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
 
     /** Update the [[JFrame]] with a new [[Visualizer]] that shows the given Environment*/
@@ -94,10 +99,7 @@ object View {
       _ <- frame.revalidate()
     } yield ()
 
-    jFrame match {
-      case Some(frame) => _update(frame).unsafeRunSync()
-      case _ =>
-    }
+    if (jFrame.isDefined ) _update(jFrame.get).unsafeRunSync()
   }
 
 }

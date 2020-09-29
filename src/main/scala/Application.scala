@@ -1,4 +1,5 @@
 import cats.effect.IO
+import helpers.io.IoConversion._
 import controller.Controller
 import view.View._
 import controller.Controller._
