@@ -13,13 +13,7 @@ object PimpModelJson {
 
   /** Adds following conversions to Output trait */
   implicit class OutputToJson(output: Output) {
-    def outputToJson: JsObject = {
-      def toJson(out: Output): JsObject = out.keySet.toList match {
-        case day :: _ => toJson(out - day) ++ Json.obj(day.toString -> out(day).environmentToJson)
-        case Nil => Json.obj()
-      }
-      toJson(output)
-    }
+    def outputToJson: JsObject = output.foldRight(Json.obj())((a,b) => b ++ Json.obj(a._1.toString -> a._2.environmentToJson))
   }
 
   /** Adds following conversions to Environment trait */
