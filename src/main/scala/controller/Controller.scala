@@ -18,7 +18,7 @@ object Controller {
    *
    * @return The output of the simulation
    */
-  def execute: Simulator => IO[Output] = sim => sim.foldRight(Output())((sim, out) => log(out)(sim.executedStep - 1, sim.environment))
+  def execute: Simulator => IO[Output] = _.foldRight(Output())((sim, out) => log(out)(sim.executedStep - 1, sim.environment))
 
   /** Creates a new [[DaySimulator]] on an environment with given [[SimulationParameters]]
    *
