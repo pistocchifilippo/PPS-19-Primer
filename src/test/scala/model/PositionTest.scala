@@ -29,10 +29,10 @@ class PositionTest extends AnyFunSuite {
       } yield {
         println(p)
         assert(
-          p._1 == 0 ||
-          p._1 == 100 ||
-          p._2 == 0 ||
-          p._2 == 100
+          p.x == 0 ||
+          p.x == 100 ||
+          p.y == 0 ||
+          p.y == 100
         )
       }
   }

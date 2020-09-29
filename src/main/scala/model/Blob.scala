@@ -44,10 +44,10 @@ object Blob {
    * @return a [[Boolean]] which is `true` if the Blob collides with boundaries, `false` otherwise
    * */
   def collideBoundary(blob: Blob)(bounds: Boundaries) : Boolean = {
-    blob.center._1 - blob.radius < bounds.topLeft._1 ||
-    blob.center._1 + blob.radius > bounds.bottomRight._1 ||
-    blob.center._2 - blob.radius < bounds.topLeft._2 ||
-    blob.center._2 + blob.radius > bounds.bottomRight._2
+    blob.center.x - blob.radius < bounds.topLeft.x ||
+    blob.center.x + blob.radius > bounds.bottomRight.x ||
+    blob.center.y - blob.radius < bounds.topLeft.y ||
+    blob.center.y + blob.radius > bounds.bottomRight.y
   }
 
 }
