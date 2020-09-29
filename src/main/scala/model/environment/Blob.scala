@@ -2,18 +2,21 @@ package model.environment
 
 import model.environment.Position.{MathPosition, Position}
 
-/** Represent a generic Blob involved in the simulation */
-trait Blob {
-  def center : Position
-  def radius : Double
-}
-
-/** Case class of a Blob */
-case class BlobImplementation(override val center: Position,
-                              override val radius: Double
-                             ) extends Blob
-
 object Blob {
+
+  /** Represent a generic Blob involved in the simulation */
+  trait Blob {
+    def center : Position
+    def radius : Double
+  }
+
+  /** Case class of a Blob */
+  case class BlobImpl(
+                       override val center: Position,
+                       override val radius: Double
+                     ) extends Blob
+
+  def apply(center: Position, radius: Double): Blob = BlobImpl(center, radius)
 
   /** Creates a collection of Blob(s)
    *

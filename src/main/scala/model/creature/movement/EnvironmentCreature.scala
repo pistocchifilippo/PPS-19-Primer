@@ -4,6 +4,7 @@ import helpers.Strategies.randomGoal
 import model.environment.Position.Position
 import model.creature.Creature
 import model.environment.Blob
+import model.environment.Blob.Blob
 
 /** Module describing the trait EnvironmentCreature, and other utilities */
 object EnvironmentCreature {

@@ -3,10 +3,10 @@ package testsUtil
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
-import model.environment.Blob.makeBlobCollection
+import model.environment.Blob.{Blob, makeBlobCollection}
 import model.environment.Position.Position
 import model.creature.movement.EnvironmentCreature.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
-import model.environment.{Blob, BlobImplementation, Environment, Position}
+import model.environment.{Blob, Environment, Position}
 import view.graphic.SimulationViewImpl
 import view.View.printCLI
 
@@ -14,7 +14,7 @@ object Mock {
 
   val MOCK_STEP = 100
   val MOCK_POSITION: Position = 10.0 -> 10.0
-  val MOCK_GOAL: Blob = BlobImplementation(30.0 -> 30.0, 10)
+  val MOCK_GOAL: Blob = Blob(30.0 -> 30.0, 10)
   val MOCK_SPEED = 10
   val MOCK_RADIUS = 10
   val MOCK_ENERGY = 10

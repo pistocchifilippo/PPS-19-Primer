@@ -1,6 +1,7 @@
 package model.creature
 
 import model.environment.Blob
+import model.environment.Blob.Blob
 
 /** Creature trait */
 trait Creature extends Blob {

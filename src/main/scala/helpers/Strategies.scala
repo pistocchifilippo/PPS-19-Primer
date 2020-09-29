@@ -2,12 +2,12 @@ package helpers
 
 import cats.effect.IO
 import helpers.Configurations._
-import model.environment.Blob.makeBlobCollection
+import model.environment.Blob.{Blob, makeBlobCollection}
 import model.environment.Position.{Position, RandomEdgePosition, RandomPosition}
 import model.{environment, _}
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
 import Model.FoodCreatureCollision
-import model.environment.{Blob, BlobImplementation, Food, Position}
+import model.environment.{Blob, Food, Position}
 
 object Strategies {
 
@@ -23,7 +23,7 @@ object Strategies {
   def makeOnBoundsCreaturesCollection(nCreature: Int): Traversable[EnvironmentCreature] =
     makeBlobCollection(() => StarvingCreature(RandomEdgePosition(BOUNDARIES), CREATURES_SPEED, CREATURES_ENERGY, CREATURES_RADIUS, randomGoal))(nCreature)
 
-  def randomGoal: Blob = BlobImplementation(randomBoundedPosition, GOAL_RADIUS)
+  def randomGoal: Blob = Blob(randomBoundedPosition, GOAL_RADIUS)
 
   // Collisions
   def collidingCreatures(collisions: Traversable[FoodCreatureCollision]): List[EnvironmentCreature] = collisions.map{_._1}.toList
