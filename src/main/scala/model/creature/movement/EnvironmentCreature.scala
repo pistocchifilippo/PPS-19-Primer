@@ -1,9 +1,9 @@
 package model.creature.movement
 
 import helpers.Strategies.randomGoal
-import model.Blob
-import model.Position.Position
+import model.environment.Position.Position
 import model.creature.Creature
+import model.environment.Blob
 
 /** Module describing the trait EnvironmentCreature, and other utilities */
 object EnvironmentCreature {

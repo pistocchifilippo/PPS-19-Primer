@@ -1,9 +1,9 @@
 package controller.simulator
 
 import cats.effect.IO
-import model.Environment
 import model.creature.movement.EnvironmentCreature
-import model.io.Model._
+import model.Model._
+import model.environment.Environment
 import view.graphic.SimulationView
 import view.View._
 

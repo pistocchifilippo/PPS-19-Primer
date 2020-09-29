@@ -1,4 +1,4 @@
-package model
+package model.environment
 
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 

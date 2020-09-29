@@ -7,13 +7,13 @@ import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations._
 import helpers.Strategies._
 import javax.swing.JFrame
-import model.Environment
 import model.output.Output
 import model.output.Output.Output
 import view.graphic.{SimulationView, SimulationViewImpl, Visualizer}
 import view.utils.SimulationParameters
 import view.utils.ViewUtils.buildFrame
 import helpers.io.IoConversion._
+import model.environment.Environment
 
 /** This is a top-level module containing view functionalities */
 object View {

@@ -4,7 +4,7 @@ import cats.effect.IO
 import controller.simulator.{DaySimulator, DayStepSimulator}
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
-import model.Environment
+import model.environment.Environment
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 import view.graphic.SimulationViewImpl

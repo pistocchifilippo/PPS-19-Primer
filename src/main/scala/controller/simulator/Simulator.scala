@@ -1,7 +1,7 @@
 package controller.simulator
 
 import controller.simulator.iterator.PureIterator
-import model.Environment
+import model.environment.Environment
 
 /** This trait represent the behaviour of the Simulator
  *

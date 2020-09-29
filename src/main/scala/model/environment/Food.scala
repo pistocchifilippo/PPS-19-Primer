@@ -1,10 +1,8 @@
-package model
+package model.environment
 
-import model.Position.Position
+import model.environment.Position.Position
 
 case class Food(
                center: Position,
                radius: Double
                ) extends Blob
-
-

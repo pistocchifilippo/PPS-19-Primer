@@ -3,10 +3,10 @@ package testsUtil
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedPosition}
-import model.Blob.makeBlobCollection
-import model.Position.Position
+import model.environment.Blob.makeBlobCollection
+import model.environment.Position.Position
 import model.creature.movement.EnvironmentCreature.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
-import model.{Blob, BlobImplementation, Environment, Position}
+import model.environment.{Blob, BlobImplementation, Environment, Position}
 import view.graphic.SimulationViewImpl
 import view.View.printCLI
 

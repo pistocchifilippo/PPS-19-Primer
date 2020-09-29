@@ -4,7 +4,7 @@ import cats.effect.IO
 import controller.simulator.DaySimulator
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies._
-import model.Environment
+import model.environment.Environment
 import org.scalatest.funsuite.AnyFunSuite
 import view.graphic.SimulationViewImpl
 import view.View._

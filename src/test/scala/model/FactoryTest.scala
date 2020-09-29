@@ -1,7 +1,8 @@
 package model
 
-import model.Boundaries._
+import model.environment.Boundaries._
 import model.creature.Creature
+import model.environment.{Boundaries, Food}
 import org.scalatest.funsuite.AnyFunSuite
 
 class FactoryTest extends AnyFunSuite {

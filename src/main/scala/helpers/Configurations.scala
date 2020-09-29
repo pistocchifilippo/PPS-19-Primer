@@ -1,14 +1,15 @@
 package helpers
 
-import model.Boundaries
-import model.Position.Position
+import model.environment
+import model.environment.Boundaries
+import model.environment.Position.Position
 
 object Configurations {
   def TOP_LEFT: Position = 0.0 -> 0.0
 
   def BOTTOM_RIGHT: Position = 500.0 -> 500.0
 
-  def BOUNDARIES: Boundaries = Boundaries(TOP_LEFT, BOTTOM_RIGHT)
+  def BOUNDARIES: Boundaries = environment.Boundaries(TOP_LEFT, BOTTOM_RIGHT)
 
   def CREATURES_RADIUS = 15
 

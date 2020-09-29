@@ -2,10 +2,10 @@ package model.creature.movement
 
 import helpers.Configurations.GOAL_RADIUS
 import model.creature.Creature
-import model.{Blob, BlobImplementation}
 import helpers.Strategies._
 import model.creature.movement.EnvironmentCreature._
-import model.Position.{MathPosition, Position}
+import model.environment.{Blob, BlobImplementation}
+import model.environment.Position.{MathPosition, Position}
 
 /** Self type, adding movement to a creature */
 trait Movement extends Creature { c: Creature =>

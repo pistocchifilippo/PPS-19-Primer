@@ -1,13 +1,11 @@
-package model.io
+package model
 
 import cats.effect.IO
-import helpers.Configurations.CREATURES_ENERGY
-import helpers.Strategies.randomGoal
-import model.{Blob, Environment, Food}
-import model.Position.Position
-import model.creature.movement.EnvironmentCreature._
-import helpers.Configurations._
-import helpers.Strategies._
+import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY}
+import helpers.Strategies.{collidingCreatures, collidingFood, randomGoal}
+import model.environment.Position.Position
+import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature, StarvingCreature}
+import model.environment.{Blob, Environment, Food}
 
 /** This module contains model functionalities that exploit the IO monad
  *  This functions can be integrated into the simulator next routine

@@ -2,6 +2,7 @@ package model
 
 import helpers.io.IoConversion._
 import cats.effect.IO
+import model.environment.{Blob, BlobImplementation, Boundaries}
 import org.scalatest.funsuite.AnyFunSuite
 
 class BlobTest extends AnyFunSuite{

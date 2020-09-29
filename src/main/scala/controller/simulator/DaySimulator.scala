@@ -3,9 +3,10 @@ package controller.simulator
 import cats.effect.IO
 import helpers.Configurations._
 import helpers.Strategies._
-import model.Environment
 import model.creature.movement.EnvironmentCreature._
-import model.io.Model._
+import model.Model._
+import model.environment
+import model.environment.Environment
 import view.graphic.SimulationView
 
 /** The day simulator execute an entire day per step */

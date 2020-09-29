@@ -1,7 +1,6 @@
-package model
+package model.environment
 
-import model.Position.{Position, MathPosition}
-import model.creature.movement.EnvironmentCreature.EnvironmentCreature
+import model.environment.Position.{MathPosition, Position}
 
 /** Represent a generic Blob involved in the simulation */
 trait Blob {

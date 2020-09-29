@@ -4,12 +4,12 @@ import cats.effect.IO
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.makeBoundedFoodCollection
 import helpers.io.IoConversion._
-import model.Blob.makeBlobCollection
-import model.Position.MathPosition
+import model.environment.Blob.makeBlobCollection
+import model.environment.Position.MathPosition
 import model.creature.movement.EnvironmentCreature
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
-import model.io.Model._
-import model.{Blob, Environment}
+import model.Model._
+import model.environment.{Blob, Environment}
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 

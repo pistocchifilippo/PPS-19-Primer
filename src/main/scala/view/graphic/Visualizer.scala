@@ -4,7 +4,7 @@ import java.awt.{Graphics, Graphics2D, RenderingHints}
 
 import helpers.Configurations.{VISUALIZER_HEIGHT, VISUALIZER_WIDTH}
 import javax.swing.JPanel
-import model.Environment
+import model.environment.{Blob, Environment}
 
 /** Represent a [[JPanel]] that shows the current status of an [[Environment]]
  * */
@@ -13,7 +13,7 @@ case class Visualizer(environment: Environment) extends JPanel {
 
   override def paint(g: Graphics): Unit = {
 
-    /** Paints an `oval` for each [[model.Blob]] in the given environment */
+    /** Paints an `oval` for each [[Blob]] in the given environment */
     def _paint(g1: Graphics2D) {
       setSize(VISUALIZER_WIDTH, VISUALIZER_HEIGHT)
       g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)

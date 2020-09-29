@@ -1,11 +1,12 @@
 package model
 
-import model.Boundaries._
+import model.environment.Boundaries._
+import model.environment.Boundaries
 import org.scalatest.funsuite.AnyFunSuite
 
 class PositionTest extends AnyFunSuite {
 
-  import model.Position._
+  import model.environment.Position._
   val boundaries: Boundaries = Boundaries(0.0 -> 0.0, 100.0 -> 100.0)
   val boundaries2: Boundaries = Boundaries(10.0-> 10.0, 99.0 -> 98.0)
 
