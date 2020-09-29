@@ -3,7 +3,7 @@ package controller.simulator
 import cats.effect.IO
 import model.Environment
 import model.creature.movement.EnvironmentCreature
-import model.io.ModelFunctionalities._
+import model.io.Model._
 import view.io.ViewFunctionalities._
 import view.SimulationView
 

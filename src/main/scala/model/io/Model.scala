@@ -12,7 +12,7 @@ import helpers.Strategies._
 /** This module contains model functionalities that exploit the IO monad
  *  This functions can be integrated into the simulator next routine
  * */
-object ModelFunctionalities {
+object Model {
 
   /** Moves of one step each creature into the collection
    *

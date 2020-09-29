@@ -6,7 +6,7 @@ import model.Blob.makeBlobCollection
 import model.Position.{Position, RandomEdgePosition, RandomPosition}
 import model._
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
-import model.io.ModelFunctionalities.FoodCreatureCollision
+import model.io.Model.FoodCreatureCollision
 
 object Strategies {
 
