@@ -4,12 +4,11 @@ import cats.effect.IO
 import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
+import helpers.io.IoConversion._
+import model.environment
 import model.output.Output
 import model.output.Output._
 import view.utils.SimulationParameters
-import helpers.io.IoConversion._
-import model.environment
-import model.environment.Environment
 
 /** This is a top-level module defining controller functionalities */
 object Controller {
