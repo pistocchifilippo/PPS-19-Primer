@@ -2,15 +2,15 @@ package controller.simulator.iterator
 
 import cats.effect.IO
 
-/** This is a pure implementation of an Iterator
+/** This is a functional implementation of an Iterator
  *
  * This element has no side effect on its instance
  * The execution of the next routine does not affect the state of the object
- * The next function produce a new instance of a new PureIterator
+ * The next function produce a new instance of [[FunctionalIterator]]
  *
- * @tparam A is bounded to be at least a PureIterator
+ * @tparam A is bounded to be at least a [[FunctionalIterator]]
  */
-trait PureIterator [A <: PureIterator[A]] {
+trait FunctionalIterator [A <: FunctionalIterator[A]] {
 
   /** Does not mutate the state of the object
    *

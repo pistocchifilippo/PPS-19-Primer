@@ -5,7 +5,7 @@ import controller.simulator.DaySimulator
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 
-class PureIteratorTest extends AnyFunSuite {
+class FunctionalIteratorTest extends AnyFunSuite {
 
   val simulator: DaySimulator = mockDaySimulator
 
