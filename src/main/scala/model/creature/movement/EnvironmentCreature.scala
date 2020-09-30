@@ -3,8 +3,7 @@ package model.creature.movement
 import helpers.Strategies.randomGoal
 import model.environment.Position.Position
 import model.creature.Creature
-import model.environment.Blob
-import model.environment.Blob.Blob
+import model.environment.Goal
 
 /** Module describing the trait EnvironmentCreature, and other utilities */
 object EnvironmentCreature {
@@ -46,7 +45,7 @@ object EnvironmentCreature {
                                override val speed: Double,
                                override val energy: Double,
                                override val radius: Double,
-                               override val goal: Blob
+                               override val goal: Goal
                              ) extends EnvironmentCreature
 
   /** This is a creature that ate one food
@@ -62,7 +61,7 @@ object EnvironmentCreature {
                           override val speed: Double,
                           override val energy: Double,
                           override val radius: Double,
-                          override val goal: Blob
+                          override val goal: Goal
                         ) extends EnvironmentCreature
 
   /** This is a creature that ate two food
@@ -78,7 +77,7 @@ object EnvironmentCreature {
                                   override val speed: Double,
                                   override val energy: Double,
                                   override val radius: Double,
-                                  override val goal: Blob
+                                  override val goal: Goal
                                 ) extends EnvironmentCreature
 
   /** Kinetic energy formula */
