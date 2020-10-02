@@ -1,6 +1,6 @@
 package model.output
 
-import model.environment.Environment
+import model.environment.Environment._
 import play.api.libs.json.Json._
 
 /** Module containing the output */

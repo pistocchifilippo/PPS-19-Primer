@@ -6,7 +6,8 @@ import java.io.{File, FileWriter}
 import cats.effect.IO
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.environment.Blob.Blob
-import model.environment.{Boundaries, Environment}
+import model.environment.Boundaries
+import model.environment.Environment._
 import model.output.Output.Output
 import view.graphic.Visualizer
 

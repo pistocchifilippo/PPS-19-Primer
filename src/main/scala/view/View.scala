@@ -8,6 +8,7 @@ import helpers.Configurations._
 import helpers.Strategies._
 import helpers.io.IoConversion._
 import javax.swing.JFrame
+import model.environment.Environment._
 import model.environment.Environment
 import model.output.Output
 import model.output.Output.Output

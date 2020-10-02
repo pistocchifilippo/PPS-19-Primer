@@ -5,6 +5,7 @@ import controller.simulator.{DaySimulator, DayStepSimulator}
 import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies._
 import model.environment.Environment
+import model.environment.Environment._
 import org.scalatest.funsuite.AnyFunSuite
 import view.View.printCLI
 import view.graphic.SimulationView

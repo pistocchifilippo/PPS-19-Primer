@@ -5,6 +5,7 @@ import java.awt.{Graphics, Graphics2D, RenderingHints}
 import helpers.Configurations.{VISUALIZER_HEIGHT, VISUALIZER_WIDTH}
 import javax.swing.JPanel
 import model.environment.{Blob, Environment}
+import model.environment.Environment._
 
 /** Represent a [[JPanel]] that shows the current status of an [[Environment]]
  * */

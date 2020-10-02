@@ -3,7 +3,9 @@ package model.environment
 import model.environment.Blob.Blob
 import model.environment.Position.{MathPosition, Position}
 
+/** Represent a unit of Food */
 case class Food(center: Position, radius: Double) extends Blob
+/** Represent the Goal of a moving creature */
 case class Goal(center: Position, radius: Double) extends Blob
 
 object Blob {

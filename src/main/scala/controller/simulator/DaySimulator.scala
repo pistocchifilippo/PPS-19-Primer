@@ -6,6 +6,7 @@ import helpers.Strategies._
 import model.Model._
 import model.creature.movement.EnvironmentCreature._
 import model.environment.Environment
+import model.environment.Environment._
 import view.graphic.SimulationView
 
 /** The day simulator execute an entire day per step */

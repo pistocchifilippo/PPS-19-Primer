@@ -6,6 +6,7 @@ import helpers.Strategies.{collidingCreatures, collidingFood, randomGoal}
 import model.environment.Position.Position
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import model.environment.{Blob, Environment, Food}
+import model.environment.Environment._
 
 /** This module contains model functionalities that exploit the IO monad
  *  This functions can be integrated into the simulator next routine

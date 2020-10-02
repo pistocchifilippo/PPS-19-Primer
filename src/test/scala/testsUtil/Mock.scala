@@ -7,6 +7,7 @@ import model.creature.movement.EnvironmentCreature.{AteCreature, EnvironmentCrea
 import model.environment.Blob.makeBlobCollection
 import model.environment.Position.Position
 import model.environment.{Environment, Goal, Position}
+import model.environment.Environment._
 import view.View.printCLI
 import view.graphic.SimulationView
 
