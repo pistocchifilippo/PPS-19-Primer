@@ -9,7 +9,7 @@ import model.environment.Position.Position
 import model.environment.{Environment, Goal, Position}
 import model.environment.Environment._
 import view.View.printCLI
-import view.graphic.SimulationView
+import view.graphic.BaseView
 
 object Mock {
 
@@ -22,7 +22,7 @@ object Mock {
   val MOCK_FOOD_SET_SIZE = 100
   val MOCK_CREATURE_SET_SIZE = 100
 
-  val MOCK_VIEW: SimulationView = SimulationView(printCLI)(Option.empty)
+  val MOCK_VIEW: BaseView = BaseView(printCLI)(Option.empty)
   val MOCK_MUTATION: Double => Double = e => e * 0.1
   val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 

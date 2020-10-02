@@ -4,11 +4,11 @@ import cats.effect.IO
 import model.creature.movement.EnvironmentCreature
 import model.Model._
 import model.environment.Environment._
-import view.graphic.SimulationView
+import view.graphic.BaseView
 import view.View._
 
 /** The DayStepSimulator represent the simulation for just one step of just one day */
-case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {
+case class DayStepSimulator(executedStep: Int, environment: Environment, view: BaseView) extends Simulator {
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 

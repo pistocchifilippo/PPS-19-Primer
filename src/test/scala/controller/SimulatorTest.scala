@@ -8,12 +8,12 @@ import model.environment.Environment
 import model.environment.Environment._
 import org.scalatest.funsuite.AnyFunSuite
 import view.View.printCLI
-import view.graphic.SimulationView
+import view.graphic.BaseView
 
 class SimulatorTest extends AnyFunSuite{
 
   val env: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view: SimulationView = SimulationView(printCLI)(Option.empty)
+  val view: BaseView = BaseView(printCLI)(Option.empty)
   val nDays = 20
 
   test("A day simulator should have expected behaviour" ) {

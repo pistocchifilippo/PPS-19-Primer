@@ -7,14 +7,14 @@ import model.Model._
 import model.creature.movement.EnvironmentCreature._
 import model.environment.Environment
 import model.environment.Environment._
-import view.graphic.SimulationView
+import view.graphic.BaseView
 
 /** The day simulator execute an entire day per step */
 case class DaySimulator(executedStep: Int,
                         nFood: Int,
                         nDays: Int,
                         environment: Environment,
-                        view: SimulationView
+                        view: BaseView
                        ) extends Simulator {
 
   /**
