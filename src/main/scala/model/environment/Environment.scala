@@ -2,9 +2,6 @@ package model.environment
 
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 
-
-
-
 object Environment {
 
   trait Environment {
@@ -17,8 +14,7 @@ object Environment {
                               override val food: Traversable[Food],
                               override val creatures : Traversable[EnvironmentCreature]) extends Environment
 
-
-  def apply(boundaries: Boundaries, food: Traversable[Food], creatures: Traversable[EnvironmentCreature]) =
+  def apply(boundaries: Boundaries, food: Traversable[Food], creatures: Traversable[EnvironmentCreature]): BlobEnvironment =
     BlobEnvironment(boundaries, food, creatures)
 
 }
