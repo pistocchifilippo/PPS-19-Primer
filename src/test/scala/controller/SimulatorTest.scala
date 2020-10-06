@@ -7,7 +7,7 @@ import helpers.Strategies._
 import model.environment.Environment
 import model.environment.Environment._
 import org.scalatest.funsuite.AnyFunSuite
-import view.View.printCLI
+import view.utils.ViewUtils._
 import view.graphic.BaseView
 
 class SimulatorTest extends AnyFunSuite{

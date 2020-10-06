@@ -7,7 +7,7 @@ import helpers.Strategies._
 import model.environment.Environment
 import org.scalatest.funsuite.AnyFunSuite
 import view.graphic.BaseView
-import view.View._
+import view.utils.ViewUtils._
 
 class ControllerTest extends AnyFunSuite{
 

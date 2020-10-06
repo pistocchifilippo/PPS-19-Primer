@@ -2,7 +2,6 @@ package helpers.io
 
 import java.awt.Component
 import java.io.{File, FileWriter}
-
 import cats.effect.IO
 import model.creature.movement.EnvironmentCreature.EnvironmentCreature
 import model.environment.Blob.Blob

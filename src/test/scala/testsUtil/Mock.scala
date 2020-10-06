@@ -8,7 +8,7 @@ import model.environment.Blob.makeBlobCollection
 import model.environment.Position.Position
 import model.environment.{Environment, Goal, Position}
 import model.environment.Environment._
-import view.View.printCLI
+import view.utils.ViewUtils._
 import view.graphic.BaseView
 
 object Mock {
