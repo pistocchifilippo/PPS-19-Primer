@@ -4,6 +4,7 @@ import java.io.File
 
 import cats.effect.IO
 import controller.simulator.DaySimulator
+import helpers.Configurations.SEPARATOR
 import helpers.Strategies.randomGoal
 import model.creature.movement.EnvironmentCreature.StarvingCreature
 import model.environment.Environment.Environment
@@ -26,6 +27,7 @@ class ViewFunctionalitiesTest extends AnyFunSuite{
     val simulator : DaySimulator = mockSimulatorFile
 
     def countFiles: Int ={
+      new File("statistics"+ SEPARATOR).mkdirs()
       new File("statistics").list().length
     }
 
