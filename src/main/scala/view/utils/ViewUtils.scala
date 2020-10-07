@@ -30,7 +30,7 @@ object ViewUtils {
 
   /** Prints the given [[Output]] on console
    * */
-  def printCLI(output: Output): Unit = println(Output.LastDayParser(output))
+  def printCLI(output: Output): Unit = println(Output.CliParser(output))
 
   /** Prints the given [[Output]] in a file
    * */

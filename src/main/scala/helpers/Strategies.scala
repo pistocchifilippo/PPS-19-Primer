@@ -29,6 +29,6 @@ object Strategies {
   def collidingCreatures(collisions: Traversable[FoodCreatureCollision]): List[EnvironmentCreature] = collisions.map{_._1}.toList
   def collidingFood(collisions: Traversable[FoodCreatureCollision]): List[Food] = collisions.map{_._2}.toList
 
-  def isNumber: String => Boolean = s => s.forall(_.isDigit)
+  def isNumber: String => Boolean = s => s.forall(_.isDigit) && s.nonEmpty
 
 }
