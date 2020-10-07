@@ -8,7 +8,7 @@ import model.environment.Blob.makeBlobCollection
 import model.environment.Position.Position
 import model.environment.{Environment, Goal, Position}
 import model.environment.Environment._
-import view.View.printCLI
+import view.utils.ViewUtils._
 import view.graphic.BaseView
 
 object Mock {
@@ -23,12 +23,14 @@ object Mock {
   val MOCK_CREATURE_SET_SIZE = 100
 
   val MOCK_VIEW: BaseView = BaseView(printCLI)(Option.empty)
+  val MOCK_FILE_VIEW: BaseView = BaseView(printFile)(Option.empty)
   val MOCK_MUTATION: Double => Double = e => e * 0.1
   val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 
   def mockEnvironment: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(MOCK_FOOD_SET_SIZE), makeBlobCollection(() => mockStarving)(MOCK_CREATURE_SET_SIZE))
 
   def mockDaySimulator: DaySimulator = DaySimulator(1,MOCK_STEP, MOCK_FOOD_SET_SIZE, mockEnvironment, MOCK_VIEW)
+  def mockSimulatorFile: DaySimulator = DaySimulator(1,MOCK_STEP, MOCK_FOOD_SET_SIZE, mockEnvironment, MOCK_FILE_VIEW)
 
   def mockStarving: EnvironmentCreature = StarvingCreature(
     center = MOCK_POSITION,

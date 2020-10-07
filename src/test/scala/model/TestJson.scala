@@ -7,7 +7,6 @@ import model.creature.movement.EnvironmentCreature.{AteCreature, StarvingCreatur
 import model.environment.{Boundaries, Environment, Food}
 import org.scalatest.funsuite.AnyFunSuite
 import play.api.libs.json.Json
-
 import scala.collection.Traversable
 
 class TestJson extends AnyFunSuite {
