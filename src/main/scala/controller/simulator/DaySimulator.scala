@@ -7,6 +7,7 @@ import model.Model._
 import model.creature.movement.EnvironmentCreature._
 import model.environment.Environment
 import model.environment.Environment._
+import view.View.putStrLn
 import view.graphic.BaseView
 
 /** The day simulator execute an entire day per step */

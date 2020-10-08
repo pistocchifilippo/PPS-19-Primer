@@ -23,10 +23,11 @@ object View {
     nCreatures <- scheduleGet(CREATURES, getParameters, isNumber)
     nFood <- scheduleGet(FOOD, getParameters, isNumber)
   } yield (mode, out, nDays.toInt, nCreatures.toInt, nFood.toInt) match {
-    case ("1", "y", days, creatures, food) => utils.SimulationParameters(BaseView(printFile)(Option.empty), days, creatures, food)
-    case ("1", "n", days, creatures, food) => utils.SimulationParameters(BaseView(printCLI)(Option.empty), days, creatures, food)
-    case ("2", "y", days, creatures, food) => utils.SimulationParameters(BaseView(printFile)(Option(buildFrame())) , days, creatures, food)
-    case ("2", "n", days, creatures, food) => utils.SimulationParameters(BaseView(printCLI)(Option(buildFrame())), days, creatures, food)
+    case (m, o, days, creatures, food) if((m equals "1") && (o equals "y")) => utils.SimulationParameters(BaseView(printFile)(Option.empty), days, creatures, food)
+    case (m, o, days, creatures, food) if((m equals "2") && (o equals "y")) => utils.SimulationParameters(BaseView(printFile)(Option(buildFrame())) , days, creatures, food)
+    case (m, o, days, creatures, food) if((m equals "2") && (o equals "n"))=> utils.SimulationParameters(BaseView(printCLI)(Option(buildFrame())), days, creatures, food)
+    case (_, _, days, creatures, food) => utils.SimulationParameters(BaseView(printCLI)(Option.empty), days, creatures, food)
+
   }
 
   /** Updates the [[BaseView]] to show the current [[Environment]] in a different way based on the runtime type of
@@ -36,5 +37,13 @@ object View {
     case view: BaseView => view.update(updateJFrame(environment, view.frame))
     case _ =>
   }
+
+  /** Print a [[String]] on standard output. Can be used in a for-comprehension statement.
+   * */
+  def putStrLn(str: String): IO[Unit] = IO(println(str))
+
+  /** Read a [[String]] from standard input. Can be used in a for-comprehension statement.
+   * */
+  def getStrLn: IO[String] = IO(scala.io.StdIn.readLine())
 
 }

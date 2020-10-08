@@ -6,12 +6,12 @@ import java.sql.Timestamp
 
 import cats.effect.IO
 import helpers.Configurations.{SEPARATOR, SIMULATOR_HEIGHT, SIMULATOR_TITLE, SIMULATOR_WIDTH, UPDATE_TIME_MS}
-import helpers.Strategies.{getStrLn, putStrLn}
 import javax.swing.JFrame
 import helpers.io.IoConversion._
 import model.environment.Environment.Environment
 import model.output.Output
 import model.output.Output.Output
+import view.View._
 import view.graphic
 import view.graphic.SimulationView
 

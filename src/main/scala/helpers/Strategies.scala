@@ -11,10 +11,6 @@ import model.{environment, _}
 
 object Strategies {
 
-  // IO
-  def putStrLn(str: String): IO[Unit] = cats.effect.IO(println(str))
-  def getStrLn: IO[String] = cats.effect.IO(scala.io.StdIn.readLine())
-
   // Positions
   def randomBoundedPosition: Position = Position.RandomPosition(BOUNDARIES)
   def randomBoundedEdgePosition: Position = Position.RandomEdgePosition(BOUNDARIES)
