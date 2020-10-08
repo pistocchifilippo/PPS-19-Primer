@@ -1,41 +1,16 @@
 package view
 
+import helpers.io.IoConversion._
 import cats.effect.IO
 import helpers.Configurations._
 import helpers.Strategies._
-import view.graphic.BaseView
+import model.environment.Environment.Environment
+import view.graphic._
 import view.utils.SimulationParameters
-import view.utils.ViewUtils.{buildFrame, _}
+import view.utils.ViewUtils._
 
 /** This is a top-level module containing view functionalities */
 object View {
-
-  /** A Get is a request of a parameter to the user */
-  type Get = String => IO[String]
-
-  /** Function that takes the given input and accepts or not that string */
-  type Acceptor = String => Boolean
-
-  /** A GetScheduler keep asking the request until the input is correct */
-  type GetScheduler = (String, Get, Acceptor) => IO[String]
-
-  /** Retrieves a [[SimulationParameters]] by console
-   * @return a [[Get]] element
-   * */
-  def getParameters: Get = request => for {
-    _ <- putStrLn(request)
-    in <- getStrLn
-  } yield in
-
-  /** Effectuates a request-and-check for a parameter.
-   *
-   * @return the parameter if it is consistent, based on an given `accept rule`. Requests the parameter again otherwise.
-   * */
-  def scheduleGet: GetScheduler = (request, get, accept) => for {
-    in <- get(request)
-    res <- if (accept(in)) IO{in} else scheduleGet(request, get, accept)
-  } yield res
-
 
   /** Retrieves all the parameters.
    *
@@ -52,6 +27,14 @@ object View {
     case ("1", "n", days, creatures, food) => utils.SimulationParameters(BaseView(printCLI)(Option.empty), days, creatures, food)
     case ("2", "y", days, creatures, food) => utils.SimulationParameters(BaseView(printFile)(Option(buildFrame())) , days, creatures, food)
     case ("2", "n", days, creatures, food) => utils.SimulationParameters(BaseView(printCLI)(Option(buildFrame())), days, creatures, food)
+  }
+
+  /** Updates the [[BaseView]] to show the current [[Environment]] in a different way based on the runtime type of
+   * the `sView` parameter
+   */
+  def update(sView: SimulationView, environment: Environment): IO[Unit] = sView match {
+    case view: BaseView => view.update(updateJFrame(environment, view.frame))
+    case _ =>
   }
 
 }

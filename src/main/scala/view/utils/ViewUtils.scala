@@ -3,19 +3,47 @@ package view.utils
 import java.awt.Dimension
 import java.io.{BufferedWriter, File, FileWriter}
 import java.sql.Timestamp
+
 import cats.effect.IO
 import helpers.Configurations.{SEPARATOR, SIMULATOR_HEIGHT, SIMULATOR_TITLE, SIMULATOR_WIDTH, UPDATE_TIME_MS}
+import helpers.Strategies.{getStrLn, putStrLn}
 import javax.swing.JFrame
 import helpers.io.IoConversion._
 import model.environment.Environment.Environment
 import model.output.Output
 import model.output.Output.Output
 import view.graphic
-import view.graphic.{BaseView, SimulationView}
+import view.graphic.SimulationView
 
 /** Utilities module for [[SimulationView]] elements
  * */
 object ViewUtils {
+
+  /** A Get is a request of a parameter to the user */
+  type Get = String => IO[String]
+
+  /** Function that takes the given input and accepts or not that string */
+  type Acceptor = String => Boolean
+
+  /** A GetScheduler keep asking the request until the input is correct */
+  type GetScheduler = (String, Get, Acceptor) => IO[String]
+
+  /** Retrieves a [[SimulationParameters]] by console
+   * @return a [[Get]] element
+   * */
+  def getParameters: Get = request => for {
+    _ <- putStrLn(request)
+    in <- getStrLn
+  } yield in
+
+  /** Effectuates a request-and-check for a parameter.
+   *
+   * @return the parameter if it is consistent, based on an given `accept rule`. Requests the parameter again otherwise.
+   * */
+  def scheduleGet: GetScheduler = (request, get, accept) => for {
+    in <- get(request)
+    res <- if (accept(in)) IO{in} else scheduleGet(request, get, accept)
+  } yield res
 
   /** Creates a new [[JFrame]] element
    *
@@ -44,14 +72,6 @@ object ViewUtils {
   }
 
   val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString.replace(" ", "_"))
-
-  /** Updates the [[BaseView]] to show the current [[Environment]] in a different way based on the runtime type of
-   * the `sView` parameter
-   */
-  def update(sView: SimulationView, environment: Environment): IO[Unit] = sView match {
-    case view: BaseView => view.update(updateJFrame(environment, view.frame))
-    case _ =>
-  }
 
   /** Update the [[JFrame]] of a [[BaseView]], if present, to display the given [[Environment]] */
   val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
