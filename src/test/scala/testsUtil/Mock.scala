@@ -23,7 +23,7 @@ object Mock {
   val MOCK_CREATURE_SET_SIZE = 100
 
   val MOCK_VIEW: BaseView = BaseView(Output => ())(Option.empty)
-  val MOCK_FILE_VIEW: BaseView = BaseView(printFile)(Option.empty)
+  val MOCK_FILE_VIEW: BaseView = BaseView(FilePrinter)(Option.empty)
   val MOCK_MUTATION: Double => Double = e => e * 0.1
   val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 

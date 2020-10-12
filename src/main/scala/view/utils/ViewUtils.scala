@@ -19,6 +19,8 @@ import view.graphic.SimulationView
  * */
 object ViewUtils {
 
+  type Printer = Output => Unit
+
   /** A Get is a request of a parameter to the user */
   type Get = String => IO[String]
 
@@ -56,20 +58,25 @@ object ViewUtils {
     setVisible(true)
   }
 
-  /** Prints the given [[Output]] on console
+  /** Strategy to print the given [[Output]] on console
    * */
-  def printCLI(output: Output): Unit = println(Output.CliParser(output))
+  object CLIPrinter extends Printer {
+    override def apply(output: Output): Unit = println(Output.CliParser(output))
+  }
 
-  /** Prints the given [[Output]] in a file
+  /** Startegy to print the given [[Output]] in a file
    * */
-  def printFile(output: Output) = {
-    new File("statistics"+ SEPARATOR).mkdirs()
-    new BufferedWriter(
-      new FileWriter(s"statistics${SEPARATOR}statistics_${timestamp}.json")) {
-      write(Output.JsonParser(output))
-      close()
+  object FilePrinter extends Printer {
+    override def apply(output: Output): Unit = {
+      new File("statistics"+ SEPARATOR).mkdirs()
+      new BufferedWriter(
+        new FileWriter(s"statistics${SEPARATOR}statistics_${timestamp}.json")) {
+        write(Output.JsonParser(output))
+        close()
+      }
     }
   }
+
 
   val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString.replace(" ", "_"))
 

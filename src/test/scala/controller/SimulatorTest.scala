@@ -13,7 +13,7 @@ import view.graphic.BaseView
 class SimulatorTest extends AnyFunSuite{
 
   val env: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
-  val view: BaseView = BaseView(printCLI)(Option.empty)
+  val view: BaseView = BaseView(CLIPrinter)(Option.empty)
   val nDays = 20
 
   test("A day simulator should have expected behaviour" ) {
