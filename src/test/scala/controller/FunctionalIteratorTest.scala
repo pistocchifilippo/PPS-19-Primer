@@ -16,16 +16,7 @@ class FunctionalIteratorTest extends AnyFunSuite {
     } yield {
       assert(nStep equals MOCK_STEP)
     }
-    test.unsafeRunSync()
-  }
-
-  test("Should be the last element"){
-    val test: IO[Unit] = for {
-      sim <- IO pure simulator
-      last <- sim.executeAll
-    } yield {
-      assert(!last.hasNext)
-    }
+    
     test.unsafeRunSync()
   }
 
