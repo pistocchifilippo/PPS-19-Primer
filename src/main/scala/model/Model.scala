@@ -8,12 +8,12 @@ import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, Reprodu
 import model.environment.{Blob, Environment, Food}
 import model.environment.Environment._
 
-/** This module contains model functionalities that exploit the IO monad
+/** This module contains model functionalities that exploit the [[IO]] monad
  *  This functions can be integrated into the simulator next routine
  * */
 object Model {
 
-  /** Moves of one step each creature into the collection
+  /** Moves of one step each [[EnvironmentCreature]] into the collection
    *
    * @param creatures that will be moved
    * @param energyConsumption that will be decreased to creature energy
@@ -23,7 +23,7 @@ object Model {
 
   type FoodCreatureCollision = (EnvironmentCreature, Food)
 
-  /** Compute the collisions
+  /** Compute the [[FoodCreatureCollision]] and puts into a [[Traversable]]
    *
    * @param creatures that have been moved
    * @param food in the environment
@@ -46,11 +46,11 @@ object Model {
   }}
   private def updateFoodCollection(foodCollection: Traversable[Food])(toRemove: List[Food]): IO[Traversable[Food]] = IO pure {foodCollection filter (!toRemove.contains(_))}
 
-  /** Makes a new environment (of the same day) applying changes due to creature movement and collisions
+  /** Makes a new [[Environment]] (of the same day) applying changes due to creature movement and collisions
    *
-   * @param movedCreatures
-   * @param foodCollection
-   * @param coll
+   * @param movedCreatures creature moved
+   * @param foodCollection the old food set
+   * @param coll the collisions between [[EnvironmentCreature]] and [[Food]]
    * @return the new environment
    */
   def makeNewEnvironment(movedCreatures: Traversable[EnvironmentCreature])(foodCollection: Traversable[Food])(coll: Traversable[FoodCreatureCollision]): IO[Environment] = for {
@@ -58,13 +58,13 @@ object Model {
     f <- updateFoodCollection(foodCollection)(collidingFood(coll))
   } yield Environment(BOUNDARIES, f, c)
 
-  /** Build the new set of creatures from the creature collection of the day before
+  /** Build the new set of [[EnvironmentCreature]] from the creature collection of the day before
    *
-   * @param creatures
-   * @param pos
-   * @param sizeMutation
-   * @param speedMutation
-   * @return The creature collection of the new day
+   * @param creatures old creature set
+   * @param pos a position generator for replace creatures
+   * @param sizeMutation size changes
+   * @param speedMutation speed changes
+   * @return The [[EnvironmentCreature]] collection of the new day
    */
   def evolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): IO[Traversable[EnvironmentCreature]] = IO pure {
     creatures flatMap {
