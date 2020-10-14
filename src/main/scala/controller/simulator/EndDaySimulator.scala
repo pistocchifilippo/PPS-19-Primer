@@ -13,8 +13,7 @@ case class EndDaySimulator(executedStep: Int,
                            nFood: Int,
                            nDays: Int,
                            environment: Environment,
-                           view: SimulationView
-                          ) extends Simulator {
+                           view: SimulationView) extends Simulator {
 
   implicit val deltaMutation: GeneMutation = Gene.deltaMutation
 

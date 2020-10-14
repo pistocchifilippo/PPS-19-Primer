@@ -8,7 +8,9 @@ import view.View
 import view.graphic.SimulationView
 
 /** The [[DayStepSimulator]] represents the simulation for just one step of just one day */
-case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {
+case class DayStepSimulator(executedStep: Int,
+                            environment: Environment,
+                            view: SimulationView) extends Simulator {
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 

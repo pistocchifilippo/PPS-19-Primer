@@ -20,7 +20,7 @@ object EnvironmentCreature {
 //     * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
 //     */
     def reproduce(geneMutation: GeneMutation)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
-      case ReproducingCreature(_, _, _, _, _) =>
+      case _:ReproducingCreature =>
         val mutation = geneMutation(this.gene)
         Option(StarvingCreature(newPosition(), mutation.speed, CREATURES_ENERGY, mutation.size, randomGoal))
       case _ => None
@@ -31,9 +31,9 @@ object EnvironmentCreature {
      * @return The feed creature
      */
     def feed(): EnvironmentCreature = this match {
-      case StarvingCreature(position, speed, energy, radius, goal) => AteCreature(position, speed, energy, radius, goal)
-      case AteCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
-      case ReproducingCreature(position, speed, energy, radius, goal) => ReproducingCreature(position, speed, energy, radius, goal)
+      case _:StarvingCreature => AteCreature(center, speed, energy, radius, goal)
+      case _:AteCreature => ReproducingCreature(center, speed, energy, radius, goal)
+      case _:ReproducingCreature => ReproducingCreature(center, speed, energy, radius, goal)
     }
   }
 
@@ -45,13 +45,11 @@ object EnvironmentCreature {
    * @param radius of the creature
    * @param goal   of the creature
    */
-  case class StarvingCreature(
-                               override val center: Position,
-                               override val speed: Double,
-                               override val energy: Double,
-                               override val radius: Double,
-                               override val goal: Goal
-                             ) extends EnvironmentCreature
+  case class StarvingCreature(override val center: Position,
+                              override val speed: Double,
+                              override val energy: Double,
+                              override val radius: Double,
+                              override val goal: Goal) extends EnvironmentCreature
 
   /** This is a creature that ate one food
    *
@@ -61,13 +59,11 @@ object EnvironmentCreature {
    * @param radius of the creature
    * @param goal   of the creature
    */
-  case class AteCreature(
-                          override val center: Position,
-                          override val speed: Double,
-                          override val energy: Double,
-                          override val radius: Double,
-                          override val goal: Goal
-                        ) extends EnvironmentCreature
+  case class AteCreature(override val center: Position,
+                         override val speed: Double,
+                         override val energy: Double,
+                         override val radius: Double,
+                         override val goal: Goal) extends EnvironmentCreature
 
   /** This is a creature that ate two food
    *
@@ -77,13 +73,11 @@ object EnvironmentCreature {
    * @param radius of the creature
    * @param goal   of the creature
    */
-  case class ReproducingCreature(
-                                  override val center: Position,
-                                  override val speed: Double,
-                                  override val energy: Double,
-                                  override val radius: Double,
-                                  override val goal: Goal
-                                ) extends EnvironmentCreature
+  case class ReproducingCreature(override val center: Position,
+                                 override val speed: Double,
+                                 override val energy: Double,
+                                 override val radius: Double,
+                                 override val goal: Goal) extends EnvironmentCreature
 
   /** Kinetic energy formula */
   implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {Math pow(v, 2)}

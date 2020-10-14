@@ -10,8 +10,7 @@ case class DaySimulator(executedStep: Int,
                         nFood: Int,
                         nDays: Int,
                         environment: Environment,
-                        view: SimulationView
-                       ) extends Simulator {
+                        view: SimulationView) extends Simulator {
 
   /** Tells if there are remaining days to execute.
    *
