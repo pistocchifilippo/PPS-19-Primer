@@ -3,14 +3,13 @@ package controller.simulator
 import cats.effect.IO
 import helpers.Configurations._
 import helpers.Strategies._
-import model.Model._
-import model.creature.movement.EnvironmentCreature._
+import model.Model
 import model.environment.Environment
-import model.environment.Environment._
+import model.environment.Environment.Environment
 import view.View.putStrLn
 import view.graphic.BaseView
 
-/** The day simulator execute an entire day per step */
+/** The [[DaySimulator]] execute an entire day per step */
 case class DaySimulator(executedStep: Int,
                         nFood: Int,
                         nDays: Int,
@@ -18,7 +17,9 @@ case class DaySimulator(executedStep: Int,
                         view: BaseView
                        ) extends Simulator {
 
-  /**
+  implicit val noMutation: Double => Double = s => s
+
+  /** Tells if there are remaining days to execute.
    *
    * @return true if the simulator can do another step, simulating the following day
    */
@@ -29,13 +30,12 @@ case class DaySimulator(executedStep: Int,
    * @return A new simulator (maybe) ready to simulate another entire day
    */
   override def next(): IO[Simulator] = for {
-    _ <- putStrLn("Day " + executedStep)
     sim <- DayStepSimulator(FIRST_DAY, environment, view).executeAll
     c = sim.environment.creatures
-    creatures <- evolutionSet(c)(() => randomBoundedEdgePosition)(noSizeMutation)(noSpeedMutation)
+    creatures <- Model.evolutionSet(c)(() => randomBoundedEdgePosition)(noMutation)(noMutation)
     food = makeBoundedFoodCollection(nFood)
     env = Environment(BOUNDARIES, food, creatures)
-  } yield
+  } yield {
     DaySimulator(
       executedStep + 1,
       nFood,
@@ -43,5 +43,6 @@ case class DaySimulator(executedStep: Int,
       env,
       view
     )
+  }
 
 }

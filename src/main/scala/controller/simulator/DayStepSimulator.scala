@@ -1,13 +1,13 @@
 package controller.simulator
 
 import cats.effect.IO
+import model.Model
 import model.creature.movement.EnvironmentCreature
-import model.Model._
 import model.environment.Environment._
+import view.View
 import view.graphic.BaseView
-import view.View._
 
-/** The DayStepSimulator represent the simulation for just one step of just one day */
+/** The [[DayStepSimulator]] represents the simulation for just one step of just one day */
 case class DayStepSimulator(executedStep: Int, environment: Environment, view: BaseView) extends Simulator {
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
@@ -18,18 +18,20 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: B
    */
   override def hasNext: Boolean = environment.creatures.count(_.energy > 0) > 0
 
-  /** Executes a step of a day simulation
+  /** Executes a step of a [[DayStepSimulator]]
    *
-   * @return A new simulator (maybe) ready to simulate another step of the day
+   * @return A new [[Simulator]] (maybe) ready to simulate another step of the day
    */
   override def next(): IO[Simulator] = for {
-    c <- moveCreatures(environment.creatures)
-    coll <- collisions(c)(environment.food)
-    env <- makeNewEnvironment(c)(environment.food)(coll)
-    _ <- update(view, env)
-    } yield DayStepSimulator (
-      executedStep + 1,
-      env,
-      view
-    )
+    c <- Model.moveCreatures(environment.creatures)
+    coll <- Model.collisions(c)(environment.food)
+    env <- Model.makeNewEnvironment(c)(environment.food)(coll)
+    _ <- View.update(view, env)
+    } yield {
+      DayStepSimulator(
+        executedStep + 1,
+        env,
+        view
+      )
+  }
 }
