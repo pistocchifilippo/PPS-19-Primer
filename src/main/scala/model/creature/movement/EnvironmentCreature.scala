@@ -12,13 +12,12 @@ object EnvironmentCreature {
 
   trait EnvironmentCreature extends Creature with Movement {
 
-//    /** The creature reproduces if possible
-//     *
-//     * @param sizeMutation  of radius
-//     * @param speedMutation of speed
-//     * @param newPosition   of the creature
-//     * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
-//     */
+    /** The creature reproduces if possible
+     *
+     * @param geneMutation of the creature
+     * @param newPosition   of the creature
+     * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
+     */
     def reproduce(geneMutation: GeneMutation)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
       case _:ReproducingCreature =>
         val mutation = geneMutation(this.gene)
