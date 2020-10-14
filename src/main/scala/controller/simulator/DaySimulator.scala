@@ -7,14 +7,14 @@ import model.Model
 import model.environment.Environment
 import model.environment.Environment.Environment
 import view.View.putStrLn
-import view.graphic.BaseView
+import view.graphic.{BaseView, SimulationView}
 
 /** The [[DaySimulator]] execute an entire day per step */
 case class DaySimulator(executedStep: Int,
                         nFood: Int,
                         nDays: Int,
                         environment: Environment,
-                        view: BaseView
+                        view: SimulationView
                        ) extends Simulator {
 
   implicit val noMutation: Double => Double = s => s
@@ -31,16 +31,13 @@ case class DaySimulator(executedStep: Int,
    */
   override def next(): IO[Simulator] = for {
     sim <- DayStepSimulator(FIRST_DAY, environment, view).executeAll
-    c = sim.environment.creatures
-    creatures <- Model.evolutionSet(c)(() => randomBoundedEdgePosition)(noMutation)(noMutation)
-    food = makeBoundedFoodCollection(nFood)
-    env = Environment(BOUNDARIES, food, creatures)
+    rawEnvironment = sim.environment
   } yield {
-    DaySimulator(
-      executedStep + 1,
+    EndDaySimulator(
+      executedStep,
       nFood,
-      nDays - 1,
-      env,
+      nDays,
+      rawEnvironment,
       view
     )
   }

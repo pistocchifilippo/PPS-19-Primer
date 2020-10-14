@@ -5,10 +5,10 @@ import model.Model
 import model.creature.movement.EnvironmentCreature
 import model.environment.Environment._
 import view.View
-import view.graphic.BaseView
+import view.graphic.{BaseView, SimulationView}
 
 /** The [[DayStepSimulator]] represents the simulation for just one step of just one day */
-case class DayStepSimulator(executedStep: Int, environment: Environment, view: BaseView) extends Simulator {
+case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 
