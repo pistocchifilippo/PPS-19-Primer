@@ -12,6 +12,6 @@ trait SimulationView{
 
 /** Defines a [[SimulationView]] whit an [[Option]]al [[JFrame]] element for GUI
  * */
-case class BaseView(override val print: Output => Unit)
+case class BaseView(override val print: Printer)
                    (val frame: Option[JFrame]) extends SimulationView {
 }
