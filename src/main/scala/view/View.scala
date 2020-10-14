@@ -24,9 +24,9 @@ object View {
     nCreatures <- scheduleGet(CREATURES_REQUEST, isNumber)
     nFood <- scheduleGet(FOOD_REQUEST, isNumber)
   } yield (mode, out, nDays.toInt, nCreatures.toInt, nFood.toInt) match {
-    case (m, o, days, creatures, food) if((m equals "1") && (o equals "y")) => utils.SimulationParameters(BaseView(FilePrinter)(Option.empty), days, creatures, food)
-    case (m, o, days, creatures, food) if((m equals "2") && (o equals "y")) => utils.SimulationParameters(BaseView(FilePrinter)(Option(buildFrame())) , days, creatures, food)
-    case (m, o, days, creatures, food) if((m equals "2") && (o equals "n"))=> utils.SimulationParameters(BaseView(CLIPrinter)(Option(buildFrame())), days, creatures, food)
+    case (m, o, days, creatures, food) if (m equals "1") && (o equals "y") => utils.SimulationParameters(BaseView(FilePrinter)(Option.empty), days, creatures, food)
+    case (m, o, days, creatures, food) if (m equals "2") && (o equals "y") => utils.SimulationParameters(BaseView(FilePrinter)(Option(buildFrame())) , days, creatures, food)
+    case (m, o, days, creatures, food) if (m equals "2") && (o equals "n") => utils.SimulationParameters(BaseView(CLIPrinter)(Option(buildFrame())), days, creatures, food)
     case (_, _, days, creatures, food) => utils.SimulationParameters(BaseView(CLIPrinter)(Option.empty), days, creatures, food)
 
   }
