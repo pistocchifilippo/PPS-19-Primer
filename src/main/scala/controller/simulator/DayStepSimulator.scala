@@ -12,7 +12,7 @@ case class DayStepSimulator(executedStep: Int, environment: Environment, view: B
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 
-  /**
+  /** Tells if there are remaining creature with energy grater than zero.
    *
    * @return true if the simulator can do another step
    */

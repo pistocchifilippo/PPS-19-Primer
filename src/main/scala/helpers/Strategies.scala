@@ -1,13 +1,12 @@
 package helpers
 
-import cats.effect.IO
 import helpers.Configurations._
 import model.Model.FoodCreatureCollision
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
+import model.environment
 import model.environment.Blob.makeBlobCollection
 import model.environment.Position.{Position, RandomEdgePosition, RandomPosition}
 import model.environment.{Food, Goal, Position}
-import model.{environment, _}
 
 object Strategies {
 

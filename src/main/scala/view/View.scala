@@ -28,7 +28,6 @@ object View {
     case (m, o, days, creatures, food) if (m equals "2") && (o equals "y") => utils.SimulationParameters(BaseView(FilePrinter)(Option(buildFrame())) , days, creatures, food)
     case (m, o, days, creatures, food) if (m equals "2") && (o equals "n") => utils.SimulationParameters(BaseView(CLIPrinter)(Option(buildFrame())), days, creatures, food)
     case (_, _, days, creatures, food) => utils.SimulationParameters(BaseView(CLIPrinter)(Option.empty), days, creatures, food)
-
   }
 
   /** Updates the [[BaseView]] to show the current [[Environment]] in a different way based on the runtime type of

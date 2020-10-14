@@ -4,7 +4,6 @@ import cats.effect.IO
 import controller.simulator.{DaySimulator, Simulator}
 import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
-import helpers.io.IoConversion._
 import model.environment
 import model.output.Output
 import model.output.Output._
@@ -24,7 +23,7 @@ object Controller {
    * @return a [[DaySimulator]]
    * */
   def makeSimulation(param: SimulationParameters): IO[Simulator] = for {
-    environment <- environment.Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))
-    sim <- IO{DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
+    environment <- IO pure {environment.Environment(BOUNDARIES, makeBoundedFoodCollection(param.nFood), makeOnBoundsCreaturesCollection(param.nCreatures))}
+    sim <- IO pure {DaySimulator(FIRST_DAY, param.nFood, param.nDays, environment, param.view)}
   } yield sim
 }
