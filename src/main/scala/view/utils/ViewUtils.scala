@@ -28,12 +28,12 @@ object ViewUtils {
   type Acceptor = String => Boolean
 
   /** A GetScheduler keep asking the request until the input is correct */
-  type GetScheduler = (String, Get, Acceptor) => IO[String]
+  type GetScheduler = (String, Acceptor) => IO[String]
 
   /** Retrieves a [[SimulationParameters]] by console
    * @return a [[Get]] element
    * */
-  def getParameters: Get = request => for {
+  def getParameter: Get = request => for {
     _ <- putStrLn(request)
     in <- getStrLn
   } yield in
@@ -42,9 +42,9 @@ object ViewUtils {
    *
    * @return the parameter if it is consistent, based on an given `accept rule`. Requests the parameter again otherwise.
    * */
-  def scheduleGet: GetScheduler = (request, get, accept) => for {
-    in <- get(request)
-    res <- if (accept(in)) IO{in} else scheduleGet(request, get, accept)
+  def scheduleGet: GetScheduler = (request, accept) => for {
+    in <- getParameter(request)
+    res <- if (accept(in)) IO{in} else scheduleGet(request, accept)
   } yield res
 
   /** Creates a new [[JFrame]] element

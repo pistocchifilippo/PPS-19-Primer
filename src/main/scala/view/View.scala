@@ -18,11 +18,11 @@ object View {
    * @return a [[SimulationParameters]] element, casted in [[IO]], to be used in a for-comprehension statement. */
   def collectParameters : IO[SimulationParameters] = for {
     _ <- putStrLn(WELCOME)
-    mode <- scheduleGet(MODE, getParameters, ACCEPT_MODE contains _)
-    out <- scheduleGet(OUT, getParameters, ACCEPT_OUT contains _)
-    nDays <- scheduleGet(DAYS, getParameters, isNumber)
-    nCreatures <- scheduleGet(CREATURES, getParameters, isNumber)
-    nFood <- scheduleGet(FOOD, getParameters, isNumber)
+    mode <- scheduleGet(MODE_REQUEST, ACCEPT_MODE contains _)
+    out <- scheduleGet(OUT_REQUEST, ACCEPT_OUT contains _)
+    nDays <- scheduleGet(DAYS_REQUEST, isNumber)
+    nCreatures <- scheduleGet(CREATURES_REQUEST, isNumber)
+    nFood <- scheduleGet(FOOD_REQUEST, isNumber)
   } yield (mode, out, nDays.toInt, nCreatures.toInt, nFood.toInt) match {
     case (m, o, days, creatures, food) if((m equals "1") && (o equals "y")) => utils.SimulationParameters(BaseView(FilePrinter)(Option.empty), days, creatures, food)
     case (m, o, days, creatures, food) if((m equals "2") && (o equals "y")) => utils.SimulationParameters(BaseView(FilePrinter)(Option(buildFrame())) , days, creatures, food)
