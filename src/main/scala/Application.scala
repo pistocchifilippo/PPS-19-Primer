@@ -1,16 +1,14 @@
 import cats.effect.IO
-import helpers.io.IoConversion._
+import view.View
 import controller.Controller
-import view.View._
-import controller.Controller._
 
 object Application extends App {
 
   val application: IO[Unit] = for {
-    parameters <- collectParameters
-    sim <- makeSimulation(parameters)
+    parameters <- View.collectParameters
+    sim <- Controller.makeSimulation(parameters)
     output <- Controller.execute(sim)
-    _ <- parameters.view.print(output)
+    _ <- View.print(parameters.view, output)
   } yield ()
 
   application.unsafeRunSync()
