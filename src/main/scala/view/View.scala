@@ -5,6 +5,7 @@ import cats.effect.IO
 import helpers.Configurations._
 import helpers.Strategies._
 import model.environment.Environment.Environment
+import model.output.Output.Output
 import view.graphic._
 import view.utils.SimulationParameters
 import view.utils.ViewUtils._
@@ -37,6 +38,14 @@ object View {
     case view: BaseView => view.update(updateJFrame(environment, view.frame))
     case _ =>
   }
+
+  /** Executes the print function of trait [[SimulationView]] printing stats.
+   *
+   * @param sView the SimulationView
+   * @param output to print
+   * @return unit wrapped by the monad IO.
+   */
+  def print(sView: SimulationView, output: Output): IO[Unit] = {sView.print(output)}
 
   /** Print a [[String]] on standard output. Can be used in a for-comprehension statement.
    * */
