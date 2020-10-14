@@ -17,6 +17,7 @@ trait Movement extends Creature { c: Creature =>
    * @return a new creature with a new position and (if reached) a new goal
    */
   def move(implicit energyConsumption: (Double, Double) => Double): EnvironmentCreature = c match {
+    case creature: EnvironmentCreature if c.energy <= 0 => creature
     case ReproducingCreature(center, speed, energy, radius, goal) => ReproducingCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
     case StarvingCreature(center, speed, energy, radius, goal) => StarvingCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
     case AteCreature(center, speed, energy, radius, goal) => AteCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))

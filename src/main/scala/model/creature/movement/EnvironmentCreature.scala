@@ -4,6 +4,7 @@ import helpers.Strategies.randomGoal
 import model.environment.Position.Position
 import model.creature.Creature
 import model.environment.Goal
+import helpers.Configurations.CREATURES_ENERGY
 
 /** Module describing the trait EnvironmentCreature, and other utilities */
 object EnvironmentCreature {
@@ -17,7 +18,7 @@ object EnvironmentCreature {
      * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
      */
     def reproduce(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
-      case ReproducingCreature(_, speed, energy, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), energy, sizeMutation(radius), randomGoal))
+      case ReproducingCreature(_, speed, _, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), CREATURES_ENERGY, sizeMutation(radius), randomGoal))
       case _ => None
     }
 
