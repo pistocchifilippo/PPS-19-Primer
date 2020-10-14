@@ -12,7 +12,10 @@ class FunctionalIteratorTest extends AnyFunSuite {
   test("Folding result should be as the given"){
     val test: IO[Unit] = for {
       sim <- IO pure simulator
-      nStep <- sim.foldRight(0)((_,v) => v+1)
+      nStep <- sim.foldRight(0)((sim,v) => sim match {
+        case _:DaySimulator => v + 1
+        case _ => v
+      })
     } yield {
       assert(nStep equals MOCK_STEP)
     }
