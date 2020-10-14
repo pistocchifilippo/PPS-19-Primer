@@ -3,10 +3,12 @@ package model
 import cats.effect.IO
 import helpers.Configurations.{BOUNDARIES, CREATURES_ENERGY}
 import helpers.Strategies.{collidingCreatures, collidingFood, randomGoal}
+import model.creature.Gene.GeneMutation
+import model.creature.Gene
 import model.environment.Position.Position
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature, StarvingCreature}
+import model.environment.Environment.Environment
 import model.environment.{Blob, Environment, Food}
-import model.environment.Environment._
 
 /** This module contains model functionalities that exploit the [[IO]] monad
  *  This functions can be integrated into the simulator next routine
@@ -34,7 +36,7 @@ object Model {
       c <- creatures
       f <- food
       if Blob.collide(c)(f) && {c match {
-        case ReproducingCreature(_, _, _, _, _) => false
+        case _:ReproducingCreature => false
         case _ => true}
       }
     } yield (c, f)
@@ -62,15 +64,14 @@ object Model {
    *
    * @param creatures old creature set
    * @param pos a position generator for replace creatures
-   * @param sizeMutation size changes
-   * @param speedMutation speed changes
+   * @param geneMutation how [[Gene]] changes
    * @return The [[EnvironmentCreature]] collection of the new day
    */
-  def evolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(sizeMutation: Double => Double)(speedMutation: Double => Double): IO[Traversable[EnvironmentCreature]] = IO pure {
+  def evolutionSet(creatures: Traversable[EnvironmentCreature])(pos: () => Position)(geneMutation: GeneMutation): IO[Traversable[EnvironmentCreature]] = IO pure {
     creatures flatMap {
       _ match {
-        case StarvingCreature(_,_,_,_,_) => Traversable.empty
-        case c: EnvironmentCreature => Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ c.reproduce(sizeMutation)(speedMutation)(pos)
+        case _: StarvingCreature => Traversable.empty
+        case c: EnvironmentCreature => Traversable(StarvingCreature(pos(), c.speed, CREATURES_ENERGY, c.radius, randomGoal)) ++ c.reproduce(geneMutation)(pos)
       }
     }
   }

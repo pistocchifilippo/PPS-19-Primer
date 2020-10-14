@@ -1,7 +1,7 @@
 package controller.simulator
 
 import controller.simulator.iterator.FunctionalIterator
-import model.environment.Environment._
+import model.environment.Environment.Environment
 
 /** This trait represent the behaviour of the Simulator
  *

@@ -2,12 +2,8 @@ package controller.simulator
 
 import cats.effect.IO
 import helpers.Configurations._
-import helpers.Strategies._
-import model.Model
-import model.environment.Environment
 import model.environment.Environment.Environment
-import view.View.putStrLn
-import view.graphic.{BaseView, SimulationView}
+import view.graphic.SimulationView
 
 /** The [[DaySimulator]] execute an entire day per step */
 case class DaySimulator(executedStep: Int,
@@ -16,8 +12,6 @@ case class DaySimulator(executedStep: Int,
                         environment: Environment,
                         view: SimulationView
                        ) extends Simulator {
-
-  implicit val noMutation: Double => Double = s => s
 
   /** Tells if there are remaining days to execute.
    *

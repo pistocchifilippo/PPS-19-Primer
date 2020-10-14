@@ -18,8 +18,8 @@ class CreatureTest extends AnyFunSuite {
     val test: IO[Unit] = for {
       c1 <- mockStarving
       c2 <- mockAte
-      ch1 = c1.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
-      ch2 = c2.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
+      ch1 = c1.reproduce(MOCK_MUTATION)
+      ch2 = c2.reproduce(MOCK_MUTATION)
     } yield {
       assert(ch1.isEmpty)
       assert(ch2.isEmpty)
@@ -33,7 +33,7 @@ class CreatureTest extends AnyFunSuite {
 
     val test: IO[Unit] = for {
       c <- mockReproducing
-      ch = c.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
+      ch = c.reproduce(MOCK_MUTATION)
     } yield {
       assert(ch.nonEmpty)
     }
@@ -47,11 +47,11 @@ class CreatureTest extends AnyFunSuite {
     val test: IO[Unit] = for {
       c <- mockReproducing
     } yield for {
-      ch <- c.reproduce(MOCK_MUTATION)(MOCK_MUTATION)
+      ch <- c.reproduce(MOCK_MUTATION)
     } yield {
       assert(
         ch match {
-          case StarvingCreature(_, _, _, _,_) => true
+          case _:StarvingCreature => true
           case _ => false
         }
       )
@@ -70,21 +70,21 @@ class CreatureTest extends AnyFunSuite {
     } yield {
       assert(
         cs feed() match {
-          case AteCreature(_, _, _, _, _) => true
+          case _:AteCreature => true
           case _ => false
         }
       )
 
       assert(
         ca feed() match {
-          case ReproducingCreature(_, _, _, _, _) => true
+          case _:ReproducingCreature => true
           case _ => false
         }
       )
 
       assert(
         cr feed() match {
-          case ReproducingCreature(_, _, _, _, _) => true
+          case _:ReproducingCreature => true
           case _ => false
         }
       )
@@ -116,21 +116,21 @@ class CreatureTest extends AnyFunSuite {
     } yield {
       assert(
         cs.move match {
-          case StarvingCreature(_, _, _, _, _) => true
+          case _:StarvingCreature => true
           case _ => false
         }
       )
 
       assert(
         ca.move match {
-          case AteCreature(_, _, _, _, _) => true
+          case _:AteCreature => true
           case _ => false
         }
       )
 
       assert(
         cr.move match {
-          case ReproducingCreature(_, _, _, _, _) => true
+          case _:ReproducingCreature => true
           case _ => false
         }
       )

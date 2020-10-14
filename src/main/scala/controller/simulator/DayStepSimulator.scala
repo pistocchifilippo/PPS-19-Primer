@@ -5,7 +5,7 @@ import model.Model
 import model.creature.movement.EnvironmentCreature
 import model.environment.Environment._
 import view.View
-import view.graphic.{BaseView, SimulationView}
+import view.graphic.SimulationView
 
 /** The [[DayStepSimulator]] represents the simulation for just one step of just one day */
 case class DayStepSimulator(executedStep: Int, environment: Environment, view: SimulationView) extends Simulator {

@@ -1,8 +1,7 @@
 package model.output
 
-import model.environment.Environment._
-import play.api.libs.json.JsObject
-import play.api.libs.json.Json._
+import model.environment.Environment.Environment
+import play.api.libs.json.Json.prettyPrint
 
 /** Module containing the output */
 object Output {
@@ -29,7 +28,8 @@ object Output {
   /** Parsing strategy factories */
   private type Parser = Output => String
 
-  import helpers.json.PimpModelJson._
+  /** Enabling pattern Pimp My Library, now [[Output]] supports json conversion method ''outputToJson'' */
+  import helpers.json.PimpModelJson.OutputToJson
 
   /** Strategy for json string */
   object JsonParser extends Parser {

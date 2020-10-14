@@ -6,7 +6,8 @@ import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
 import model.environment
 import model.output.Output
-import model.output.Output._
+import model.output.Output.Output
+import model.output.Output.log
 import view.utils.SimulationParameters
 
 /** This is a top-level module defining controller functionalities */

@@ -5,20 +5,24 @@ import model.environment.Position.Position
 import model.creature.Creature
 import model.environment.Goal
 import helpers.Configurations.CREATURES_ENERGY
+import model.creature.Gene.GeneMutation
 
 /** Module describing the trait EnvironmentCreature, and other utilities */
 object EnvironmentCreature {
 
   trait EnvironmentCreature extends Creature with Movement {
-    /** The creature reproduces if possible
-     *
-     * @param sizeMutation  of radius
-     * @param speedMutation of speed
-     * @param newPosition   of the creature
-     * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
-     */
-    def reproduce(sizeMutation: Double => Double)(speedMutation: Double => Double)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
-      case ReproducingCreature(_, speed, _, radius, _) => Option(StarvingCreature(newPosition(), speedMutation(speed), CREATURES_ENERGY, sizeMutation(radius), randomGoal))
+
+//    /** The creature reproduces if possible
+//     *
+//     * @param sizeMutation  of radius
+//     * @param speedMutation of speed
+//     * @param newPosition   of the creature
+//     * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
+//     */
+    def reproduce(geneMutation: GeneMutation)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
+      case ReproducingCreature(_, _, _, _, _) =>
+        val mutation = geneMutation(this.gene)
+        Option(StarvingCreature(newPosition(), mutation.speed, CREATURES_ENERGY, mutation.size, randomGoal))
       case _ => None
     }
 
@@ -82,12 +86,6 @@ object EnvironmentCreature {
                                 ) extends EnvironmentCreature
 
   /** Kinetic energy formula */
-  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {
-    Math pow(v, 2)
-  }
-
-  implicit val noSizeMutation: Double => Double = m => m
-
-  implicit val noSpeedMutation: Double => Double = s => s
+  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {Math pow(v, 2)}
 
 }

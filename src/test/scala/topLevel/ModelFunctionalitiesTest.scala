@@ -23,7 +23,7 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
     val test: IO[Unit] = for {
       size <- IO {10}
       evSet <- IO {for {_ <- 0 until size} yield mockAte}
-      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)(MOCK_MUTATION)
+      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)
     } yield {
       assert(evolve.size equals size)
     }
@@ -37,7 +37,7 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
     val test: IO[Unit] = for {
       size <- IO {10}
       evSet <- IO {for {_ <- 0 until size} yield mockReproducing}
-      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)(MOCK_MUTATION)
+      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)
     } yield {
       assert(evolve.size equals size * 2)
     }
@@ -51,7 +51,7 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
     val test: IO[Unit] = for {
       size <- IO {10}
       evSet <- IO {for {_ <- 0 until size} yield mockReproducing}
-      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)(MOCK_MUTATION)
+      evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)
     } yield for {
       c <- evolve
     } yield {
