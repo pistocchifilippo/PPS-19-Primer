@@ -15,7 +15,7 @@ object Configurations {
 
   def CREATURES_RADIUS = 15
 
-  def CREATURES_ENERGY = 40000
+  def CREATURES_ENERGY = 80000
 
   def CREATURES_SPEED = 3
 
