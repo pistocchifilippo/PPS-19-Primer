@@ -1,5 +1,7 @@
 package model.creature
 
+import helpers.Configurations.DELTA_MUTATION
+
 import scala.util.Random
 
 object Gene {
@@ -14,10 +16,9 @@ object Gene {
 
   /** The gene mutate in size and speed by a delta */
   implicit val deltaMutation: GeneMutation = g => {
-    val delta = Random.nextDouble()
     Random.nextInt(2) match {
-      case 0 => Gene(g.size + delta, g.speed - delta)
-      case 1 => Gene(g.size - delta, g.speed + delta)
+      case 0 => Gene(g.size, g.speed * (1 + DELTA_MUTATION))
+      case 1 => Gene(g.size, g.speed * (1 - DELTA_MUTATION))
     }
   }
 }

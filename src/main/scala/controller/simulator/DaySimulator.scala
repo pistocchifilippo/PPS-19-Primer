@@ -3,6 +3,7 @@ package controller.simulator
 import cats.effect.IO
 import helpers.Configurations._
 import model.environment.Environment.Environment
+import view.View
 import view.graphic.SimulationView
 
 /** The [[DaySimulator]] execute an entire day per step */
@@ -23,6 +24,10 @@ case class DaySimulator(executedStep: Int,
    * @return A new simulator (maybe) ready to simulate another entire day
    */
   override def next(): IO[Simulator] = for {
+    _ <- View.putStrLn("Day "+ executedStep)
+    _ <- View.putStrLn("Creatures "+ environment.creatures.size)
+    _ <- View.putStrLn(environment.creatures.map(_.speed).toString())
+
     sim <- DayStepSimulator(FIRST_DAY, environment, view).executeAll
     rawEnvironment = sim.environment
   } yield {

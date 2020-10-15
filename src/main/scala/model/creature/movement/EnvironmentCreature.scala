@@ -79,6 +79,6 @@ object EnvironmentCreature {
                                  override val goal: Goal) extends EnvironmentCreature
 
   /** Kinetic energy formula */
-  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * {Math pow(v, 2)}
+  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * Math.pow(v,2)
 
 }
