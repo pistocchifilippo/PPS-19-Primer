@@ -11,6 +11,7 @@ import model.environment.Environment.Environment
  * A simulator have a number of executed step
  */
 trait Simulator extends FunctionalIterator [Simulator] {
+
   /**
    *
    * @return the environment of the step

@@ -9,11 +9,12 @@ import model.environment.Environment
 import model.environment.Environment.Environment
 import view.graphic.SimulationView
 
-case class EndDaySimulator(executedStep: Int,
-                           nFood: Int,
-                           nDays: Int,
-                           environment: Environment,
-                           view: SimulationView) extends Simulator {
+/** This component simulates the evolution of the species */
+case class EvolutionSimulator(executedStep: Int,
+                              nFood: Int,
+                              nDays: Int,
+                              environment: Environment,
+                              view: SimulationView) extends Simulator {
 
   implicit val deltaMutation: GeneMutation = Gene.deltaMutation
 
@@ -28,7 +29,7 @@ case class EndDaySimulator(executedStep: Int,
    * @return An object of type IO[A] where A is the following instance
    */
   override def next(): IO[Simulator] = for {
-    creatures <- Model.evolutionSet(environment.creatures)(() => randomBoundedEdgePosition)(deltaMutation)
+    creatures <- Model.evolutionSet(environment.creatures)(() => randomBoundedEdgePosition)(deltaMutation) // The evolution of the specie
     food = makeBoundedFoodCollection(nFood)
     env = Environment(BOUNDARIES, food, creatures)
   } yield {
@@ -40,6 +41,5 @@ case class EndDaySimulator(executedStep: Int,
       view
     )
   }
-
 
 }

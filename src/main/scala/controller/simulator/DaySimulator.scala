@@ -6,7 +6,7 @@ import model.environment.Environment.Environment
 import view.View
 import view.graphic.SimulationView
 
-/** The [[DaySimulator]] execute an entire day per step */
+/** The [[DaySimulator]] simulates the execution of an entire day */
 case class DaySimulator(executedStep: Int,
                         nFood: Int,
                         nDays: Int,
@@ -31,7 +31,7 @@ case class DaySimulator(executedStep: Int,
     sim <- DayStepSimulator(FIRST_DAY, environment, view).executeAll
     rawEnvironment = sim.environment
   } yield {
-    EndDaySimulator(
+    EvolutionSimulator(
       executedStep,
       nFood,
       nDays,

@@ -1,7 +1,7 @@
 package controller
 
 import cats.effect.IO
-import controller.simulator.{DaySimulator, DayStepSimulator, EndDaySimulator, Simulator}
+import controller.simulator.{DaySimulator, DayStepSimulator, EvolutionSimulator, Simulator}
 import helpers.Configurations.{BOUNDARIES, FIRST_DAY}
 import helpers.Strategies.{makeBoundedFoodCollection, makeOnBoundsCreaturesCollection}
 import model.environment
@@ -18,7 +18,7 @@ object Controller {
    * @return The output of the simulation
    */
   def execute: Simulator => IO[Output] = _.foldRight(Output())((sim, out) => sim match {
-    case EndDaySimulator(executedStep, _, _, environment, _) => log(out)(executedStep - 1, environment)
+    case EvolutionSimulator(executedStep, _, _, environment, _) => log(out)(executedStep - 1, environment)
     case _ => out
   })
 
