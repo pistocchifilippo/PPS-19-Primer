@@ -13,3 +13,5 @@ libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.4"
 
 // Cats effect
 libraryDependencies += "org.typelevel" %% "cats-effect" % "2.2.0"
+
+coverageEnabled := true
