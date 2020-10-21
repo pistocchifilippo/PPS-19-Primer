@@ -8,11 +8,11 @@ import cats.effect.IO
 import helpers.Configurations.{SEPARATOR, SIMULATOR_HEIGHT, SIMULATOR_TITLE, SIMULATOR_WIDTH, UPDATE_TIME_MS}
 import javax.swing.JFrame
 import helpers.io.IoConversion._
-import model.environment.Environment.Environment
 import model.output.Output
 import model.output.Output.Output
 import view.View._
 import view.graphic
+import view.graphic.GraphicalComponent.GraphicalEnvironment
 import view.graphic.SimulationView
 
 /** Utilities module for [[SimulationView]] elements
@@ -80,8 +80,8 @@ object ViewUtils {
 
   val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString.replace(" ", "_"))
 
-  /** Update the [[JFrame]] of a [[BaseView]], if present, to display the given [[Environment]] */
-  val updateJFrame: (Environment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
+  /** Update the [[JFrame]] of a [[BaseView]], if present, to display the given [[GraphicalEnvironment]] */
+  val updateJFrame: (GraphicalEnvironment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
 
     /** Update the [[JFrame]] with a new [[Visualizer]] that shows the given Environment*/
     def _update(frame: JFrame): IO[Unit] = for {

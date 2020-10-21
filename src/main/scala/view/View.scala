@@ -4,8 +4,8 @@ import helpers.io.IoConversion._
 import cats.effect.IO
 import helpers.Configurations._
 import helpers.Strategies._
-import model.environment.Environment.Environment
 import model.output.Output.Output
+import view.graphic.GraphicalComponent.GraphicalEnvironment
 import view.graphic._
 import view.utils.SimulationParameters
 import view.utils.ViewUtils._
@@ -30,10 +30,10 @@ object View {
     case (_, _, days, creatures, food) => utils.SimulationParameters(BaseView(CLIPrinter)(Option.empty), days, creatures, food)
   }
 
-  /** Updates the [[BaseView]] to show the current [[Environment]] in a different way based on the runtime type of
+  /** Updates the [[BaseView]] to show the current [[GraphicalEnvironment]] in a different way based on the runtime type of
    * the `sView` parameter
    */
-  def update(sView: SimulationView, environment: Environment): IO[Unit] = sView match {
+  def update(sView: SimulationView, environment: GraphicalEnvironment): IO[Unit] = sView match {
     case view: BaseView => view.update(updateJFrame(environment, view.frame))
     case _ =>
   }
