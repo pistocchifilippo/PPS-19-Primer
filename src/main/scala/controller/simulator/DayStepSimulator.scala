@@ -3,9 +3,11 @@ package controller.simulator
 import cats.effect.IO
 import model.Model
 import model.creature.movement.EnvironmentCreature
-import model.environment.Environment._
+import model.environment.Environment
+import model.environment.Environment.Environment
 import view.View
 import view.graphic.SimulationView
+import view.graphic.GraphicalComponent.environmentToGraphical // This is the implicit conversion for the Environment
 
 /** The [[DayStepSimulator]] represents the simulation for just one step of just one day */
 case class DayStepSimulator(executedStep: Int,
@@ -14,14 +16,14 @@ case class DayStepSimulator(executedStep: Int,
 
   implicit val kineticConsumption: (Double, Double) => Double =  EnvironmentCreature.kineticConsumption
 
-  /** Tells if there are remaining creature with energy grater than zero.
+  /** Tells if simulation can go further.
    *
    * @return true if the simulator can do another step
    */
   override def hasNext: Boolean =
-    atLeastOneWithEnergy(environment) &&
-    isFoodRemaining(environment) &&
-    !allYetReproducing(environment)
+    Environment.atLeastOneWithEnergy(environment) &&
+    Environment.isFoodRemaining(environment) &&
+    Environment.notAllYetReproducing(environment)
 
   /** Executes a step of a [[DayStepSimulator]]
    *
@@ -31,8 +33,8 @@ case class DayStepSimulator(executedStep: Int,
     c <- Model.moveCreatures(environment.creatures)
     coll <- Model.collisions(c)(environment.food)
     env <- Model.makeNewEnvironment(c)(environment.food)(coll)
-    _ <- View.update(view, env)
-    } yield {
+    _ <- View.update(view, env) // acting an implicit conversion on environment
+  } yield {
       DayStepSimulator(
         executedStep + 1,
         env,

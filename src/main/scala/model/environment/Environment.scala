@@ -1,6 +1,6 @@
 package model.environment
 
-import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature}
+import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature, StarvingCreature}
 
 object Environment {
 
@@ -16,6 +16,34 @@ object Environment {
 
   def apply(boundaries: Boundaries, food: Traversable[Food], creatures: Traversable[EnvironmentCreature]): BlobEnvironment =
     BlobEnvironment(boundaries, food, creatures)
+
+
+  /**
+   *
+   * @param environment referring.
+   * @return the number of creature that is going to die inside the environment.
+   */
+  def dieingCreature(environment: Environment): Int = environment.creatures.count {
+    case _: StarvingCreature => true
+    case _ => false
+  }
+
+  /**
+   *
+   * @param environment referring.
+   * @return the number of creature that is going to reproduce.
+   */
+  def reproducingCreature(environment: Environment): Int = environment.creatures.count {
+    case _: ReproducingCreature => true
+    case _ => false
+  }
+
+  /**
+   *
+   * @param environment referring.
+   * @return the average speed of creatures.
+   */
+  def avgSpeed(environment: Environment): Double = environment.creatures.map(_.speed).sum / environment.creatures.size
 
   /**
    *
@@ -36,6 +64,6 @@ object Environment {
    * @param environment the target environment
    * @return true if all creature are [[ReproducingCreature]]
    */
-  def allYetReproducing(environment: Environment): Boolean = environment.creatures.forall { case _: ReproducingCreature => true; case _ => false }
+  def notAllYetReproducing(environment: Environment): Boolean = !environment.creatures.forall { case _: ReproducingCreature => true; case _ => false }
 
 }

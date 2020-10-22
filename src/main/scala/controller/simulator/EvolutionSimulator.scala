@@ -7,6 +7,7 @@ import model.creature.Gene
 import model.creature.Gene.GeneMutation
 import model.environment.Environment
 import model.environment.Environment.Environment
+import view.View
 import view.graphic.SimulationView
 
 /** This component simulates the evolution of the species */
@@ -29,6 +30,12 @@ case class EvolutionSimulator(executedStep: Int,
    * @return An object of type IO[A] where A is the following instance
    */
   override def next(): IO[Simulator] = for {
+    _ <- View.putStrLn("")
+    _ <- View.putStrLn(s"Day: $executedStep")
+    _ <- View.putStrLn("Reproducing creature: " + Environment.reproducingCreature(environment))
+    _ <- View.putStrLn("Dead creature: " + Environment.dieingCreature(environment))
+    _ <- View.putStrLn("Average speed: " + Environment.avgSpeed(environment))
+
     creatures <- Model.evolutionSet(environment.creatures)(() => randomBoundedEdgePosition)(deltaMutation) // The evolution of the specie
     food = makeBoundedFoodCollection(nFood)
     env = Environment(BOUNDARIES, food, creatures)
