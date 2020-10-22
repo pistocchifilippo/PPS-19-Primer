@@ -3,9 +3,7 @@ package controller.simulator
 import cats.effect.IO
 import model.Model
 import model.creature.movement.EnvironmentCreature
-import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature}
 import model.environment.Environment._
-import model.environment.Food
 import view.View
 import view.graphic.SimulationView
 
@@ -21,9 +19,9 @@ case class DayStepSimulator(executedStep: Int,
    * @return true if the simulator can do another step
    */
   override def hasNext: Boolean =
-    atLeastOneWithEnergy(environment.creatures) &&
-    isFoodRemaining(environment.food) &&
-    !allYetReproducing(environment.creatures)
+    atLeastOneWithEnergy(environment) &&
+    isFoodRemaining(environment) &&
+    !allYetReproducing(environment)
 
   /** Executes a step of a [[DayStepSimulator]]
    *
@@ -41,9 +39,4 @@ case class DayStepSimulator(executedStep: Int,
         view
       )
   }
-
-  private def atLeastOneWithEnergy(creatures: Traversable[EnvironmentCreature]): Boolean = creatures.count(_.energy > 0) > 0
-  private def isFoodRemaining(food: Traversable[Food]): Boolean = food.nonEmpty
-  private def allYetReproducing(creatures: Traversable[EnvironmentCreature]): Boolean = creatures.forall { case _: ReproducingCreature => true; case _ => false }
-
 }

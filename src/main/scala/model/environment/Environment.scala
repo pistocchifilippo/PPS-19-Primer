@@ -1,6 +1,6 @@
 package model.environment
 
-import model.creature.movement.EnvironmentCreature.EnvironmentCreature
+import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, ReproducingCreature}
 
 object Environment {
 
@@ -16,5 +16,26 @@ object Environment {
 
   def apply(boundaries: Boundaries, food: Traversable[Food], creatures: Traversable[EnvironmentCreature]): BlobEnvironment =
     BlobEnvironment(boundaries, food, creatures)
+
+  /**
+   *
+   * @param environment the target environment
+   * @return true if there's at least one creature that has energy grater than zero.
+   */
+  def atLeastOneWithEnergy(environment: Environment): Boolean = environment.creatures.count(_.energy > 0) > 0
+
+  /**
+   *
+   * @param environment the target environment
+   * @return true if there's at least one unity of food in the environment.
+   */
+  def isFoodRemaining(environment: Environment): Boolean = environment.food.nonEmpty
+
+  /**
+   *
+   * @param environment the target environment
+   * @return true if all creature are [[ReproducingCreature]]
+   */
+  def allYetReproducing(environment: Environment): Boolean = environment.creatures.forall { case _: ReproducingCreature => true; case _ => false }
 
 }
