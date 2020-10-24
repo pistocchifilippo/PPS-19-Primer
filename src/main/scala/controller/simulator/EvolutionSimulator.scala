@@ -30,12 +30,7 @@ case class EvolutionSimulator(executedStep: Int,
    * @return An object of type IO[A] where A is the following instance
    */
   override def next(): IO[Simulator] = for {
-    _ <- View.putStrLn("")
-    _ <- View.putStrLn(s"Day: $executedStep")
-    _ <- View.putStrLn("Reproducing creature: " + Environment.reproducingCreature(environment))
-    _ <- View.putStrLn("Dead creature: " + Environment.dieingCreature(environment))
-    _ <- View.putStrLn("Average speed: " + Environment.avgSpeed(environment))
-
+//    _ <- log()
     creatures <- Model.evolutionSet(environment.creatures)(() => randomBoundedEdgePosition)(deltaMutation) // The evolution of the specie
     food = makeBoundedFoodCollection(nFood)
     env = Environment(BOUNDARIES, food, creatures)
@@ -48,5 +43,13 @@ case class EvolutionSimulator(executedStep: Int,
       view
     )
   }
+
+  private def log(): IO[Unit] = for {
+    _ <- View.putStrLn("")
+    _ <- View.putStrLn(s"Day: $executedStep")
+    _ <- View.putStrLn("Reproducing creature: " + Environment.reproducingCreature(environment))
+    _ <- View.putStrLn("Dead creature: " + Environment.dieingCreature(environment))
+    _ <- View.putStrLn("Average speed: " + Environment.avgSpeed(environment))
+  } yield ()
 
 }
