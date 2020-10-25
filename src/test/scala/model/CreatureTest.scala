@@ -2,9 +2,9 @@ package model
 
 import cats.effect.IO
 import helpers.io.IoConversion._
+import model.creature.movement.EnvironmentCreature
 import model.creature.movement.EnvironmentCreature.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import model.environment.Position.Position
-import model.creature.movement.EnvironmentCreature
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 
@@ -51,7 +51,7 @@ class CreatureTest extends AnyFunSuite {
     } yield {
       assert(
         ch match {
-          case _:StarvingCreature => true
+          case _: StarvingCreature => true
           case _ => false
         }
       )
@@ -70,21 +70,21 @@ class CreatureTest extends AnyFunSuite {
     } yield {
       assert(
         cs feed() match {
-          case _:AteCreature => true
+          case _: AteCreature => true
           case _ => false
         }
       )
 
       assert(
         ca feed() match {
-          case _:ReproducingCreature => true
+          case _: ReproducingCreature => true
           case _ => false
         }
       )
 
       assert(
         cr feed() match {
-          case _:ReproducingCreature => true
+          case _: ReproducingCreature => true
           case _ => false
         }
       )
@@ -100,7 +100,11 @@ class CreatureTest extends AnyFunSuite {
       c <- mockStarving
       m <- c.move(EnvironmentCreature.kineticConsumption)
     } yield {
-      testIfHasEnergy(c,EnvironmentCreature.kineticConsumption)(() => {assert(!{m.center equals c.center})})
+      testIfHasEnergy(c, EnvironmentCreature.kineticConsumption)(() => {
+        assert(! {
+          m.center equals c.center
+        })
+      })
     }
 
     test.unsafeRunSync()
@@ -116,21 +120,21 @@ class CreatureTest extends AnyFunSuite {
     } yield {
       assert(
         cs.move match {
-          case _:StarvingCreature => true
+          case _: StarvingCreature => true
           case _ => false
         }
       )
 
       assert(
         ca.move match {
-          case _:AteCreature => true
+          case _: AteCreature => true
           case _ => false
         }
       )
 
       assert(
         cr.move match {
-          case _:ReproducingCreature => true
+          case _: ReproducingCreature => true
           case _ => false
         }
       )
@@ -145,14 +149,18 @@ class CreatureTest extends AnyFunSuite {
       c <- mockStarving
       m <- c.move
     } yield {
-      testIfHasEnergy(c,EnvironmentCreature.kineticConsumption)(() => {assert(c.energy > m.energy)})
+      testIfHasEnergy(c, EnvironmentCreature.kineticConsumption)(() => {
+        assert(c.energy > m.energy)
+      })
     }
 
     test.unsafeRunSync()
 
   }
 
-  private def testIfHasEnergy(c: EnvironmentCreature, energyConsumption: (Double,Double) => Double)(assertion: () => Unit): Unit =
-    if (c.energy - EnvironmentCreature.kineticConsumption(c.radius,c.speed)>0) {assertion()}
+  private def testIfHasEnergy(c: EnvironmentCreature, energyConsumption: (Double, Double) => Double)(assertion: () => Unit): Unit =
+    if (c.energy - EnvironmentCreature.kineticConsumption(c.radius, c.speed) > 0) {
+      assertion()
+    }
 
 }

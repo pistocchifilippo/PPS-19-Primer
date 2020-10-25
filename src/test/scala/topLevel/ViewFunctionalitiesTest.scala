@@ -14,20 +14,20 @@ import model.output.Output.Output
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
 
-class ViewFunctionalitiesTest extends AnyFunSuite{
+class ViewFunctionalitiesTest extends AnyFunSuite {
 
   val out: Output = Map.empty
-  val food = Traversable(Food(10.0-> 10.0, 10))
-  val creatures = Traversable(StarvingCreature(10.0-> 10.0, 10, 10, 10, randomGoal))
-  val environment: Environment = Environment(Boundaries(10.0-> 10.0, 10.0-> 10.0), food, creatures)
+  val food = Traversable(Food(10.0 -> 10.0, 10))
+  val creatures = Traversable(StarvingCreature(10.0 -> 10.0, 10, 10, 10, randomGoal))
+  val environment: Environment = Environment(Boundaries(10.0 -> 10.0, 10.0 -> 10.0), food, creatures)
 
 
-  test("A new stats file should be generated after a Run" ) {
+  test("A new stats file should be generated after a Run") {
 
-    val simulator : DaySimulator = mockSimulatorFile
+    val simulator: DaySimulator = mockSimulatorFile
 
-    def countFiles: Int ={
-      new File("statistics"+ SEPARATOR).mkdirs()
+    def countFiles: Int = {
+      new File("statistics" + SEPARATOR).mkdirs()
       new File("statistics").list().length
     }
 
@@ -35,7 +35,7 @@ class ViewFunctionalitiesTest extends AnyFunSuite{
       n <- IO pure countFiles
       out <- IO pure Output.log(out)(1, environment)
       _ <- IO pure simulator.view.print(out)
-    } yield assert(n+1 equals countFiles)
+    } yield assert(n + 1 equals countFiles)
 
     test.unsafeRunSync()
 

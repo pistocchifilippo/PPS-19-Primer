@@ -10,7 +10,7 @@ import cats.effect.IO
  *
  * @tparam A is bounded to be at least a [[FunctionalIterator]]
  */
-trait FunctionalIterator [A <: FunctionalIterator[A]] {
+trait FunctionalIterator[A <: FunctionalIterator[A]] {
 
   /** Does not mutate the state of the object
    *
@@ -28,20 +28,21 @@ trait FunctionalIterator [A <: FunctionalIterator[A]] {
    *
    * @return The last next call of the chain
    */
-  def executeAll: IO[A] = foldRight(this.asInstanceOf[A])((a,_) => a)
+  def executeAll: IO[A] = foldRight(this.asInstanceOf[A])((a, _) => a)
 
   /**
    *
    * @param base the base case
-   * @param f aggregation function
+   * @param f    aggregation function
    * @tparam B the output type
    * @return the folded result
    */
   def foldRight[B](base: B)(f: (A, B) => B): IO[B] = {
     def foldRight(self: A)(base: B)(f: (A, B) => B): IO[B] = for {
       next <- if (self.hasNext) self.next() else IO pure self
-      d <- if (self.hasNext) foldRight(next)(f(next, base))(f) else IO pure base
-    } yield d
+      foldStep <- if (self.hasNext) foldRight(next)(f(next, base))(f) else IO pure base
+    } yield foldStep
+
     foldRight(this.asInstanceOf[A])(base)(f)
   }
 

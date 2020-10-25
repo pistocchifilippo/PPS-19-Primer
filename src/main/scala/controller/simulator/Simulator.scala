@@ -10,7 +10,7 @@ import model.environment.Environment.Environment
  * A simulator embeds the environment to work with it
  * A simulator have a number of executed step
  */
-trait Simulator extends FunctionalIterator [Simulator] {
+trait Simulator extends FunctionalIterator[Simulator] {
 
   /**
    *

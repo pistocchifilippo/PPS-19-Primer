@@ -5,11 +5,11 @@ import helpers.Configurations.DELTA_MUTATION
 import scala.util.Random
 
 object Gene {
+  type GeneMutation = Gene => Gene
 
-  case class Gene(size: Double, speed: Double)
   def apply(radius: Double, speed: Double): Gene = Gene(radius, speed)
 
-  type GeneMutation = Gene => Gene
+  case class Gene(size: Double, speed: Double)
 
   /** The gene does not mutate */
   implicit val noMutation: GeneMutation = g => g

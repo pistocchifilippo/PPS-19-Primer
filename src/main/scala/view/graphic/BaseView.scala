@@ -4,9 +4,12 @@ import javax.swing.JFrame
 import view.utils.ViewUtils.Printer
 
 /** `trait` that defines a generic View */
-trait SimulationView{
+trait SimulationView {
   def print: Printer
-  def update(performUpdate: () => Unit) { performUpdate() }
+
+  def update(performUpdate: () => Unit) {
+    performUpdate()
+  }
 }
 
 /** Defines a [[SimulationView]] whit an [[Option]]al [[JFrame]] element for GUI

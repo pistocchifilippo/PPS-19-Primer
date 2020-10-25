@@ -7,11 +7,11 @@ import model.creature.Gene.Gene
 import model.creature.movement.EnvironmentCreature
 import model.creature.movement.EnvironmentCreature.{AteCreature, EnvironmentCreature, ReproducingCreature, StarvingCreature}
 import model.environment.Blob.makeBlobCollection
+import model.environment.Environment._
 import model.environment.Position.Position
 import model.environment.{Environment, Goal, Position}
-import model.environment.Environment._
-import view.utils.ViewUtils._
 import view.graphic.BaseView
+import view.utils.ViewUtils._
 
 object Mock {
 
@@ -20,7 +20,7 @@ object Mock {
   val MOCK_GOAL: Goal = Goal(30.0 -> 30.0, 10)
   val MOCK_SPEED = 10
   val MOCK_RADIUS = 10
-  val MOCK_ENERGY: Double = EnvironmentCreature.kineticConsumption(MOCK_RADIUS,MOCK_SPEED) + 1
+  val MOCK_ENERGY: Double = EnvironmentCreature.kineticConsumption(MOCK_RADIUS, MOCK_SPEED) + 1
   val MOCK_FOOD_SET_SIZE = 100
   val MOCK_CREATURE_SET_SIZE = 100
 
@@ -30,10 +30,9 @@ object Mock {
   val MOCK_MUTATION: Gene => Gene = g => Gene(g.size + MOCK_DELTA, g.speed - MOCK_DELTA)
   val MOCK_POS_GENERATOR: () => Position = () => MOCK_POSITION
 
-  def mockEnvironment: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(MOCK_FOOD_SET_SIZE), makeBlobCollection(() => mockStarving)(MOCK_CREATURE_SET_SIZE))
+  def mockDaySimulator: DaySimulator = DaySimulator(1, MOCK_STEP, MOCK_FOOD_SET_SIZE, mockEnvironment, MOCK_VIEW)
 
-  def mockDaySimulator: DaySimulator = DaySimulator(1,MOCK_STEP, MOCK_FOOD_SET_SIZE, mockEnvironment, MOCK_VIEW)
-  def mockSimulatorFile: DaySimulator = DaySimulator(1,MOCK_STEP, MOCK_FOOD_SET_SIZE, mockEnvironment, MOCK_FILE_VIEW)
+  def mockEnvironment: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(MOCK_FOOD_SET_SIZE), makeBlobCollection(() => mockStarving)(MOCK_CREATURE_SET_SIZE))
 
   def mockStarving: EnvironmentCreature = StarvingCreature(
     center = MOCK_POSITION,
@@ -42,6 +41,8 @@ object Mock {
     energy = MOCK_ENERGY,
     goal = MOCK_GOAL
   )
+
+  def mockSimulatorFile: DaySimulator = DaySimulator(1, MOCK_STEP, MOCK_FOOD_SET_SIZE, mockEnvironment, MOCK_FILE_VIEW)
 
   def randomMockStarving: EnvironmentCreature = StarvingCreature(
     center = Position.RandomPosition(BOUNDARIES),

@@ -1,4 +1,5 @@
 package controller.simulator
+
 import cats.effect.IO
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.{makeBoundedFoodCollection, randomBoundedEdgePosition}
@@ -30,7 +31,7 @@ case class EvolutionSimulator(executedStep: Int,
    * @return An object of type IO[A] where A is the following instance
    */
   override def next(): IO[Simulator] = for {
-//    _ <- log()
+    //_ <- log()
     creatures <- Model.evolutionSet(environment.creatures)(() => randomBoundedEdgePosition)(deltaMutation) // The evolution of the specie
     food = makeBoundedFoodCollection(nFood)
     env = Environment(BOUNDARIES, food, creatures)

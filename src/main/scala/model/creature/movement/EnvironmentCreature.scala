@@ -1,11 +1,11 @@
 package model.creature.movement
 
-import helpers.Strategies.randomGoal
-import model.environment.Position.Position
-import model.creature.Creature
-import model.environment.Goal
 import helpers.Configurations.CREATURES_ENERGY
+import helpers.Strategies.randomGoal
+import model.creature.Creature
 import model.creature.Gene.GeneMutation
+import model.environment.Goal
+import model.environment.Position.Position
 
 /** Module describing the trait EnvironmentCreature, and other utilities */
 object EnvironmentCreature {
@@ -15,11 +15,11 @@ object EnvironmentCreature {
     /** The creature reproduces if possible
      *
      * @param geneMutation of the creature
-     * @param newPosition   of the creature
+     * @param newPosition  of the creature
      * @return Some(c) if the creature can reproduce, None if the creature can't reproduce
      */
     def reproduce(geneMutation: GeneMutation)(implicit newPosition: () => Position): Option[EnvironmentCreature] = this match {
-      case _:ReproducingCreature =>
+      case _: ReproducingCreature =>
         val mutation = geneMutation(this.gene)
         Option(StarvingCreature(newPosition(), mutation.speed, CREATURES_ENERGY, mutation.size, randomGoal))
       case _ => None
@@ -30,9 +30,9 @@ object EnvironmentCreature {
      * @return The feed creature
      */
     def feed(): EnvironmentCreature = this match {
-      case _:StarvingCreature => AteCreature(center, speed, energy, radius, goal)
-      case _:AteCreature => ReproducingCreature(center, speed, energy, radius, goal)
-      case _:ReproducingCreature => ReproducingCreature(center, speed, energy, radius, goal)
+      case _: StarvingCreature => AteCreature(center, speed, energy, radius, goal)
+      case _: AteCreature => ReproducingCreature(center, speed, energy, radius, goal)
+      case _: ReproducingCreature => ReproducingCreature(center, speed, energy, radius, goal)
     }
   }
 
@@ -79,6 +79,6 @@ object EnvironmentCreature {
                                  override val goal: Goal) extends EnvironmentCreature
 
   /** Kinetic energy formula */
-  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * Math.pow(v,2)
+  implicit val kineticConsumption: (Double, Double) => Double = (m, v) => 0.5 * m * Math.pow(v, 2)
 
 }

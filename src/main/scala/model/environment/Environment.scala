@@ -5,18 +5,19 @@ import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, Reprodu
 object Environment {
 
   trait Environment {
-    def boundaries : Boundaries
-    def food : Traversable[Food]
-    def creatures : Traversable[EnvironmentCreature]
+    def boundaries: Boundaries
+
+    def food: Traversable[Food]
+
+    def creatures: Traversable[EnvironmentCreature]
   }
 
-  case class BlobEnvironment( override val boundaries: Boundaries,
-                              override val food: Traversable[Food],
-                              override val creatures : Traversable[EnvironmentCreature]) extends Environment
+  case class BlobEnvironment(override val boundaries: Boundaries,
+                             override val food: Traversable[Food],
+                             override val creatures: Traversable[EnvironmentCreature]) extends Environment
 
   def apply(boundaries: Boundaries, food: Traversable[Food], creatures: Traversable[EnvironmentCreature]): BlobEnvironment =
     BlobEnvironment(boundaries, food, creatures)
-
 
   /**
    *

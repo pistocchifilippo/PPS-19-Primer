@@ -1,6 +1,7 @@
 package view.graphic
 
 import java.awt.{Graphics, Graphics2D, RenderingHints}
+
 import helpers.Configurations.{VISUALIZER_HEIGHT, VISUALIZER_WIDTH}
 import javax.swing.JPanel
 import model.environment.{Blob, Environment}

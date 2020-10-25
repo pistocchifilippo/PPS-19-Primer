@@ -7,16 +7,16 @@ import helpers.Strategies._
 import model.environment.Environment
 import model.environment.Environment._
 import org.scalatest.funsuite.AnyFunSuite
-import view.utils.ViewUtils._
 import view.graphic.BaseView
+import view.utils.ViewUtils._
 
-class SimulatorTest extends AnyFunSuite{
+class SimulatorTest extends AnyFunSuite {
 
   val env: Environment = Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeOnBoundsCreaturesCollection(50))
   val view: BaseView = BaseView(CLIPrinter)(Option.empty)
   val nDays = 20
 
-  test("A day simulator should have expected behaviour" ) {
+  test("A day simulator should have expected behaviour") {
 
     val test: IO[Unit] = for {
       sim <- IO pure DaySimulator(FIRST_DAY, 100, nDays, env, view)

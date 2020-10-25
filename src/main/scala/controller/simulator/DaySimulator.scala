@@ -3,7 +3,6 @@ package controller.simulator
 import cats.effect.IO
 import helpers.Configurations._
 import model.environment.Environment.Environment
-import view.View
 import view.graphic.SimulationView
 
 /** The [[DaySimulator]] simulates the execution of an entire day */

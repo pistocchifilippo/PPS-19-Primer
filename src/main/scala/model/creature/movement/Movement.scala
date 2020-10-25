@@ -1,14 +1,15 @@
 package model.creature.movement
 
 import helpers.Configurations.GOAL_RADIUS
-import model.creature.Creature
 import helpers.Strategies._
+import model.creature.Creature
 import model.creature.movement.EnvironmentCreature._
-import model.environment.{Blob, Goal}
 import model.environment.Position.{MathPosition, Position}
+import model.environment.{Blob, Goal}
 
 /** Self type, adding movement to a creature */
-trait Movement extends Creature { c: Creature =>
+trait Movement extends Creature {c: Creature =>
+
   def goal: Goal
 
   /** Makes the creature move
@@ -18,9 +19,9 @@ trait Movement extends Creature { c: Creature =>
    */
   def move(implicit energyConsumption: (Double, Double) => Double): EnvironmentCreature = c match {
     case creature: EnvironmentCreature if c.energy <= 0 => creature
-    case _:ReproducingCreature => ReproducingCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
-    case _:StarvingCreature => StarvingCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
-    case _:AteCreature => AteCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
+    case _: ReproducingCreature => ReproducingCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
+    case _: StarvingCreature => StarvingCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
+    case _: AteCreature => AteCreature(computeNextPosition(center, speed, goal.center), speed, energy - energyConsumption(radius, speed), radius, computeGoal(this))
   }
 
   /** Compute the next random goal of a moving creature */
@@ -30,7 +31,7 @@ trait Movement extends Creature { c: Creature =>
    *
    * @return a [[Position]]
    */
-  private def computeNextPosition: (Position, Double,  Position) => Position = (source, speed, dest) => {
+  private def computeNextPosition: (Position, Double, Position) => Position = (source, speed, dest) => {
     source + (speed * Math.cos((dest delta source).aTan2) -> speed * Math.sin((dest delta source).aTan2))
   }
 

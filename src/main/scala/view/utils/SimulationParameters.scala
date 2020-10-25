@@ -9,4 +9,4 @@ case class SimulationParameters(
                                  nDays: Int,
                                  nCreatures: Int,
                                  nFood: Int
-                     )
+                               )

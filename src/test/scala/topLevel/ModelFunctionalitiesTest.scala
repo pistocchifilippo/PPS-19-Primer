@@ -4,11 +4,11 @@ import cats.effect.IO
 import helpers.Configurations.BOUNDARIES
 import helpers.Strategies.makeBoundedFoodCollection
 import helpers.io.IoConversion._
-import model.environment.Blob.makeBlobCollection
-import model.environment.Position.MathPosition
+import model.Model._
 import model.creature.movement.EnvironmentCreature
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
-import model.Model._
+import model.environment.Blob.makeBlobCollection
+import model.environment.Position.MathPosition
 import model.environment.{Blob, Environment}
 import org.scalatest.funsuite.AnyFunSuite
 import testsUtil.Mock._
@@ -21,8 +21,12 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
   test("Evolution Set size should be the same") {
 
     val test: IO[Unit] = for {
-      size <- IO {10}
-      evSet <- IO {for {_ <- 0 until size} yield mockAte}
+      size <- IO {
+        10
+      }
+      evSet <- IO {
+        for {_ <- 0 until size} yield mockAte
+      }
       evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)
     } yield {
       assert(evolve.size equals size)
@@ -35,8 +39,12 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
   test("Evolution Set size should be the double") {
 
     val test: IO[Unit] = for {
-      size <- IO {10}
-      evSet <- IO {for {_ <- 0 until size} yield mockReproducing}
+      size <- IO {
+        10
+      }
+      evSet <- IO {
+        for {_ <- 0 until size} yield mockReproducing
+      }
       evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)
     } yield {
       assert(evolve.size equals size * 2)
@@ -46,17 +54,21 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
 
   }
 
-  test("Evolution Set creatures should be Starving creatures"){
+  test("Evolution Set creatures should be Starving creatures") {
 
     val test: IO[Unit] = for {
-      size <- IO {10}
-      evSet <- IO {for {_ <- 0 until size} yield mockReproducing}
+      size <- IO {
+        10
+      }
+      evSet <- IO {
+        for {_ <- 0 until size} yield mockReproducing
+      }
       evolve <- evolutionSet(evSet)(MOCK_POS_GENERATOR)(MOCK_MUTATION)
     } yield for {
       c <- evolve
     } yield {
       assert(c match {
-        case StarvingCreature(_,_,_,_,_) => true
+        case StarvingCreature(_, _, _, _, _) => true
         case _ => false
       })
     }
@@ -70,7 +82,9 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
   test("Creature position should be different") {
 
     val test: IO[Unit] = for {
-      creatures <- IO pure {Blob.makeBlobCollection(() => mockStarving)(100)}
+      creatures <- IO pure {
+        Blob.makeBlobCollection(() => mockStarving)(100)
+      }
       movedCreatures <- moveCreatures(creatures)
     } yield {
       assert(!(creatures equals movedCreatures))
@@ -80,7 +94,7 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
 
   }
 
-  test("Distance to goal should be less after moving"){
+  test("Distance to goal should be less after moving") {
 
     def getDistanceToGoal(creature: EnvironmentCreature): Double = creature.center distance creature.goal.center
 
@@ -95,7 +109,7 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
 
   }
 
-  test("Test on new Environment: creature eating and food set reducing on collisions"){
+  test("Test on new Environment: creature eating and food set reducing on collisions") {
 
     val test: IO[Unit] = for {
       environment <- Environment(BOUNDARIES, makeBoundedFoodCollection(100), makeBlobCollection(() => randomMockStarving)(100))
@@ -106,7 +120,7 @@ class ModelFunctionalitiesTest extends AnyFunSuite {
       coll.size match {
         case n if n > 0 => assert(!(environment.food.size equals newEnvironment.food.size))
         case _ => assert(environment.food.size equals newEnvironment.food.size)
-    }
+      }
 
     test.unsafeRunSync()
 

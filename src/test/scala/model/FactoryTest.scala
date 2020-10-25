@@ -1,7 +1,7 @@
 package model
 
-import model.environment.Boundaries._
 import model.creature.Creature
+import model.environment.Boundaries._
 import model.environment.{Boundaries, Food}
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -15,15 +15,15 @@ class FactoryTest extends AnyFunSuite {
   val foodSet: Traversable[Food] = makeBoundedFoodCollection(100)
   val creatureSet: Traversable[Creature] = makeOnBoundsCreaturesCollection(100)
 
-  test("Food coordinates should all be between boundaries"){
+  test("Food coordinates should all be between boundaries") {
     assert(foodSet.forall(f => isInside(bounds, f.center)))
   }
 
-  test("Creature coordinates should all be on border"){
+  test("Creature coordinates should all be on border") {
     assert(creatureSet.forall(f => isOnBorder(bounds, f.center)))
   }
 
-  test("The factory should return a Set of given size"){
+  test("The factory should return a Set of given size") {
     assert(foodSet.size == 100)
     assert(creatureSet.size == 100)
   }
