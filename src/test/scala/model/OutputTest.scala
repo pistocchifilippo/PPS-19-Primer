@@ -49,7 +49,7 @@ class OutputTest extends AnyFunSuite {
       parse = JsonParser(newOut)
       real = "{\"1\":{\"Environment\":{\"Creatures\":[{\"Creature\":{\"Condition\":\"Starving\",\"Size\":10,\"Speed\":10,\"Position\":{\"X\":10,\"Y\":10}}}],\"Food\":[{\"Food\":{\"Position\":{\"X\":10,\"Y\":10}}}]}}}"
     } yield {
-      assert(parse.toString equals real)
+      assert(parse equals real)
     }
 
     test.unsafeRunSync()

@@ -158,9 +158,10 @@ class CreatureTest extends AnyFunSuite {
 
   }
 
-  private def testIfHasEnergy(c: EnvironmentCreature, energyConsumption: (Double, Double) => Double)(assertion: () => Unit): Unit =
-    if (c.energy - EnvironmentCreature.kineticConsumption(c.radius, c.speed) > 0) {
+  private def testIfHasEnergy(c: EnvironmentCreature, energyConsumption: (Double, Double) => Double)(assertion: () => Unit): Unit = {
+    if (c.energy - energyConsumption(c.radius, c.speed) > 0) {
       assertion()
     }
+  }
 
 }

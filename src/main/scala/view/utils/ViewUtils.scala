@@ -88,7 +88,7 @@ object ViewUtils {
     override def apply(output: Output): Unit = {
       new File("statistics" + SEPARATOR).mkdirs()
       new BufferedWriter(
-        new FileWriter(s"statistics${SEPARATOR}statistics_${timestamp}.json")) {
+        new FileWriter(s"statistics${SEPARATOR}statistics_$timestamp.json")) {
         write(Output.JsonParser(output))
         close()
       }
