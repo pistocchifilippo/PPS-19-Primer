@@ -42,7 +42,7 @@ $ sbt compile
 To test:
 
 ```
-$ sbt compile
+$ sbt test
 ```
 
 To execute:
