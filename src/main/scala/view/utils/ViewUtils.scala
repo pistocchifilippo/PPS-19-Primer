@@ -29,7 +29,11 @@ object ViewUtils {
   /** A GetScheduler keep asking the request until the input is correct */
   type GetScheduler = (String, Acceptor) => IO[String]
 
-  val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString.replace(" ", "_"))
+  val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString
+    .replace(" ", "_")
+    .replace(".", "_")
+    .replace("-", "_")
+    .replace(":", "_"))
 
   /** Update the [[JFrame]] of a [[BaseView]], if present, to display the given [[GraphicalEnvironment]] */
   val updateJFrame: (GraphicalEnvironment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
