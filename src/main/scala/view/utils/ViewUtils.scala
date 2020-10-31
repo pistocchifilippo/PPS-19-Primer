@@ -2,10 +2,10 @@ package view.utils
 
 import java.awt.Dimension
 import java.io.{BufferedWriter, File, FileWriter}
-import java.sql.Timestamp
 
 import cats.effect.IO
 import helpers.Configurations._
+import helpers.Strategies.timestamp
 import javax.swing.JFrame
 import model.output.Output
 import model.output.Output.Output
@@ -28,12 +28,6 @@ object ViewUtils {
 
   /** A GetScheduler keep asking the request until the input is correct */
   type GetScheduler = (String, Acceptor) => IO[String]
-
-  val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString
-    .replace(" ", "_")
-    .replace(".", "_")
-    .replace("-", "_")
-    .replace(":", "_"))
 
   /** Update the [[JFrame]] of a [[BaseView]], if present, to display the given [[GraphicalEnvironment]] */
   val updateJFrame: (GraphicalEnvironment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
