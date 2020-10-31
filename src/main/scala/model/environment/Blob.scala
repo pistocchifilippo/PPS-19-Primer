@@ -32,7 +32,8 @@ object Blob {
    * @param units    is the number of Blob(s) to be created
    * @return a [[scala.collection.Traversable]] of Blob(s)
    * */
-  def makeBlobCollection[A <: Blob](producer: () => A)(units: Int): Traversable[A] = if (units > 0) makeBlobCollection(producer)(units - 1) ++ Traversable(producer()) else Nil
+  def makeBlobCollection[A <: Blob](producer: () => A)(units: Int): Traversable[A] =
+    if (units > 0) makeBlobCollection(producer)(units - 1) ++ Traversable(producer()) else Nil
 
   /**
    * Detect collisions between two Blobs

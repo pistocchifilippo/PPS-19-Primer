@@ -63,4 +63,6 @@ object Configurations {
   val SIMULATOR_TITLE = "NATURAL SELECTION SIMULATOR"
 
   val UPDATE_TIME_MS = 15
+
+  val SQUARE_BOUNDS = 4
 }

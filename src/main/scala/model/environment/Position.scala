@@ -1,5 +1,8 @@
 package model.environment
 
+import com.sun.tools.javac.api.DiagnosticFormatter.Configuration
+import helpers.Configurations.SQUARE_BOUNDS
+
 import scala.util.Random
 
 /** Module that defines a [[Position]] */
@@ -47,7 +50,7 @@ object Position {
 
   object RandomEdgePosition extends BoundedPosition {
     override def apply(bounds: Boundaries): Position =
-      Random.nextInt(4) match {
+      Random.nextInt(SQUARE_BOUNDS) match {
         case 0 =>
           // UP
           Position(

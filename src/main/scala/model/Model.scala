@@ -23,9 +23,10 @@ object Model {
    * @param energyConsumption that will be decreased to creature energy
    * @return the new set of moved creatures
    */
-  def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double, Double) => Double): IO[Traversable[EnvironmentCreature]] = IO pure {
-    creatures map (_.move(energyConsumption))
-  }
+  def moveCreatures(creatures: Traversable[EnvironmentCreature])(implicit energyConsumption: (Double, Double) => Double): IO[Traversable[EnvironmentCreature]] =
+    IO pure {
+      creatures map (_.move(energyConsumption))
+    }
 
   /** Compute the [[FoodCreatureCollision]] and puts into a [[Traversable]]
    *
