@@ -50,8 +50,6 @@ object Configurations {
 
   val DELTA_MUTATION = 0.1
 
-  val OUTPUT_PATH = "output.json"
-
   val VISUALIZER_HEIGHT = 500
 
   val VISUALIZER_WIDTH = 500

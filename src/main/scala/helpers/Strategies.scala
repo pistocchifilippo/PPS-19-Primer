@@ -1,5 +1,7 @@
 package helpers
 
+import java.sql.Timestamp
+
 import helpers.Configurations._
 import model.Model.FoodCreatureCollision
 import model.creature.movement.EnvironmentCreature.{EnvironmentCreature, StarvingCreature}
@@ -33,4 +35,12 @@ object Strategies {
 
   def isNumber: String => Boolean = s => s.forall(_.isDigit) && s.nonEmpty
 
+
+  val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString
+    .replace(" ", "_")
+    .replace(".", "_")
+    .replace("-", "_")
+    .replace(":", "_"))
+
 }
+
