@@ -33,14 +33,14 @@ object ViewUtils {
   val updateJFrame: (GraphicalEnvironment, Option[JFrame]) => () => Unit = (environment, jFrame) => () => {
 
     /** Update the [[JFrame]] with a new [[Visualizer]] that shows the given Environment */
-    def _update(frame: JFrame): Unit = {
+    def update(frame: JFrame): Unit = {
       Thread.sleep(UPDATE_TIME_MS)
       frame.getContentPane.removeAll()
       frame.getContentPane.add(graphic.Visualizer(environment))
       frame.revalidate()
     }
 
-    if (jFrame.isDefined) _update(jFrame.get)
+    if (jFrame.isDefined) update(jFrame.get)
   }
 
   /** Retrieves a [[SimulationParameters]] by console
@@ -58,9 +58,7 @@ object ViewUtils {
    * */
   def scheduleGet: GetScheduler = (request, accept) => for {
     in <- getParameter(request)
-    res <- if (accept(in)) IO {
-      in
-    } else scheduleGet(request, accept)
+    res <- if (accept(in)) IO {in} else scheduleGet(request, accept)
   } yield res
 
   /** Creates a new [[JFrame]] element

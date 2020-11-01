@@ -35,7 +35,6 @@ object Strategies {
 
   def isNumber: String => Boolean = s => s.forall(_.isDigit) && s.nonEmpty
 
-
   val timestamp: String = String.valueOf(new Timestamp(System.currentTimeMillis()).toString
     .replace(" ", "_")
     .replace(".", "_")
